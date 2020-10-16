@@ -1,6 +1,6 @@
 ﻿$stopwatch =  [system.diagnostics.stopwatch]::StartNew()
 
-$solar_system_count = 1000
+$solar_system_count = 1000000
 
 $binary_percent = 5
 
@@ -16,6 +16,7 @@ Function Make-Star {
     $star.Luminosity = [math]::Round((Get-Random -Minimum $luminosity_min -Maximum $luminosity_max),2)
     $star.Radius = [math]::Round((Get-Random -Minimum $radius_min -Maximum $radius_max),2)
     $star.Mass = [math]::Round((Get-Random -Minimum $mass_min -Maximum $mass_max),2)
+    $star.Gravity = [math]::Round(($star.mass*247)/9.807)
     $star.Temperature = [math]::Round((Get-Random -Minimum $temperature_min -Maximum $temperature_max),2)
     $star.Chromaticity = $chromaticity
 
@@ -26,16 +27,14 @@ Function Make-Star {
     return $star_object
 }
 
-Function Generate-Stars {
+Function Create-StarSystem {
     param($Count,$Binary_Chance)
 
     $star_system_number_id = 0
 
-    $system = @{}
+    [System.Collections.ArrayList]$system = @()
 
     foreach ($number in 1..$Count) {
-
-        $star_system_number_id++
 
         $binary_rndm = Get-Random -Minimum 1 -Maximum 100
 
@@ -87,7 +86,7 @@ Function Generate-Stars {
                 -mass_min 1.4 -mass_max 2.1 `
                 -temperature_min 7500 -temperature_max 10000 `
                 -chromaticity "Blue White"
-            } elseif ($star_rndm -in 9976..9998) {
+            } elseif ($star_rndm -in 9976..9987) {
                 $star_object = Make-Star -total_stars $total_stars -current_star_number_id $current_star_number_id -star_system_number_id $star_system_number_id `
                 -class "B" `
                 -luminosity_min 25 -luminosity_max 30000 `
@@ -95,7 +94,7 @@ Function Generate-Stars {
                 -mass_min 2.1 -mass_max 16 `
                 -temperature_min 10000 -temperature_max 30000 `
                 -chromaticity "Deep Blue White"
-            } elseif ($star_rndm -in 9999..10000) {
+            } elseif ($star_rndm -in 9988..10000) {
                 $star_object = Make-Star -total_stars $total_stars -current_star_number_id $current_star_number_id -star_system_number_id $star_system_number_id `
                 -class "O" `
                 -luminosity_min 30000 -luminosity_max 500000 `
@@ -104,7 +103,7 @@ Function Generate-Stars {
                 -temperature_min 30000 -temperature_max 60000 `
                 -chromaticity "Blue" 
             }
-            $system."System_$star_system_number_id" += $star_object
+            $system.Add($star_object)
         }
     }
     return $system
@@ -115,8 +114,8 @@ Function Get-PlanetType {
 
 }
 
-$system_output = Generate-Stars -Count $solar_system_count -Binary_Chance $binary_percent
+$system_output = Create-StarSystem -Count $solar_system_count -Binary_Chance $binary_percent
 
-ConvertTo-Json $system_output | Out-File -FilePath C:\Temp\Stars.json
+#ConvertTo-Json $system_output -Compress | Out-File -FilePath C:\Temp\Stars.json
 
 $stopwatch

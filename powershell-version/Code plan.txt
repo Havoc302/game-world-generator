@@ -1,0 +1,35 @@
+1. Master config file with properties to be adjusted.
+2. Master run file to start the generation and call the other functions.
+3. Function to generate stars.
+4. Function to generate planets & moons.
+5. Function to generate asteroid belts.
+6. Function to generate factions.
+7. Function to generate cities and towns.
+8. Function to generate military bases and outposts.
+9. Function to generate military forces.
+10. Function to generate characters.
+
+
+1. Master config:
+
+Star Systems:
+
+- Amount of star systems.
+- Percentage with habitable planets & moons
+- Chance of asteroid belt
+	- Density of asteroid belt
+	- Chance of asteroid belt to have rare materials
+- Chance of wormholes
+
+Civilisations:
+
+- Amount of factions
+	- Technology level on the Sauer Scale of each faction
+	- Population of each faction
+	- Faction political type
+	- Faction religion type
+
+
+2. Master run file:
+
+Script which generates the factions

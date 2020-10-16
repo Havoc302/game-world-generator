@@ -1,0 +1,9 @@
+Sauer Civilisation Scale:
+
+1: Planet contains primative pre-industrial sentient species
+2: Planet contains Industrial age sentient species
+3: Planet contains Information age sentient species
+4: Planet contains Space Age sentient species
+5: Planet contains Intra-Solar sentient species
+6: Planet contains Interstellar sentient species
+7: Civilsation is Interstellar and multi-planet
