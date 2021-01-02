@@ -3,7 +3,9 @@
 $colony = $args[1]
 
 Function Create-Character {
-    param ($Skill_Points,$Skill_Min,$Skill_Max)
+    param ($Skill_Points,$Skill_Min,$Skill_Max,
+        [Parameter(Mandatory=$true,ParameterSetName="Colony")][ValidateSet("New Washington","New London","New Tokyo","New Berlin","New Paris","New Beijing","New Canberra","Free Colonies")]$Colony        
+        )
 
     $result = Invoke-RestMethod -Uri api.namefake.com/random
 
@@ -27,11 +29,10 @@ Function Create-Character {
     )
 
     if ($colony -eq $null) {
-        
+        $colony = Get-Random ("New Washington","New London","New Tokyo","New Berlin","New Paris","New Beijing","New Canberra")
+    }
 
-
-    switch ($colonies) 
-    {
+    switch ($colony) {
         "New Washington" {$towns = @("McKinney","Hillsboro","Orange","De Land","North Hempstead","Revere","Sacramento","Bayonne","Fairhaven","Susanville","Glens Falls","Danville","Sweetwater","Bowling Green","Worthington","Sunnyvale",
                            "Jeannette","Toledo","Boothbay Harbor","Victorville","Oakland","Edgartown","French Lick","East Orange","Hayward","Priest River","Bastrop","Reading","Keokuk","Arkadelphia")
                           $language = "English"}
@@ -53,9 +54,14 @@ Function Create-Character {
         "New Canberra" {$towns = @("Gympie","Kerang","Hobart","Melbourne","Coolgardie","Seymour","Ballarat","Bega","Mount Gambier","Cowra","Yeppoon","Kiama","Narrandera","Gawler","Hay","Singleton","Geraldton","Yarrawonga","Port Macquarie",
                                     "Blackwater","Nowra-Bomaderry","Lakes Entrance","West Wyalong","Goondiwindi","Wonthaggi","Sydney","Sea Lake","Kyabram","Moranbah","Gosford")
                         $language = "English"}
-        "Free Colonies" {
-        
-        }
+        "Free Colonies" {$free_colonies = (Invoke-WebRequest -Uri https://storage.googleapis.com/rp-game-star-files/character_gen/cities.csv | Select-Object -ExpandProperty Content) -split "`n";
+                        Get-Random $free_colonies
+                        $free_planets = Invoke-WebRequest -Uri https://storage.googleapis.com/rp-game-star-files/uninhabited_systems.htm | Select-Object -ExpandProperty Links | Select-Object -ExpandProperty InnerText
+                        $free_planet = Get-Random $free_planets
+                        $colony = $free_planet -split "/" -split "-" | Select-Object -Last 3 | Select-Object -First 1
+                        $languages = (Invoke-WebRequest -Uri https://storage.googleapis.com/rp-game-star-files/character_gen/languages.txt | Select-Object -ExpandProperty Content) -split "`n";
+                        $language = Get-Random -InputObject $languages
+                        }
     }
 
     $secondary_languages = @(
@@ -63,13 +69,14 @@ Function Create-Character {
         "None","None","None","None","None","None","None","None","None","None","None","None","None","None","None","None","None","None","None",
         "None","None","None","None","None","None","None","None","None","None","None","None","None","None","None","None","None","None"
     )
-
+    
 
     $person = @{}
 
-    $person.Name = $result.name
-    $person.BirthDate = (Get-Date $result.birth_data).AddYears(1050).AddHours((Get-Random -Minimum 1 -Maximum 22)).AddMinutes((Get-Random -Minimum 1 -Maximum 59))
-    $person.BirthPlace = Get-Random -InputObject $colonies
+    $person.Name = $result.name    
+    $person.BirthDate = (Get-Date $result.birth_data).AddYears(1156).AddHours((Get-Random -Minimum 1 -Maximum 22)).AddMinutes((Get-Random -Minimum 1 -Maximum 59))
+    $person.Age = 3176 - ($person.BirthDate -split " " -split "/")[2]
+    $person.BirthPlace = $colony,(Get-Random -InputObject $towns)
     $person.Gender = $result.pict -replace '^\d+',''
     $person.Height = $result.height
     $person.Weight = $result.weight
@@ -81,7 +88,6 @@ Function Create-Character {
     $person.Hair = $result.hair+", styled: "+$hair_style
     $person.EyeColour = $result.eye
     $person.BloodType = $result.blood
-    $person.BirthPlace = Get-Random -InputObject $towns
     $married = Get-Random -InputObject ([bool]$True,[bool]$False)
     $person.Married = $married
     $surname = $result.name -split " " | Select-Object -Last 1
@@ -125,9 +131,9 @@ Function Create-Character {
 
 #$colonies = Get-Content -Path 'C:\Temp\Cities and Core Planets.txt'
 
-$skill_points = 100
+$skill_points = 150
 
-$character = Create-Character -Skill_Points $skill_points -Skill_Min 8 -Skill_Max 20
+$character = Create-Character -Skill_Points $skill_points -Skill_Min 8 -Skill_Max 20 -Colony 'Free Colonies'
 
 return $character
 

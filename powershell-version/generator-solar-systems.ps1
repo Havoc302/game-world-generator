@@ -1,6 +1,6 @@
 ﻿$stopwatch =  [system.diagnostics.stopwatch]::StartNew()
 
-$solar_system_count = 1000000
+$solar_system_count = 10000
 
 $binary_percent = 5
 
