@@ -1,141 +1,232 @@
-﻿$skill_points = $args[0]
+﻿$ageRange = $args[0]
 
-$colony = $args[1]
+$IQRange = $args[1]
+
+$surname = $args[2]
+
+$skillPoints = $args[3]
+
+$homePath = 'G:\Colonial_Alliance_Game'
+
+Function Generate-SkillLevel {
+    param(
+        [Parameter(Mandatory=$false,ParameterSetName="Person Type")][ValidateSet("Expert","Highly Skilled","Average","Low Skilled")]$personType
+    )
+
+    if (![string]$personType) {
+        $personType = Get-Random ("Expert","Highly Skilled","Highly Skilled","Highly Skilled","Average","Average","Average","Average","Average","Low Skilled")
+    }
+
+    switch ($personType) {
+        "Expert" {($skillMax = 17),($skillTotal = 100)}
+        "Highly Skilled" {($skillMax = 15),($skillTotal = 75)}
+        "Average" {($skillMax = 13),($skillTotal = 50)}
+        "Low Skilled" {($skillMax = 11),($skillTotal = 25)}
+    }
+}
+
+Function Generate-StatBlock {
+    $skillData = Generate-SkillLevel
+
+    $skillMax = $skillData[0]+1
+    $skillPoints = $skillData[1]
+
+    $baseStatList= @{}
+    $baseStatList.Add("Stat_Strength",(0,1))
+    $baseStatList.Add("Stat_Dexterity",(0,3))
+    $baseStatList.Add("Stat_Constitution",(0,2))
+    $baseStatList.Add("Stat_Body",(0,2))
+    $baseStatList.Add("Stat_Intelligence",(0,1))
+    $baseStatList.Add("Stat_Tech",(0,2))
+    $baseStatList.Add("Stat_Ego",(0,1))
+    $baseStatList.Add("Stat_Presence",(0,1))
+    $baseStatList.Add("Stat_Comeliness",(0,0.5))
+
+    $baseStatListFinal = @{}
+
+    foreach ($stat in $($baseStatList.keys)) {
+        $value = Get-Random -Minimum 8 -Maximum $skillMax
+        $rate = $baseStatList[$stat][1]
+        $cost = ($value-10)*$rate
+        $skillPoints = $skillPoints-$cost
+        $baseStatList[$stat][0] = $value
+        $baseStatListFinal.Add($stat,$value)
+    }
+
+    $skillList = @{}
+    $skillList.Add("Skill_Acrobatics",$($baseStatList.Stat_Dexterity[0],0))
+    $skillList.Add("Skill_Acting",$($baseStatList.Stat_Presence[0],0))
+    $skillList.Add("Skill_Analyse",$($baseStatList.Stat_Intelligence[0],0))
+    $skillList.Add("Skill_Animal Handler",$($baseStatList.Stat_Presence[0],0))
+    $skillList.Add("Skill_Break Fall",$($baseStatList.Stat_Dexterity[0],0))
+    $skillList.Add("Skill_Bugging",$($baseStatList.Stat_Intelligence[0],0))
+    $skillList.Add("Skill_Bureaucratic/Admin",$($baseStatList.Stat_Presence[0],0))
+    $skillList.Add("Skill_Climbing",$($baseStatList.Stat_Dexterity[0],0))
+    $skillList.Add("Skill_Computer Operation",$($baseStatList.Stat_Tech[0],0))
+    $skillList.Add("Skill_Conversation",$($baseStatList.Stat_Presence[0],0))
+    $skillList.Add("Skill_Cryptography",$($baseStatList.Stat_Intelligence[0],0))
+    $skillList.Add("Skill_Deduction",$($baseStatList.Stat_Intelligence[0],0))
+    $skillList.Add("Skill_Demolition/Sapping",$($baseStatList.Stat_Tech[0],0))
+    $skillList.Add("Skill_Disguise",$($baseStatList.Stat_Intelligence[0],0))
+    $skillList.Add("Skill_Driving",$($baseStatList.Stat_Dexterity[0],0))
+    $skillList.Add("Skill_Electronics",$($baseStatList.Stat_Intelligence[0],0))
+    $skillList.Add("Skill_Engineering",$($baseStatList.Stat_Tech[0],0))
+    $skillList.Add("Skill_Forgery",$($baseStatList.Stat_Intelligence[0],0))
+    $skillList.Add("Skill_Gambling",$($baseStatList.Stat_Intelligence[0],0))
+    $skillList.Add("Skill_Interrogation",$($baseStatList.Stat_Presence[0],0))
+    $skillList.Add("Skill_Lip Reading",$($baseStatList.Stat_Intelligence[0],0))
+    $skillList.Add("Skill_Lock Picking",$($baseStatList.Stat_Tech[0],0))
+    $skillList.Add("Skill_Mechanics",$($baseStatList.Stat_Tech[0],0))
+    $skillList.Add("Skill_Navigation",$($baseStatList.Stat_Tech[0],0))
+    $skillList.Add("Skill_Paramedic",$($baseStatList.Stat_Intelligence[0],0))
+    $skillList.Add("Skill_Persuasion",$($baseStatList.Stat_Presence[0],0))
+    $skillList.Add("Skill_Piloting",$($baseStatList.Stat_Tech[0],0))
+    $skillList.Add("Skill_Security Systems",$($baseStatList.Stat_Tech[0],0))
+    $skillList.Add("Skill_Seduction",$($baseStatList.Stat_Comeliness[0],0))
+    $skillList.Add("Skill_Shadowing",$($baseStatList.Stat_Intelligence[0],0))
+    $skillList.Add("Skill_Slight of Hand",$($baseStatList.Stat_Dexterity[0],0))
+    $skillList.Add("Skill_Starship Engineering",$($baseStatList.Stat_Tech[0],0))
+    $skillList.Add("Skill_Stealth",$($baseStatList.Stat_Dexterity[0],0))
+    $skillList.Add("Skill_Streetwise",$($baseStatList.Stat_Presence[0],0))
+    $skillList.Add("Skill_Survival",$($baseStatList.Stat_Intelligence[0],0))
+    $skillList.Add("Skill_Systems Operation",$($baseStatList.Stat_Tech[0],0))
+    $skillList.Add("Skill_Tactics",$($baseStatList.Stat_Intelligence[0],0))
+    $skillList.Add("Skill_Teamwork",$($baseStatList.Stat_Dexterity[0],0))
+    $skillList.Add("Skill_Torture",$($baseStatList.Stat_Intelligence[0],0))
+    $skillList.Add("Skill_Tracking",$($baseStatList.Stat_Intelligence[0],0))
+    $skillList.Add("Skill_Trading",$($baseStatList.Stat_Presence[0],0))
+    $skillList.Add("Skill_Weapon Smith",$($baseStatList.Stat_Tech[0],0))
+
+    if (11..12 -contains $skillMax) {$skillCount = 2}
+    elseif (13..14 -contains $skillMax) {$skillCount = 4}
+    elseif (15..16 -contains $skillMax) {$skillCount = 6}
+    elseif (17 -contains $skillMax) {$skillCount = 8}
+    
+    $skillSelection = Get-Random -InputObject @($skillList.keys) -Count $skillCount
+
+    $skillListFinal = @{}
+
+    foreach ($stat in $($skillList.keys)) {
+        if ($skillSelection -contains $stat) {
+            $rndValue = Get-Random -Minimum 11 -Maximum $skillMax
+            if ($rndValue -eq 11) {$value = $skillList.$stat[0]} elseif ($rndValue -ge 12) {$value = ($skillList.$stat[0]+($rndValue-11))}
+            $skillListFinal.Add($stat,$value)
+        }
+    }
+
+    return $baseStatListFinal,$skillListFinal
+}
 
 Function Create-Character {
-    param ($Skill_Points,$Skill_Min,$Skill_Max,
-        [Parameter(Mandatory=$true,ParameterSetName="Colony")][ValidateSet("New Washington","New London","New Tokyo","New Berlin","New Paris","New Beijing","New Canberra","Free Colonies")]$Colony        
+    param (
+        [ValidateSet('Infant','Early Childhood','Preschool','Primary school','Adolescence','Young Adult','Middle Aged','Late Adulthood','Early Old Age','Middle Old Age','Senior')]$AgeRange,
+        [ValidateSet('Gifted','Extremely High','Very High','High Average','Average','Low Average','Very Low','Extremely Low')]$IQRange,
+        $Surname,
+        [ValidateSet("Low Skilled","Average","Highly SKilled","Expert")]$SkillPoints
         )
-
+    
     $result = Invoke-RestMethod -Uri api.namefake.com/random
 
-    $hair_style_men =@(
-        "Bowl Cut","Business Pofessional","Buzz Cut","Butch Cut","Caesar Cut","Crew Cut","Tonsure","Undercut","Flattop","Hi-Top Fade",
+    do {
+        $nameAPI = (Invoke-RestMethod -Uri https://randomuser.me/api/).results.name
+    } until ($nameAPI -notmatch "\?")
+
+    $surnameTranslated = (& "$homePath\game-world-generator\powershell-version\translate-string.ps1" ($nameAPI.last) -TargetLanguage English) -split " " | Select-Object -First 1
+
+    $surnameTranslated = (Get-Culture).TextInfo.ToTitleCase($surnameTranslated)
+
+    $firstNameTranslated = (& "$homePath\game-world-generator\powershell-version\translate-string.ps1" ($nameAPI.first) -TargetLanguage English) -split " " | Select-Object -First 1
+
+    $firstNameTranslated = (Get-Culture).TextInfo.ToTitleCase($firstNameTranslated)
+
+    $maidenNameTranslated = (& "$homePath\game-world-generator\powershell-version\translate-string.ps1" $result.maiden_name -TargetLanguage English)[0]
+
+    $maidenNameTranslated = (Get-Culture).TextInfo.ToTitleCase($maidenNameTranslated)
+
+    $name = $firstNameTranslated+" "+$surnameTranslated
+
+    $hairStyleMen = @("Bowl Cut","Business Pofessional","Buzz Cut","Crew Cut","Business Pofessional","Buzz Cut","Crew Cut","Business Pofessional","Buzz Cut","Crew Cut",
+        "Business Pofessional","Buzz Cut","Crew Cut","Business Pofessional","Buzz Cut","Crew Cut",
+        "Tonsure","Undercut","Flattop","Butch Cut","Caesar Cut","Hi-Top Fade",
         "Ivy League","High and Tight","Mohawk","Pageboy","Fauxhawk","Chonmage","Conk","Curtained Hair",
         "Ducktail","Mop-Top","Afro","Frosted Tips","Liberty Spikes","Mod Cut","Pompadour","PonyHawk",
-        "Ponytail","Psychobilly Wedge","Spiked","Surfer","Waves","Mullet"
-    )
+        "Ponytail","Psychobilly Wedge","Spiked","Surfer","Waves","Mullet")
         
-     $hair_style_women = (
-        "Bob Cut","Crop","Feather Cut","Surfer","Frosted Tips","Spiked","Bowl Cut","Ponytail","Spiked",
+    $hairStyleWomen = @("Bob Cut","Crop","Feather Cut","Surfer","Frosted Tips","Spiked","Bowl Cut","Ponytail","Spiked",
         "Mohawk","Buzz Cut","Flattop","Bouffant","Bun","Pigtails","Chignon","Crown Braid",
         "Braid","Short and Choppy","Double Buns","Fallera","Feathered Hair","Afro","Beehive","Bangs",
         "Blowout","French Braid","French Twist","Half Updo","Lob","Straight Perm","Curl Perm","Pixie Cut",
-        "Ringlets","Shag Cut","Updo","Cornrows","Dreadlocks","Finger Waves","Fishtail"
-    )
+        "Ringlets","Shag Cut","Updo","Cornrows","Dreadlocks","Finger Waves","Fishtail")
 
-    $professions =@(
+    $demeanour = "Active,Ambitious,Cautious,Conscientious,Creative,Curious,Logical,Organized,Perfectionist,Precise,Anxious,Careless,Impatient,Lazy,Rigid,Scatterbrained,
+                Slapdash,Sober,Undisciplined,Volatile,Altruistic,Caring,Compassionate,Considerate,Faithful,Impartial,Kind,Pleasant,Polite,Sincere,Aggressive,Argumentative,
+                Bossy,Deceitful,Domineering,Flaky,Inconsiderate,Manipulative,Rude,Spiteful,Guarded,Loner,Maverick,Reflective,Reticent,Retiring,Reserved,Self-aware,Sensitive,
+                Shy,Affable,Amiable,Assertive,Authoritative,Charismatic,Enthusiastic,Gregarious,Persuasive,Self-assured,Talkative" -split ","
 
-    )
+    $languages = "Arabic,Chinese Simplified,Danish,Dutch,English,French,German,Greek,Hebrew,Indonesian,Italian,Japanese,Korean,Polish,Portuguese,Russian,Spanish,Turkish,Vietnamese" -split ","
 
-    if ($colony -eq $null) {
-        $colony = Get-Random ("New Washington","New London","New Tokyo","New Berlin","New Paris","New Beijing","New Canberra")
-    }
-
-    switch ($colony) {
-        "New Washington" {$towns = @("McKinney","Hillsboro","Orange","De Land","North Hempstead","Revere","Sacramento","Bayonne","Fairhaven","Susanville","Glens Falls","Danville","Sweetwater","Bowling Green","Worthington","Sunnyvale",
-                           "Jeannette","Toledo","Boothbay Harbor","Victorville","Oakland","Edgartown","French Lick","East Orange","Hayward","Priest River","Bastrop","Reading","Keokuk","Arkadelphia")
-                          $language = "English"}
-        "New London" {$towns = @("Gains","Bewdley","Har","Tring","Birmingham","Chudleigh","Bexley","Harrow","Gateshead","Wivenhoe","Huddersfield","Whitnash","Swanley","Chatteris","Syston","Hedge End","Welsh cities","Neston",
-                        "Northfleet","Louth","Soham","Lough","Ashington","Wadebridge","Didcot","Alford","Rochford","Dorchester","Brackley","Nuneaton")
-                      $language = "English"}
-        "New Tokyo" {$towns = @("Shumukarikotan","Kawakami","Niburi","Iroma","Funakoshi","Sembon","Kamikita","Ninomata","Miyaoki","Shimo-oribe","Kami-renjaku","Nakasato","Hazako","TakanyÅ«ta","Taruma","Hachitanda","Togutshi",
-                                "Tatsumiya","ZanadÅ","Yokogake","Osaka","Kanetsu","Kawaziri","Ikuho","HakushÅ«","Iwaizumi","Banbanchi","Ozarizawa","Hagashi","Saigane")
-                     $language = "Japanese"}
-        "New Berlin" {$towns = @("Caaschwitz","Gestratz","Liebem","Krumhermersdorf","Tiefental","Bettingerschmelz","Waidholz","Zelz","Oyten","Lehrbach","Wiedersberg","Dyck","Gospoldshofen","Erbenweiler","Kirchhoffwarft",
-                                    "Zschaiten","Dannenfels","Fronlohe","Kleinwitzeetze","Schildertschlag","Kaster","Oberelles","Meckatz","Eichenhof","Jedenhofen","Kappalen","Suschow","Bergfelden","Pentz","Hamburg")
-                      $language = "German"}
-        "New Paris"  {$towns = @("Marmignolle","Carnetin","Balayes","Honnechy","Malesoute","Landremont","Bonnemazon","Langlechais","Zoebersdoff","Coussieux","Buglou","Puygros","Lapugnoy","Linac","Francarville","Brethou",
-                                    "Sornac","Vantelay","Ricquebourg","Quenoche","Aubevoie","Rions","Champfleury","Lyon","Mesaudon","Villemaur","Limeyrat","Rodemack","Cousolre","Breurey")
-                      $language = "French"}
-        "New Beijing" {$towns = @("Guolukeng","Yuanjiang","Pan-chia-lien","Maji","Qucun","Zhahashan","Liaozipai","Laxiejiatai","Niulingxia","Liangzeng","Dunhua","Dakeng","Dushuling","Dujiayangpo","Jiangjia","Fenshuijie","Qiaozhong",
-                                    "Heihumiao","Nanshi","Shanghai","Chuan-pi","Baishi","Dakeng","Lijiacun","Xiachong","Dishuiya","Xiajiabang","Licunshang","Shexia","Huangsifang")
-                       $language = "Mandarin"}
-        "New Canberra" {$towns = @("Gympie","Kerang","Hobart","Melbourne","Coolgardie","Seymour","Ballarat","Bega","Mount Gambier","Cowra","Yeppoon","Kiama","Narrandera","Gawler","Hay","Singleton","Geraldton","Yarrawonga","Port Macquarie",
-                                    "Blackwater","Nowra-Bomaderry","Lakes Entrance","West Wyalong","Goondiwindi","Wonthaggi","Sydney","Sea Lake","Kyabram","Moranbah","Gosford")
-                        $language = "English"}
-        "Free Colonies" {$free_colonies = (Invoke-WebRequest -Uri https://storage.googleapis.com/rp-game-star-files/character_gen/cities.csv | Select-Object -ExpandProperty Content) -split "`n";
-                        Get-Random $free_colonies
-                        $free_planets = Invoke-WebRequest -Uri https://storage.googleapis.com/rp-game-star-files/uninhabited_systems.htm | Select-Object -ExpandProperty Links | Select-Object -ExpandProperty InnerText
-                        $free_planet = Get-Random $free_planets
-                        $colony = $free_planet -split "/" -split "-" | Select-Object -Last 3 | Select-Object -First 1
-                        $languages = (Invoke-WebRequest -Uri https://storage.googleapis.com/rp-game-star-files/character_gen/languages.txt | Select-Object -ExpandProperty Content) -split "`n";
-                        $language = Get-Random -InputObject $languages
-                        }
-    }
-
-    $secondary_languages = @(
-        "Mandarin","English","German","French","Japanese","Arabic","Spanish","Hindi","Bengali","Portuguese","Russian","Punjabi","Marathi","Telugu","Wu Chinese","Korean","Italian",
-        "None","None","None","None","None","None","None","None","None","None","None","None","None","None","None","None","None","None","None",
-        "None","None","None","None","None","None","None","None","None","None","None","None","None","None","None","None","None","None"
-    )
-    
+    $secondaryLanguages = @("None","None","None","None","None","None","None","None","None","None","None","None","None","None","None","None","None","None","None",
+        "None","None","None","None","None","None","None","None","None","None","None","None","None","None","None","None","None","None")+$languages
 
     $person = @{}
 
-    $person.Name = $result.name    
-    $person.BirthDate = (Get-Date $result.birth_data).AddYears(1156).AddHours((Get-Random -Minimum 1 -Maximum 22)).AddMinutes((Get-Random -Minimum 1 -Maximum 59))
-    $person.Age = 3176 - ($person.BirthDate -split " " -split "/")[2]
-    $person.BirthPlace = $colony,(Get-Random -InputObject $towns)
+    $statBlock = Generate-StatBlock
+
+    $skills = ($statBlock | where {$_.keys -match "skill_"})
+    foreach ($skill in $($skills.Keys)) {
+        $skillName = $skill -replace "Skill_"
+        $person.$skillName=$skills.$skill
+    }
+
+    $person.Name = $name
+    $person.Age = Get-Random -Minimum 16 -Maximum 120
+    $person.BirthDate = (Get-Date).AddYears(1156-($person.age)).AddMonths((Get-Random -Minimum 2 -Maximum 10)).AddHours((Get-Random -Minimum 1 -Maximum 22)).AddMinutes((Get-Random -Minimum 1 -Maximum 59))
+    #$person.BirthPlace = $homeWorld,(Get-Random -InputObject $towns)
     $person.Gender = $result.pict -replace '^\d+',''
     $person.Height = $result.height
     $person.Weight = $result.weight
+    $person.BMI = [Math]::Round($person.weight/($person.Height*$person.Height)*10000)
+    $person.BodyType = Get-Random -InputObject ("Athletic","Athletic","Athletic","Athletic","Muscular","Muscular","Muscular","Slim","Slim","Average","Average","Average","Average","Average","Average","Average","Average","Slightly Overweight","Slightly Overweight","Slightly Overweight","Overweight","Overweight","Obese")
+    $person.RacialAppearance = Get-Random -InputObject ("European","European","European","European","Middle Eastern","Middle Eastern","Middle Eastern","Asian","Asian","Asian","Asian","African","African","Latino","Latino","Indian Subcontinent","Indian Subcontinent","Indian Subcontinent","Pacifc Islander")
+    $person.Demeanour = Get-Random -InputObject $demeanour
     if ($person.Gender -eq "male") {
-        $hair_style = Get-Random -InputObject $hair_style_men
+        $hairStyle = Get-Random -InputObject $hairStyleMen
     } else {
-        $hair_style = Get-Random -InputObject $hair_style_women
+        $hairStyle = Get-Random -InputObject $hairStyleWomen
     }
-    $person.Hair = $result.hair+", styled: "+$hair_style
+    $person.Hair = $result.hair+". Style: "+$hairStyle
     $person.EyeColour = $result.eye
     $person.BloodType = $result.blood
-    $married = Get-Random -InputObject ([bool]$True,[bool]$False)
-    $person.Married = $married
-    $surname = $result.name -split " " | Select-Object -Last 1
-    $surnames = @($surname,$surname,$surname,$surname,$result.maiden_name)
-    if ($married -eq $True) {
-        $person.MaidenName = Get-Random -InputObject $surnames
+    $person.Married = Get-Random -InputObject ([bool]$True,[bool]$False)
+    if ($person.Married -eq $True) {
+        $person.MaidenName = Get-Random -InputObject $surnameTranslated,$surnameTranslated,$surnameTranslated,$surnameTranslated,$maidenNameTranslated
     }
-    $person.CommunicationID = $result.phone_h
+    $person.CommunicationID = "$(Get-Random -Minimum 100000 -Maximum 999999)"+"-"+"$(Get-Random -Minimum 10000000 -Maximum 99999999)"
     $person.FavouriteSport = $result.sport
-    $person.Second_Language = Get-Random -InputObject $secondary_languages
+    $person.Second_Language = Get-Random -InputObject $secondaryLanguages
     $person.AccountID = $result.plasticcard
-    $person.Strength = $Skill_Min+(Get-Random -Minimum 0 -Maximum $skill_max)
-    $skill_points = $skill_points-($person.Strength-$Skill_min)
-    $person.Dexterity = $Skill_Min+(Get-Random -Minimum 0 -Maximum $skill_max)
-    $skill_points = $skill_points-($person.Dexterity-$Skill_min)
-    $person.Constitution = $Skill_Min+(Get-Random -Minimum 0 -Maximum $skill_max)
-    $skill_points = $skill_points-($person.Constituion-$Skill_min)
-    $person.Body = $Skill_Min+(Get-Random -Minimum 0 -Maximum $skill_max)
-    $skill_points = $skill_points-($person.Body-$Skill_min)
-    $person.Intelligence = $Skill_Min+(Get-Random -Minimum 0 -Maximum $skill_max)
-    $skill_points = $skill_points-($person.Intelligence-$Skill_min)
-    $person.Tech = $Skill_Min+(Get-Random -Minimum 0 -Maximum $skill_max)
-    $skill_points = $skill_points-($person.Tech-$Skill_min)
-    $person.SelfDiscipline = $Skill_Min+(Get-Random -Minimum 0 -Maximum $skill_max)
-    $skill_points = $skill_points-($person.SelfDiscipline-$Skill_min)
-    $person.Presence = $Skill_Min+(Get-Random -Minimum 0 -Maximum $skill_max)
-    $skill_points = $skill_points-($person.Presence-$Skill_min)
-    $person.Comeliness = $Skill_Min+(Get-Random -Minimum 0 -Maximum $skill_max)
-    $skill_points = $skill_points-($person.Comeliness-$Skill_min)
-    $person.PD = 1
-    if ((($person.Dexterity/25)+($person.Intelligence/25)) -le 1) {$speed = 1} else {$speed = ($person.Dexterity/25)+($person.Intelligence/25)}
-    $person.Speed = $speed
-    $person.Endurance = ($person.Constitution*2)
-    $person.Recovery = ($person.Strength/5)+($person.Constitution/5)
+    $person.Strength = $statBlock.Stat_Strength
+    $person.Dexterity = $statBlock.Stat_Dexterity
+    $person.Constitution = $statBlock.Stat_Constitution
+    $person.Body = $statBlock.Stat_Body
+    $person.Intelligence = $statBlock.Stat_Intelligence
+    $person.Tech = $statBlock.Stat_Tech
+    $person.Ego = $statBlock.Stat_Ego
+    $person.Presence = $statBlock.Stat_Presence
+    $person.Comeliness = $statBlock.Stat_Comeliness
+    $person.PD = [math]::Floor($person.Strength/10)
+    $person.Speed = [Math]::Floor([decimal](($person.Dexterity/13)+($person.Intelligence/13)))
+    $person.Endurance = [math]::Floor(($person.Constitution*2))
+    $person.Recovery = [math]::Floor(($person.Strength/5)+($person.Constitution/5))
     $person.Stun = ($person.Strength+$person.Constitution+$person.Body+$person.Intelligence)
-    $person.SkillPointsRemaining = $Skill_Points
-    $person.Profession = Get-Random -InputObject $professions
 
     return $person
 }
 
 #$colonies = Get-Content -Path 'C:\Temp\Cities and Core Planets.txt'
 
-$skill_points = 150
+#$skillPoints = 50
 
-$character = Create-Character -Skill_Points $skill_points -Skill_Min 8 -Skill_Max 20 -Colony 'Free Colonies'
+[pscustomobject]$character = Create-Character
 
 return $character
-
-
-$professions = Get-Content -Path C:\Temp\professions.txt

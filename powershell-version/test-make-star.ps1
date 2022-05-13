@@ -1,6 +1,6 @@
 ﻿$stopwatch =  [system.diagnostics.stopwatch]::StartNew()
 
-$solar_system_count = 10000
+$solar_system_count = 200000
 
 $binary_percent = 5
 
@@ -16,7 +16,6 @@ Function Make-Star {
     $star.Luminosity = [math]::Round((Get-Random -Minimum $luminosity_min -Maximum $luminosity_max),2)
     $star.Radius = [math]::Round((Get-Random -Minimum $radius_min -Maximum $radius_max),2)
     $star.Mass = [math]::Round((Get-Random -Minimum $mass_min -Maximum $mass_max),2)
-    $star.Gravity = [math]::Round(($star.mass*247)/9.807)
     $star.Temperature = [math]::Round((Get-Random -Minimum $temperature_min -Maximum $temperature_max),2)
     $star.Chromaticity = $chromaticity
 
@@ -27,12 +26,12 @@ Function Make-Star {
     return $star_object
 }
 
-Function Create-StarSystem {
+Function Create-Stars {
     param($Count,$Binary_Chance)
 
     $star_system_number_id = 0
 
-    [System.Collections.ArrayList]$system = @()
+    $systems = New-Object System.Collections.Hashtable
 
     foreach ($number in 1..$Count) {
 
@@ -103,19 +102,23 @@ Function Create-StarSystem {
                 -temperature_min 30000 -temperature_max 60000 `
                 -chromaticity "Blue" 
             }
-            $system.Add($star_object)
+            $systems."System_$number" += $star_object
+            $time = ($stopwatch.Elapsed).Seconds
+            Write-Host "$time / $number"
+            $star_object
         }
     }
-    return $system
+    return $systems
 }
 
 Function Get-PlanetType {
     param($RandomNumber)
-
 }
 
-$system_output = Create-StarSystem -Count $solar_system_count -Binary_Chance $binary_percent
+$system_output = Create-Stars -Count $solar_system_count -Binary_Chance $binary_percent
 
 #ConvertTo-Json $system_output -Compress | Out-File -FilePath C:\Temp\Stars.json
 
-$stopwatch
+($stopwatch.Elapsed).Seconds
+
+$system_output

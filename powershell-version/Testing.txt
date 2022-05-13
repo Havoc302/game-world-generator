@@ -1,0 +1,911 @@
+$content = Get-Content C:\Users\Havoc\Downloads\cleaned_related_titles.json
+
+$x = $content -split ":"
+
+$jobs = [system.collections.arraylist]@()
+
+foreach ($j in $x) {
+    $c = $j -split "," -replace '}{"name"',"" -replace '"',""
+    $jobs.Add($c[0])
+}
+
+foreach ($l in $b) {
+    $jobs.Add($l)
+}
+
+$jobs | ConvertTo-Csv
+
+$jobs | Out-File C:\temp\jobs.csv
+
+$a = "
+Anesthesiologist
+Anesthesiology Fellow
+Certified Registered Nurse Anesthetist
+Registered Respiratory Therapist
+Anesthesiologist Assistant
+Cardiologist
+Cardiology Fellow
+Cardiology Physician Assistant
+Cardiac Scientist
+Cardiovascular Technologist
+Intensivist
+Neonatologist
+Critical Care Medicine Physician Assistant
+Critical Care Nurse Practitioner
+Critical Care Registered Nurse
+Critical Care Respiratory Therapist
+Dentist
+Dental Hygienist
+Dental Assistant
+Dental Technician
+Dermatologist
+Dermatology Physician Assistant
+Emergency physician
+Emergency Physician Assistant
+Emergency Nurse Practitioner
+Flight Nurse
+Certified Emergency Registered Nurse
+Certified Emergency Registered Respiratory Therapist
+Emergency Medical Technician - Critical Care Paramedic
+Emergency Medical Technician - Paramedic
+Emergency Medical Technician - Intermediate 99
+Emergency Medical Technician - Intermediate 85
+Emergency Medical Technician - Basic
+Endocrinologist
+Endocrinology Physician Assistant
+Geriatrician
+Geriatric Medicine Physician Assistant
+Gerontological Nurse Practitioner
+Gastroenterologist
+Gastroenterology Physician Assistant
+Haematologist
+Haematology Physician Assistant
+Medical Laboratory Technician
+Phlebotomist
+Nephrologist
+Nephrology Physician Assistant
+Dialysis Technician
+Neurologist
+Neurology Physician assistant
+Speech Language Pathologist
+Audiologist
+Neuropsychologist
+Oncologist
+Oncology Physician Assistant
+Radiation Therapist
+Ophthalmologist
+Ophthalmology Physician Assistant
+Otolaryngologist (Ear, Nose and Throat physician)
+Otorhinolaryngology Physician assistant
+Pulmonologist
+Pulmonology/Respirology Physician Assistant
+Registered Respiratory Therapist
+General practitioner
+Primary care physician
+Internist
+Physician assistant
+Family nurse practitioner
+Pharmacist
+Neonatalologist
+Pediatrician
+Pediatric Physician Assistant
+Neonatal Nurse Practitioner
+Pediatric Nurse Practitioner
+Pediatric Nurse
+Pediatric Respiratory Therapist
+Podiatric Surgeon
+Doctor of Podiatric Medicine
+Podiatrist
+Chiropodist
+Psychiatrist
+Psychiatry Physician Assistant
+Psychologist
+Psychiatric Nurse Practitioner
+Mental Health Nurse Practitioner
+Social Worker
+Mental Health Counselor
+Medical Officer of Health
+Environmental Health Officer
+Epidemiologist
+Public Health Nurse
+Orthopedic Physician
+Orthopedic Physician Assistant
+Sport Psychologist
+Physical Therapist
+Occupational Therapist
+Physical Therapy Assistant
+Occupational Therapy Assistant
+Orthopaedic Technologist or Prosthetist & Orthotist
+Chiropractor
+Biokineticist
+Athletic Trainer
+Yoga Instructor
+Radiologist
+Radiology Physician Assistant
+Radiotherapist, also known as a Radiation Therapist or Therapeutic Radiographer
+Radiographer, also known as a Radiologic Technologist
+CT Radiographer
+Interventional Radiographer
+Mammographer
+Neuroradiographer
+Medical Dosimetry Technologist, also known as a Radiation Protection Supervisor
+Radiologist Practitioner Assistant
+Reporting Radiographer
+Sonographer
+Obstetrician
+Gynaecologist
+OB/GYN Physician Assistant
+Women's Health Nurse Practitioner
+Nurse-Midwife
+Midwife
+Lactation consultant
+General Doctor
+Bariatric Surgeon
+Cardiothoracic surgeon
+Cardiac Surgeon
+Hepatic Biliary Pancreatic Surgeon
+Neurosurgeon
+Podiatric Surgeon
+Surgery Physician Assistant
+Urologist
+Urology Physician Assistant
+Arts Administrator
+Ballet dancer
+Corps de ballet
+Demi-soloist
+Principal dancer
+Soloist
+Ballet historian
+Ballet master
+Choreographer
+Dance critic
+Dance historian
+Dance notator
+Dance scholar
+Dance therapist
+Dancer
+Backup dancer
+Caller (dancing)
+Exotic dancer
+Majorette (dancer)
+Showgirl
+Taxi dancer
+Répétiteur
+Acrobat
+Actor
+Archimime
+Barker
+Beatboxer
+Benshi
+Bouffon
+Circus performer
+Clown
+Comedian
+Dancer
+Drag Queen
+Drag King
+Emcee
+Filmmaker
+Flag throwing
+Flair bartender
+Flatulist
+Geisha
+Harlequin
+Host
+Illusionist
+Impressionist
+Internet celebrity
+Itinerant poet
+Kobzar
+Lirnyk
+Magician
+Master of ceremonies
+Mime
+Minstrel
+Model
+Monologist
+Musician
+Painter
+Party princess
+Performer
+Photographer
+Poet
+Pornographic actor
+Promotional model
+Radio personality
+Rhapsode
+Ring girl
+Ringmaster
+Scop
+Shamakhi dancers
+Showgirl
+Showman
+Showrunner
+Singer
+Skomorokh
+Sport star
+Street performer
+Streamer
+Stunt performer
+Theatre practitioner
+Tiktoker
+TV celebrity
+Vedette
+Writer
+Animator
+Cartoonist
+Tweener
+Casting director
+Cinematographer	
+Executive producer
+Film director
+Film producer
+Production manager
+Screenwriter
+Stunt coordinator
+Actor
+Costume designer
+Lighting technician
+Make-up artist
+News presenter
+Reporter
+Newscaster
+Anchorman
+Screenwriter
+Video editor
+Voice actor
+Weatherman/woman
+Producer
+Director
+Playwright
+Dramaturge
+Scenic designer
+Scenographer
+Lighting designer
+Costume designer
+Set designer
+Sound designer
+Composer
+Music director
+Choreographer
+Movement director
+Actor
+Audio engineer
+Carpenter and master carpenter
+Charge artist
+Dancer
+Electrician
+Front of house manager
+Lighting technician
+Master electrician
+Musician
+Paint crew
+Playbill writer
+Production manager
+Property master
+Publicist
+Scenic artist
+Stagehands
+Stage manager
+ASM(Assistant Stage Manager)
+Technical director
+Theatrical technician
+Wardrobe supervisor
+Artistic director
+Theater manager
+Director of production
+Technical director
+Costume director
+Marketing director
+Director of public relations
+Director of audience services
+Director of development
+Director of special events
+Dramaturge
+Literary manager
+Company manager
+House manager
+Usher
+Ticketing agent
+Crew chief
+Janitor
+Dresser
+Stage crew
+Fly crew
+Light board operator
+Spotlight operator
+Grips
+Call boy
+Character actor
+Pantomime dame
+Stagehand
+Running crew
+Author
+Blogger
+Book coach
+Commissioning editor
+Copy editor
+Creative consultant
+Dog writer
+Freelancer
+Ghostwriter
+Griot
+Hack writer
+Infopreneur
+Journalist
+Literary editor
+Manuscript format
+Medical writing
+Novelist
+Poet
+Polygraph (author)
+Review
+Screenwriter
+Scribe
+Script coordinator
+Script doctor
+Scrivener
+Songwriter
+Speechwriter
+Staff writer
+Technical writer
+Writer
+Chief Administrative Officer (CAO)
+Chief Analytics Officer (CAO)
+Chief Brand Officer (CBO)
+Chief Business Development Officer (CBDO)
+Chief Business Officer (CBO)
+Chief Commercial Officer (CCO)
+Chief Communications Officer (CCO)
+Chief Compliance Officer (CCO
+Chief Creative Officer (CCO)
+Chief Content Officer (CCO)
+Chief Customer Officer (CCO)
+Chief Data Officer (CDO)
+Chief Design Officer (CDO)
+Chief Digital Officer (CDO)
+Chief Diversity Officer (CDO)
+Chief Events Officer (CVO)
+Chief Executive Officer (CEO)
+Chief Experience Officer (CXO)
+Chief Financial Officer (CFO)
+Chief Gaming Officer (CGO)
+Chief Growth Officer (CGO)
+Chief Human Resources Officer (CHRO
+Chief Information Officer (CIO)
+Chief Information Officer (higher education) (CIO)
+Chief Information Security Officer (CISO)
+Chief Innovation Officer (CINO)
+Chief Investment Officer (CIO)
+Chief Knowledge Officer (CKO)
+Chief Learning Officer (CLO)
+Chief Legal Officer (CLO)
+Chief Marketing Officer (CMO)
+Chief Media Officer (CMO)
+Chief Medical Officer (CMO)
+Chief Operating Officer (COO)
+Chief People Officer (CPO)
+Chief Privacy Officer (CPO)
+Chief Process Officer (CPO)
+Chief Product Officer (CPO)
+Chief Reputation Officer (CRO)
+Chief Research Officer (CRO)
+Chief Restructuring Officer (CRO)
+Chief Revenue Officer (CRO)
+Chief Risk Officer (CRO)
+Chief Scientific Officer (CSO)
+Chief Security Officer (CSO)
+Chief Services Officer (CSO)
+Chief Solutions Officer (CSO)
+Chief Strategy Officer (CSO)
+Chief Supply Chain Officer (CSCO)
+Chief Sustainability Officer (CSO)
+Chief Technological Product Designer (CTPO)
+Chief Technology Officer (CTO)
+Chief Technical Officer (CTO)
+Chief Visibility Officer (CVO)
+Chief Visionary Officer (CVO)
+Chief Web Officer (CWO)
+Auto mechanic
+Beader
+Bobbin boy
+Arborist
+Feller
+Filling station attendant
+Foreman
+Maintenance engineering
+Mechanic
+Miller
+Moldmaker
+Panel beater
+Patternmaker
+Plant operator
+Plumber
+Welder
+Sawfiler
+Shop foreman
+Soaper
+Stationary engineer
+Wheelwright
+Woodworkers
+Bartender
+Waiter
+Construction worker
+Cashier
+Factory worker
+Steel erector, also known as an iron turtle
+Welder
+Boilermaker
+Pipefitter
+Millwright
+Blacksmith
+Gunsmith
+Marquetarian
+Farrier
+Furniture maker
+Pewterer
+Damascener
+Laborer
+Rigger
+Heavy equipment operator
+Manager
+Quality assurance (QA) staff
+Weld quality assurance staff
+Weld inspectors
+Machining quality assurance staff
+Metallurgist
+Miner
+Scrap processor
+Union representative
+Truck driver
+Mechanical engineer
+Chemical engineer
+Industrial engineer
+Materials engineer
+Chief Mechanical Engineer
+Locomotive Superintendent
+Manager (Guard)
+Station agent
+Senior Station Superintendent
+Station Superintendent
+Deputy Station Superintendent
+Selected Station Master
+Senior Station Master
+Junior Station master
+Deputy Station Master
+Assistant Station Master
+Pointsman
+Porter
+Ticket controller
+Revenue Protection Inspector
+Ticket inspector
+Train dispatcher
+Dispatcher
+Freight Conductor
+Signalman
+Bridge inspector
+Gandy dancer
+Length runner
+Railway lubricator
+Section gangs
+Signal maintainer
+Track inspector
+Traquero
+Platelayer
+Navvy (navigator)
+Track foreman
+Structure Maintainer
+Lighting Maintainer
+Escalator and Elevator Maintainer
+Electronic Equipment Maintainer
+Telephone Maintainer
+Turnstiles Maintainer
+Mechanical Maintainer
+Power Maintainer
+Boilerman
+Brakeman
+Bridge inspector
+Bridge tender
+Chief Mechanical Engineer
+Chief fireman
+Conductor
+Carmen
+Dispatcher
+Train dispatching
+Fettler: Railway Maintenance Worker
+Fireman
+Flagman
+Freight Conductor
+Ganger
+Geotechnical Engineer
+Length runner
+Locomotive Superintendent (Chief Mechanical Engineer)
+Locomotive engineer
+Platelayer
+Railroad engineer (engine driver)
+Railway lubricator
+Revenue Protection Inspector
+Road foreman of engines
+Section gang
+Secondman
+Signal maintainer
+Signalman
+Station agent
+Station master
+Track foreman
+Bookbinder
+Cordwainer
+Corsetier
+Draper
+Dressmaker
+Embroiderer
+Glover
+Hatter
+Leatherworker
+Milliner
+Parachute rigger
+Quilter
+Sailmaker
+Seamstress
+Shoemaker
+Tailor
+Taxidermist
+Upholsterer
+Aeronautical engineer
+Biomedical engineer
+Civil engineer
+Chemical engineer
+Educational technologist[1]
+Electrical engineer
+Engineering technician
+Engineering technologist
+Petrochemical engineer
+Mechanical engineer
+Computational scientist
+Mathematician
+Statistics
+Demographic marketer
+Statistician
+Forensic scientist
+Government scientist
+Healthcare science
+Inventor
+Psychologist
+Research fellow
+School science technician
+Science attaché
+Scientist
+Biologist
+Biomedical scientist
+Botanist
+Herpetologist
+Medical laboratory scientist
+Microbiologist
+Neuroscientist
+Clinical pharmaceutical scientist
+Zoologist
+Archaeologist
+Astronaut
+Astronomer
+Biochemist
+Chemist
+Ecologist
+Geographer
+Naturalist
+Oceanographer
+Paleontologist
+Pathologist
+Physical science
+Chemist
+Physicist
+Earth science
+Geographer
+Geologist
+Geoprofessions
+Petroleum geologist
+Social science
+Urban planner
+Anthropologist
+Economist
+Political scientist
+Sociologist
+Historian
+Basic Administrative Marine
+Administrative Specialist
+Postal Clerk
+Manpower Information Systems (MIS) Analyst
+Basic Intelligence Officer
+Marine Air-Ground Task Force (MAGTF) Intelligence Officer
+Ground Intelligence Officer
+Counter Intelligence/Human Source Intelligence (CI/HUMINT) Officer
+Master Analyst - Senior All-Source Intelligence Analysis Officer
+Signals Intelligence/Ground Electronic Warfare Officer
+Air Intelligence Officer
+Counterintelligence/Human Source Intelligence (CI/HUMINT) Operations Officer
+Surveillance Sensor Officer
+Intelligence Tactics Instructor
+Weapons and Tactics Instructor
+Advanced Foreign Counterintelligence Officer
+Advanced Military Source Operations Officer
+Military Source Operations Officer
+Strategic Debriefing Officer
+Basic Infantry Marine
+Rifleman
+Light Armor Vehicle Marine
+Scout Sniper
+Reconnaissance Marine
+Heavy Machine Gunner
+Mortarman
+Infantry Assault Marine
+Anti-Armour Missile Gunner
+Infantry Squad Leader
+Infantry Unit Leader
+Operations Chief
+Basic Infantry Officer
+Light-Armored Reconnaissance
+Expeditionary Ground Reconnaissance
+Special Operations Officer
+Basic Logistics Marine
+Maintenance Management Specialist
+Logistics Specialist
+Airborne and Orbital Delivery Specialist
+Personnel Retrieval and Processing Specialist
+Personnel Retrieval and Processing Technician
+Expeditionary Logistics Instructor
+Landing Support Specialist
+Logistics/Mobility Chief
+Basic Logistics Officer
+Aerial and Orbital Delivery Officer
+Personnel Retrieval and Processing Officer
+Mobility Officer
+Expeditionary Logistics Instructor
+Marine Air-Ground Task Force
+Basic MAGTF Marine
+MAGTF Planning Specialist
+Civil Affairs Noncommissioned Officer
+Military Information Support Operations
+Civil Affairs Noncommissioned Officer
+Information Operations Specialist
+Basic MAGTF Officer
+Force Deployment Planning and Execution (FDP&E) Officer
+Marine Air Ground Task Force (MAGTF) Planner
+Basic Information Operations Staff Officer
+Military Information Support Operations (MISO) Officer
+Civil Affairs Officer
+Civil-Military Operations (CMO) Planner
+Space Operations Staff Officer
+Advanced Information Operations
+Space Operations and Tactics Instructor
+Basic Communications Marine
+Tactical Switching Operator
+Telecommunications Systems Chief
+Transmission Systems Operator
+Satellite Communications Operator
+Transmissions Chief
+Network Administrator
+Network Transport Technician
+Network Chief
+Spectrum Manager
+Cyber Network Operator
+Cyber Network Systems Chief
+Data Systems Administrator
+Applications Developer (Mil)
+Data Systems Chief
+Information Security Technician (Mil)
+Cyber Security Technician (Mil)
+Cybersecurity Chief - MGySgt-MSgt
+Communications Training Instructor
+Communications Chief
+Communications Officer
+Marine Air-Ground Task Force (MAGTF) Communications Planner
+Cyber Network Operations Officer
+Telecommunications Systems Engineering Officer
+Tactical Communications Planning and Engineer Officer
+Space and Waveform Integration Officer
+Network Engineering Officer
+Strategic Electromagnetic Spectrum Officer
+Cyber Network Operations Engineer
+Data Systems Engineering Officer
+Target Acquisition Officer
+Naval Surface Fire Support Planner
+Marine Corps Drill Instructor
+Marine Combat Instructor
+Martial Arts Instructor
+Force Fitness Instructor
+Water Safety/Survival Instructor
+Marksmanship Instructor
+Small Arms Weapons Instructor
+Marksmanship Coach
+Engineer Assistant
+Combat Engineer
+Bulk Fuel Specialist
+Combat Engineer Officer
+Facilities Management Officer
+Bulk Fuel Officer
+Cyberspace Exploitation Operator
+Cyberspace Operations Chief
+Cyberspace Officer
+Tank and Amphibious Assault Vehicle Officer
+Tank Officer
+Small Arms Repairer/Technician
+Precision Weapons Repairer
+Powered Armour Systems Technician
+Machinist
+Electro-Optical Ordnance Repairer/Technician:
+Senior Ground Ordnance Weapons Chief
+Ordnance Officer
+Ordnance Vehicle Maintenance Officer[c]
+Weapons Repair Officer
+Electro-Optic Instrument Repair Officer
+Ammunition Technician
+Explosive Ordnance Disposal (EOD) Technician
+Explosive Ordnance Disposal Officer
+Ammunition Officer
+Technical Control Chief
+Fleet Satellite Terminal Technician
+Satellite Communications (SATCOM) Technician
+Enhanced Position Location Reporting System (EPLRS) System Specialist
+Tactical Remote Sensor System (TRSS) Maintainer
+Electronics Maintenance Officer
+Supply Administration and Operations Specialist
+Warehouse Clerk
+Packaging Specialist
+Aviation Supply Clerk
+Ground Supply Officer
+Contracting Officer
+Distribution Management Specialist
+Distribution Management Officer
+Subsistence Supply Clerk
+Food Service Specialist
+Food Service Officer
+Finance Technician
+Fiscal/Budget Technician
+Financial Accounting Officer
+Financial Management Resource Officer
+Planning, Programming, and Budgeting System (PPBS) Officer
+Vehicle Recovery Mechanic
+Fuel and Electrical Systems Mechanic
+Crash/Fire/Rescue Vehicle Mechanic
+Hover Transport Maintenance Chief – MGySgt–SSgt
+3531 Motor Vehicle Operator – Sgt–Pvt
+3533 Logistics Vehicle Systems Operator – Sgt–Pvt
+3534 Semitrailer Refueler Operator[f] – Sgt–LCpl
+Vehicle Recovery Operator
+Hover Transport Operations Chief
+Licensing Examiner
+Hover Transport Officer
+Hover Transport Maintenance Officer
+Morale, Welfare, Recreation (MWR) Specialist
+Marine Corps Community Services (MCCS) Officer
+Combat Correspondent
+Public Affairs Officer
+Historical Officer
+Basic Legal Services Marine
+Judge Advocate
+Master of Environmental Law
+Master of Labor Law
+Master of Procurement Law
+Master of Criminal Law
+Master of Law (General)
+Master of Cyber, Intelligence, and Information Law
+Legal Administrative Officer
+Basic Communication Strategy & Operations Marine
+Communication and Strategy Operations Chief
+Communication Strategy & Operations Officer
+Recruiting and Retention Specialist
+Career Retention Specialist
+Recruiting Officer-Marine Corps Total Force Expert
+Recruiting Officer
+Enlisted Conductor
+Musician
+Band Officer
+Chemical, Biological, Radiological, and Nuclear (CBRN) Defense Specialist
+Chemical, Biological, Radiological, and Nuclear (CBRN) Defense Chief
+Chemical, Biological, Radiological, and Nuclear (CBRN) Defense Officer
+Military Police and Corrections Marine
+Accident Investigator
+Physical Security Specialist
+Special Reaction Team (SRT) Member
+Military Police Investigator
+Criminal Investigator CID Agent
+Forensic Psycho-physiologist (Polygraph Examiner)
+Correctional Specialist
+Correctional Counselor
+Military Police and Corrections Officer
+Corrections Officer
+Criminal Investigation Officer
+Tactical Air Operations Module/Air Defense Technician
+Electronics Maintenance Chief
+Data Systems Maintenance Officer
+Aircraft Maintenance Officer
+Aircraft Maintenance Engineer Officer
+Aircraft Communications/Navigation/Electrical Systems Technician
+Aircraft Electrical Systems Technician
+Aircraft Avionics Technician
+Aircraft Electric Systems Technician
+Aircraft Communications/Navigation/DECM/Radar Systems Technician
+Avionics Maintenance Chief
+Aircraft Communications Systems Technician
+Aircraft Navigation Systems Technician
+Advanced Aircraft Communications/Navigation Systems Technician
+Aircraft Cryptographic Systems Technician
+Aviation Electronic Microminiature Repair Technician, IMA
+Advanced Aircraft Electrical/Instrument/Flight Control Systems Technician
+Aviation Ordnance Munitions Technician
+Aircraft Ordnance Technician
+Aviation Ordnance Systems Technician
+Aviation Ordnance Chief
+Aviation Ordnance Officer
+Basic Aviation Supply Marine
+Enlisted Aviation Logistician
+Aviation Supply Specialist
+Aviation Logistics Information Management and Support Specialists
+Aviation Supply Officer
+Aviation Logistician
+Basic Meteorology & Oceanography (METOC) Marine
+METOC Observer – Cpl-Pvt (No longer in use)
+METOC Analyst Forecaster – MGySgt–Pvt
+METOC Impact Analyst – MGySgt-Cpl
+Meteorological and Oceanographic Officer
+Basic Airfield Services Marine
+Expeditionary Airfield Systems Technician
+Aviation Operations Specialist
+Aircraft Rescue and Firefighting Specialist
+Basic Airfield Services Officer
+Weapons and Tactics Instructor - Aviation Ground Support
+Low Altitude Air Defense Gunner
+Tactical Air Defense Controller
+Air Command and Control Officer
+Forward Air Controller/Air Officer
+Air Traffic Control Officer
+Weapons and Tactics Instructor-Air Control
+Enlisted Flight Crew Marine
+Air Traffic Controller
+Tactical Systems Operator/Mission Specialist
+Airborne In-flight Refueling Observer/Loadmaster
+Tactical Systems Officer/Mission Specialist
+Forward Air Controller/Air Officer
+Weapons Systems Officer
+Airborne Reconnaissance Officer
+Electronic Warfare Officer
+Naval Flight Officer
+Landing Signal Officer
+Test Pilot/Flight Test Project Officer
+Aviation Safety Officer
+Pilot
+Student Naval Aviator
+Special Assignment Officer
+Designator—Air Control/Antiair Warfare Officer
+Ground Safety Officer
+Special Technical Operations
+Combatant Diver Officer
+Parachute/Combatant Diver Officer
+Colonel, Logistician
+Colonel, Ground
+Naval Aviator/Naval Flight Officer
+Operations Research Specialist
+Information Management Officer
+Hazardous Material/Hazardous Waste
+Aviation Acquisition Management Professional
+8Acquisition Specialist
+Acquisition Management Professional
+Weapons And Tactics Instructor Air Officer
+Regional Affairs Officer
+Education Officer
+Leadership Development Specialist
+Aeronautical Engineer
+Electronics Engineer
+Modeling and Simulation Officer
+Ordnance Systems Engineer
+Environmental Engineering Management Officer
+Nuclear Engineer
+Technical Information Operation Officer
+Human Power Management Officer
+Financial Management Specialist
+Data Systems Specialist
+Management, Data Systems Officer
+Defense Systems Analyst
+Command, Control, Communications, Computers and Intelligence
+Material Management Officer
+Space Operations Officer
+"

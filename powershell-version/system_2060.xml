@@ -1,0 +1,131 @@
+<system seed='2060' >
+<star name='Random Star 2060' mass='2.000684' lum='21.138885' age='0.946447' life='0.946447' ecosphere='4.597704' planets='8' />
+
+
+<!-- ********************************************** --> 
+<planet number='0' >
+<general type='Rock' giant='no' gasPlanet='no' earthlike='no' albedo='0.070000' atmosphere='no' />
+<orbit radius='0.800273' tilt='29' eccentricity='0.012997' facelocked='no' resonnant='no' />
+<physical density='5.550890' radius='7171.761888' coreRadius='7171.761888' mass='1.434979' dustMass='100%' gasMass='0%' escVelocity='12.632651' />
+<durations yearE='184.869511' yearL='271.239897' day='16.357727' dayE='0.681572' />
+<composition minMolec='156.137499' metal='yes' rock='yes' >
+</composition> 
+<atmosphere inventory='0' breathe='none' >
+</atmosphere> 
+<temperatures exospheric='42017.835145' surfaceAvg='383' surfaceMax='466' surfaceMin='294' nightTemp='333' dayTemp='429' />
+<surface gravity='1.134480' pressure='0.000000' boilingPoint='0' greenhouseEffect='no' />
+<coverage ground='100%' water='0%' ice='0%' cloud='0%' />
+<comments gravity='gravity OK' temperature='warm' icyPlanet='no' atmosphere='airless' clouds='cloudless' />
+</planet> 
+
+<!-- ********************************************** --> 
+<planet number='1' >
+<general type='GasGiant' giant='yes' gasPlanet='yes' earthlike='no' albedo='0.512664' atmosphere='yes' />
+<orbit radius='1.400479' tilt='31' eccentricity='0.026190' facelocked='no' resonnant='no' />
+<physical density='2.844939' radius='35945.219473' coreRadius='18550.705033' mass='92.598640' dustMass='12%' gasMass='87%' escVelocity='45.327981' />
+<durations yearE='427.949610' yearL='1343.309707' day='7.645884' dayE='0.318579' />
+<composition minMolec='3.935042' metal='no' rock='no' >
+</composition> 
+<atmosphere inventory='6479689' breathe='none' >
+</atmosphere> 
+<limit gravity='2.914241' pressure='0.098692' />
+<core gravity='0.000000' pressure='0.000000' />
+<center gravity='0.000000' pressure='599781.303870' />
+</planet> 
+
+<!-- ********************************************** --> 
+<planet number='2' >
+<general type='GasGiant' giant='yes' gasPlanet='yes' earthlike='no' albedo='0.471342' atmosphere='yes' />
+<orbit radius='2.000684' tilt='32' eccentricity='0.110475' facelocked='no' resonnant='no' />
+<physical density='3.084624' radius='55065.234532' coreRadius='22510.408672' mass='360.946669' dustMass='6%' gasMass='93%' escVelocity='72.304848' />
+<durations yearE='730.563687' yearL='2955.710530' day='5.932086' dayE='0.247170' />
+<composition minMolec='0.793865' metal='no' rock='no' >
+</composition> 
+<atmosphere inventory='25257633' breathe='none' >
+</atmosphere> 
+<limit gravity='4.840511' pressure='0.098692' />
+<core gravity='0.000000' pressure='0.000000' />
+<center gravity='0.000000' pressure='9113176.562500' />
+</planet> 
+
+<!-- ********************************************** --> 
+<planet number='3' >
+<general type='GasGiant' giant='yes' gasPlanet='yes' earthlike='no' albedo='0.496596' atmosphere='yes' />
+<orbit radius='3.201094' tilt='22' eccentricity='0.006125' facelocked='no' resonnant='no' />
+<physical density='3.029116' radius='72203.099637' coreRadius='24666.101174' mass='799.082661' dustMass='4%' gasMass='95%' escVelocity='93.951253' />
+<durations yearE='1478.070943' yearL='6785.729629' day='5.227692' dayE='0.217820' />
+<composition minMolec='0.200366' metal='no' rock='no' >
+</composition> 
+<atmosphere inventory='55916673' breathe='none' >
+</atmosphere> 
+<limit gravity='6.232799' pressure='0.098692' />
+<core gravity='0.000000' pressure='0.000000' />
+<center gravity='0.000000' pressure='44664977.880101' />
+</planet> 
+
+<!-- ********************************************** --> 
+<planet number='4' >
+<general type='GasGiant' giant='yes' gasPlanet='yes' earthlike='no' albedo='0.462616' atmosphere='yes' />
+<orbit radius='5.601914' tilt='24' eccentricity='0.003249' facelocked='no' resonnant='no' />
+<physical density='3.015131' radius='103727.011352' coreRadius='28263.170977' mass='2358.251458' dustMass='3%' gasMass='96%' escVelocity='134.658499' />
+<durations yearE='3417.787240' yearL='18763.312907' day='4.371664' dayE='0.182153' />
+<composition minMolec='0.042464' metal='no' rock='no' >
+</composition> 
+<atmosphere inventory='165021196' breathe='none' >
+</atmosphere> 
+<limit gravity='8.912704' pressure='0.098692' />
+<core gravity='0.000000' pressure='0.000000' />
+<center gravity='0.000000' pressure='389012836.263262' />
+</planet> 
+
+<!-- ********************************************** --> 
+<planet number='5' >
+<general type='GasGiant' giant='yes' gasPlanet='yes' earthlike='no' albedo='0.485487' atmosphere='yes' />
+<orbit radius='10.403555' tilt='31' eccentricity='0.079704' facelocked='no' resonnant='no' />
+<physical density='2.629553' radius='113884.697229' coreRadius='28480.656570' mass='2721.988868' dustMass='2%' gasMass='97%' escVelocity='138.068667' />
+<durations yearE='8647.584382' yearL='46455.155292' day='4.467578' dayE='0.186149' />
+<composition minMolec='0.011711' metal='no' rock='no' >
+</composition> 
+<atmosphere inventory='190474115' breathe='none' >
+</atmosphere> 
+<limit gravity='8.534119' pressure='0.098692' />
+<core gravity='0.000000' pressure='0.000000' />
+<center gravity='0.000000' pressure='518270391.054560' />
+</planet> 
+
+<!-- ********************************************** --> 
+<planet number='6' >
+<general type='GasGiant' giant='yes' gasPlanet='yes' earthlike='no' albedo='0.470115' atmosphere='yes' />
+<orbit radius='20.006836' tilt='45' eccentricity='0.063175' facelocked='no' resonnant='no' />
+<physical density='1.882820' radius='80777.924722' coreRadius='47052.442923' mass='695.496907' dustMass='3%' gasMass='96%' escVelocity='82.867817' />
+<durations yearE='23096.653153' yearL='88423.004872' day='6.268953' dayE='0.261206' />
+<composition minMolec='0.008791' metal='no' rock='no' >
+</composition> 
+<atmosphere inventory='26072222' breathe='none' >
+</atmosphere> 
+<limit gravity='4.334240' pressure='0.098692' />
+<core gravity='0.000000' pressure='0.000000' />
+<center gravity='0.000000' pressure='18126223.986907' />
+</planet> 
+
+<!-- ********************************************** --> 
+<planet number='7' >
+<general type='GasPlanet' giant='yes' gasPlanet='no' earthlike='no' albedo='0.527175' atmosphere='yes' />
+<orbit radius='56.019141' tilt='56' eccentricity='0.026992' facelocked='no' resonnant='no' />
+<physical density='0.606515' radius='11414.955327' coreRadius='11023.059488' mass='0.632226' dustMass='33%' gasMass='66%' escVelocity='6.646356' />
+<durations yearE='108271.116402' yearL='88437.360208' day='29.382455' dayE='1.224269' />
+<composition minMolec='0.174311' metal='no' rock='yes' >
+</composition> 
+<atmosphere inventory='-2147483648' breathe='none' >
+</atmosphere> 
+<temperatures exospheric='8.575068' surfaceAvg='-2147483648' surfaceMax='-273' surfaceMin='-273' nightTemp='-273' dayTemp='-273' />
+<surface gravity='0.197300' pressure='inf' boilingPoint='-2147483648' greenhouseEffect='no' />
+<coverage ground='-2147483648%' water='-2147483648%' ice='0%' cloud='0%' />
+<comments gravity='low gravity' temperature='warm' icyPlanet='no' atmosphere='thick atm' clouds='cloudless' />
+<ocean >
+</ocean> 
+<rain >
+</rain> 
+<climate humidityLevel='wet' />
+</planet> 
+</system> 

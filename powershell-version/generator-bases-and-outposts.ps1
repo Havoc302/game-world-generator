@@ -1,37 +1,55 @@
-﻿# This generator creates cities and towns on planetary bodies
-$planet = $args[0]
+﻿# This generator creates military outposts
 
-$scale = $args[1]
+$amount = $args[0]
+$location = $args[1]
+$scale = $args[2]
 
-Function Get-CityName {
-    $name = Invoke-RestMethod -Uri api.namefake.com/random | Select-Object -ExpandProperty maiden_name
-    return $name
-}
+$homePath = 'G:\Colonial_Alliance_Game'
 
-Function Generate-City {
-    param ($Scale,$Planet)
+$bases = @{}
+
+foreach ($c in 1..$amount) {
+    
+    $base = @{}
+
+    if ($scale -eq $null) {$scale = Get-Random "Small","Small","Small","Small","Small","Small","Small","Small","Medium","Medium","Medium","Medium","Large"}
+
+    do {
+        $name = (& "G:\Colonial_Alliance_Game\game-world-generator\powershell-version\translate-string.ps1" (Invoke-RestMethod -Uri https://randomuser.me/api/).results.name.last) | Select-Object -First 1
+    } until ($name -notmatch "\?")
+    $name = (Get-Culture).TextInfo.ToTitleCase($name)
 
     switch ($Scale) 
     {
-        Small {$x = 10,100;
-            $base_name = Get-CityName   
-            $base_type = Get-Random -InputObject ("Reconnaisance Outpost","Aid Station","Observation Outpost","Marine Support Outpost","Fleet Support Outpost")
+        Small {$x = 5,100;
+            $baseType = Get-Random -InputObject ("Reconnaisance Outpost","Aid Station","Observation Outpost","Marine Support Outpost","Fleet Support Outpost")
+            if (($location -imatch "planet*") -or ($location -imatch "moon*")) {
+                $baseOrb = " Orbital"
+            }
+            $baseName = $name + $baseOrb + " " + $baseType
         }
         Medium {$x= 101,1001;
-            $base_name = Get-CityName
-            $base_type = Get-Random -InputObject ("Forward Airbase","Marine Training Base","Fleet Ground Firing Range","")
+            $baseType = Get-Random -InputObject ("Forward Airbase","Marine Training Barracks","Fleet Ground Firing Range")
+            if (($location -imatch "planet*") -or ($location -imatch "moon*")) {
+                $baseOrb = " Orbital"
+            }
+            $baseName = $name + $baseOrb + " " + $baseType
         }
-        Large {$x= 100001,1000000;
-            $base_name = Get-CityName
+        Large {$x= 1001,10000;
+            $baseType = Get-Random -InputObject ("Airbase","Marine Base","Fleet Yard")
+            if (($location -imatch "planet*") -or ($location -imatch "moon*")) {
+                $baseOrb = " Orbital"
+            }
+            $baseName = $name + $baseOrb + " " + $baseType
         }
     }
 
-    $min = $x[0]
-    $max = $x[1]
-    $population = Get-Random -Minimum $min -Maximum $max
-    return $city_name,$planet,$population
+    $base.Name = $baseName
+    $population = Get-Random -Minimum $($x[0]) -Maximum $($x[1])
+    $base.Population = $population
+    $base.Location = $location
+    
+    $bases.Add($base.Name,$base)
 }
 
-$created_city = Generate-City -Scale $scale -Planet $planet
-
-return $created_city
+$bases
