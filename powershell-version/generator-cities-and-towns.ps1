@@ -2,7 +2,6 @@
 
 $count = $args[0]
 $scale = $args[1]
-$capitalCheck = $args[2]
 
 Write-Host $args
 

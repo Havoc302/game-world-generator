@@ -110,7 +110,7 @@ foreach ($m in 1..$maps) {
         # Decide if the system should have planets or not
         if ($s -in 1..7 -and $m -eq 1) {
             $terresPlanetChance = $true
-            Write-Host "Terrestrial planet $terresPlanetChance - core system" -BackgroundColor White -ForegroundColor Black
+            Write-Host "Terrestrial planet $terresPlanetChance - core system" -BackgroundColor White
         } else {
             $terresPlanetChance = ((Get-Random -Minimum 1 -Maximum 101) -in (1..75))
             Write-Host "Terrestrial planet $terresPlanetChance - non core system" -BackgroundColor Cyan
@@ -122,7 +122,7 @@ foreach ($m in 1..$maps) {
         $metaData = ""
         Write-Host "System has planets: $planetChance"
 
-########## Terrestrial System Creation ##########
+        ########## Terrestrial System Creation ##########
         
         if ($terresPlanetChance -eq $true) {
             write-Host "Starting Terrestrial system creation" -BackgroundColor Blue
@@ -135,7 +135,7 @@ foreach ($m in 1..$maps) {
                 $starFile = (Get-ChildItem $htmlFiles -Filter "*.html").FullName | Sort-Object -Property LastWriteTime | Select-Object -Last 1
                 $starFileTerresCheck = (Get-Content $starFile -Raw) -match "Terrestrial"
                 if ($starFileTerresCheck -ne $true) {
-                    Remove-Item "$htmlFiles\*" -Force
+                    Remove-Item $starFile -Force
                 }
             } until ($starFile -ne $null -and $starFileTerresCheck -eq $true)
             $html = Get-Content $starFile -Raw
@@ -187,7 +187,7 @@ foreach ($m in 1..$maps) {
                 $capitalCityName = ($coreWorlds[0] -split ",")[2] + " Landing"
                 $metaData += "System Name: $systemName`n"
                 $metaData += "1st Terrestrial Planet Name: $planetName`n"
-                $capitalCity = & "$homePath\game-world-generator\powershell-version\generator-cities-and-towns.ps1" "1" "Capital"
+                $capitalCity = & "$homePath\game-world-generator\powershell-version\generator-cities-and-towns.ps1" "1"
                 $metaData += $capitalCity | ConvertTo-Json -Depth 3
                 $metaData += "`n"
                 $coreWorlds.Remove($coreWorlds[0])
@@ -225,9 +225,9 @@ foreach ($m in 1..$maps) {
                 $metaData += $asteroidReturn[1]
                 $metaData += "`n"
             }
-        ########## Planetary object creation ##########
+            ########## Planetary object creation ##########
             foreach ($p in 1..$terresCount) {
-                Write-Host "Creating objects for planet $p in $newName" -BackgroundColor Green -ForegroundColor Black
+                Write-Host "Creating objects for planet $p in $newName" -BackgroundColor Green
                 $mass = Get-Random -Minimum $starType[1] -Maximum $starType[2]
                 Set-Location "$homePath\starmap_creation\Software\Planets"
                 $hydrosphereIndex = $($p-1)
@@ -253,8 +253,7 @@ foreach ($m in 1..$maps) {
                 $planetArgsH = "-s 0.$mass -o ""$planetFileLocH"" -w 1600 -h 1020 -i ""$waterModArg"" -g 10 -G 10 -E -pprojectionM" #
                 Start-Process $planetGenPath $planetArgsH -NoNewWindow -Wait
                 if ($coreWorldCheck -eq $true) {
-                    Write-Host "Core world check: $coreWorldCheck"
-                    $cityAmount = 5,10#150,1000
+                    $cityAmount = 150,1000
                     $cityCount = Get-Random -Minimum ($cityAmount[0]) -Maximum ($cityAmount[1])
                     Write-Host "Generating $cityCount cities"                        
                     $metaData += "Cities found on habitable planet $p in $newName`n"
@@ -262,7 +261,7 @@ foreach ($m in 1..$maps) {
                     $locationList += $($cities.Keys)
                     $metaData += $cities | ConvertTo-Json -Depth 3
                     $metaData += "`n"
-                    $milBaseCount = Get-Random -Minimum 10 -Maximum 30 #100,300
+                    $milBaseCount = Get-Random -Minimum 100 -Maximum 300
                     Write-Host "Generating $milBaseCount military bases"
                     $metaData += "Miltary Bases on or in Orbit of terrestrial planet $p in $newName`n"
                     foreach ($mb in 1..$milBaseCount) {
@@ -270,8 +269,7 @@ foreach ($m in 1..$maps) {
                         $metaData += $milBases | ConvertTo-Json -Depth 3
                     }
                     $metaData += "`n"
-                    $pirateBaseCount = (Get-Random -Minimum 3 -Maximum 10) #30,100
-                    Write-Host "Generating $pirateBaseCount criminal bases" -BackgroundColor Red
+                    $pirateBaseCount = (Get-Random -Minimum 30 -Maximum 100)
                     if ($pirateBaseCount -ge 1) {
                         $metaData += "Criminal Bases:`n"
                         foreach ($pb in 1..$pirateBaseCount) {
@@ -282,8 +280,7 @@ foreach ($m in 1..$maps) {
                         }
                     }
                 } elseif ($m -eq 1 -and (((Get-Random -Minimum 1 -Maximum 101) -in 1..66) -or $cities -match "Military")) {
-                    Write-Host "Core world check: $coreWorldCheck"
-                    $cityAmount = 5,10#25,200
+                    $cityAmount = 25,200
                     $cityCount = Get-Random -Minimum ($cityAmount[0]) -Maximum ($cityAmount[1])
                     Write-Host "Generating $cityCount cities"                        
                     $metaData += "Cities found on habitable planet $p in $newName`n"
@@ -301,9 +298,9 @@ foreach ($m in 1..$maps) {
                     }
                     $metaData += "`n"
                     $pirateBaseCount = (Get-Random -Minimum 1 -Maximum 12) -1
-                    Write-Host "Generating $pirateBaseCount criminal bases" -BackgroundColor Red
+                    $metaData += "Criminal Bases in $newName`n"
                     if ($pirateBaseCount -ge 1) {
-                        $metaData += "Criminal Bases in $newName`n"
+                        $metaData += "Criminal Bases:`n"
                         foreach ($pb in 1..$pirateBaseCount) {
                             $location = Get-Random -InputObject $locationList
                             $pirBaseLoc = $newName+"-"+$location
@@ -312,8 +309,7 @@ foreach ($m in 1..$maps) {
                         }
                     }
                 } elseif ($m -in 2..6 -and (Get-Random -Minimum 1 -Maximum 100) -in 1..33 -or $claimed -eq $true) {
-                    Write-Host "Core world check: $coreWorldCheck"
-                    $cityAmount = 5,10#5,50
+                    $cityAmount = 5,50
                     $cityCount = Get-Random -Minimum ($cityAmount[0]) -Maximum ($cityAmount[1])
                     Write-Host "Generating $cityCount cities"                        
                     $metaData += "Cities found on habitable planet $p in $newName`n"
@@ -331,9 +327,9 @@ foreach ($m in 1..$maps) {
                     }
                     $metaData += "`n"
                     $pirateBaseCount = (Get-Random -Minimum 1 -Maximum 15) -1
-                    Write-Host "Generating $pirateBaseCount criminal bases" -BackgroundColor Red
+                    $metaData += "Criminal Bases in $newName`n"
                     if ($pirateBaseCount -ge 1) {
-                        $metaData += "Criminal Bases in $newName`n"
+                        $metaData += "Criminal Bases:`n"
                         foreach ($pb in 1..$pirateBaseCount) {
                             $location = Get-Random -InputObject $locationList
                             $pirBaseLoc = $newName+"-"+$location
@@ -344,8 +340,7 @@ foreach ($m in 1..$maps) {
                 }
             }
         }
-
-########## Generation of non-terrestrial system with planets ##########
+        ########## Generation of non-terrestrial system with planets ##########
         if ($nonTerresPlanetChance -eq $true) {
             Write-Host "Generating non-terrestrial system with planets" -ForegroundColor Black -BackgroundColor Yellow
             Set-Location "$homePath\starmap_creation\Software\StarGen"
@@ -431,9 +426,8 @@ foreach ($m in 1..$maps) {
                     }
                 }
             }
-        } elseif ($nonTerresPlanetChance -eq $false -and $terresPlanetChance -eq $false) {
-    ########## Star only (no planets) system creation ##########
-            Write-Host "Generating no planets system" -ForegroundColor Black -BackgroundColor Gray
+        } else {
+            ########## Non-Terrestrial (without planets) system creation ##########
             $locationList = @()
             $systemNum = '{0:d5}' -f $s
             $newName = "System_$sectorNum-$systemNum"
@@ -487,7 +481,6 @@ foreach ($m in 1..$maps) {
         }
         Add-Content "$systemPath\$metaFile" $metaData
         Remove-Item -Path "$htmlFiles\*" -Force
-        Write-Host "########## $newName SYSTEM GENERATION COMPLETE ##########"
     }
     $graphics.Dispose()
     Write-Host "Saving Sector map $sectorDir"

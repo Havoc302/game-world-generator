@@ -11,7 +11,7 @@ function Translate-Name {
         'German',
         'Greek',
         'Hebrew',
-        #'Hindi',
+        'Hindi',
         'Indonesian',
         'Italian',
         'Japanese',
