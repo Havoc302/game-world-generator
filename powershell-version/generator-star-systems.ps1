@@ -18,7 +18,6 @@ Set-Location "$sectorsSave"
 
 Remove-Item -Path "$sectorsSave\*" -Recurse -Force
 
-
 function Get-StarType {
     $rnd = Get-Random -Minimum 1 -Maximum 1000000
     switch ($rnd) {
@@ -191,13 +190,13 @@ foreach ($m in 1..$maps) {
                 $metaData += $capitalCity | ConvertTo-Json -Depth 3
                 $metaData += "`n"
                 $coreWorlds.Remove($coreWorlds[0])
-            } elseif ($m -eq 1) {
+            } elseif ($m -eq 1 -and ($coreWorlds.Count) -eq 0) {
                 $coreWorldCheck = $false
                 $systemName = (& "$homePath\game-world-generator\powershell-version\translate-string.ps1" (Invoke-RestMethod -Uri https://randomuser.me/api/).results.name.last) | Select-Object -First 1
                 $planetName = (& "$homePath\game-world-generator\powershell-version\translate-string.ps1" (Invoke-RestMethod -Uri https://randomuser.me/api/).results.name.last) | Select-Object -First 1
                 $metaData += "System Name: $systemName`n"
                 $metaData += "1st Terrestrial Planet Name: $planetName`n"
-            } elseif ($m -in 2..7) {
+            } elseif ($m -in 2..7 -and ($coreWorlds.Count) -eq 0) {
                 $coreWorldCheck = $false
                 $claimed = (Get-Random -Minimum 1 -Maximum 101) -in 1..25
                 if ($claimed -eq $true) {
@@ -205,6 +204,8 @@ foreach ($m in 1..$maps) {
                     $planetName = (& "$homePath\game-world-generator\powershell-version\translate-string.ps1" (Invoke-RestMethod -Uri https://randomuser.me/api/).results.name.last) | Select-Object -First 1
                     $metaData += "System Name: $systemName`n"
                     $metaData += "1st Terrestrial Planet Name: $planetName`n"
+                } else {
+                    $metaData += "System $newName unclaimed"
                 }
             } else {
                 $coreWorldCheck = $false
@@ -214,10 +215,13 @@ foreach ($m in 1..$maps) {
                     $planetName = (& "$homePath\game-world-generator\powershell-version\translate-string.ps1" (Invoke-RestMethod -Uri https://randomuser.me/api/).results.name.last) | Select-Object -First 1
                     $metaData += "System Name: $systemName`n"
                     $metaData += "1st Terrestrial Planet Name: $planetName`n"
+                } else {
+                    $metaData += "System $newName unclaimed"
                 }
             }
             $asteroidFieldCheck = ((Get-Random -Minimum 1 -Maximum 101) -in ((1..$asteroidFieldChance)+1))
             Write-Host "Asteroid field in system: $asteroidFieldCheck"
+            $metaData += "Asteroid field in system: $asteroidFieldCheck"
             if ($asteroidFieldCheck -eq $true) {
                 $asteroidReturn = Get-AsteroidField -SystemName $newName -PlanetOrbits $planetOrbits
                 $locationList += $($asteroidFieldRaw.Keys)
@@ -281,7 +285,7 @@ foreach ($m in 1..$maps) {
                             $metaData += "`n"
                         }
                     }
-                } elseif ($m -eq 1 -and (((Get-Random -Minimum 1 -Maximum 101) -in 1..66) -or $cities -match "Military")) {
+                } elseif ($m -eq 1 -and ((Get-Random -Minimum 1 -Maximum 101) -in 1..66)) {
                     Write-Host "Core world check: $coreWorldCheck"
                     $cityAmount = 5,10#25,200
                     $cityCount = Get-Random -Minimum ($cityAmount[0]) -Maximum ($cityAmount[1])
@@ -295,7 +299,7 @@ foreach ($m in 1..$maps) {
                     Write-Host "Generating $milBaseCount military bases"
                     $metaData += "Miltary Bases on or in Orbit of terrestrial planet $p in $newName`n"
                     foreach ($mb in 1..$milBaseCount) {
-                        $milBaseLoc = Get-Random -InputObject $locationList
+                        $milBaseLoc = Get-Random $locationList
                         $milBases = $(& "$homePath\game-world-generator\powershell-version\generator-bases-and-outposts.ps1" 1 $milBaseLoc)
                         $metaData += $milBases | ConvertTo-Json -Depth 3
                     }
@@ -356,7 +360,7 @@ foreach ($m in 1..$maps) {
                 Start-Sleep -Seconds 1
                 $starFile = (Get-ChildItem $htmlFiles -Filter "*.html").FullName | Sort-Object -Property LastWriteTime | Select-Object -Last 1
                 $starFileTerresCheck = (Get-Content $starFile -Raw) -match "Terrestrial"
-                if ($starFileTerresCheck -ne $true) {
+                if ($starFileTerresCheck -eq $true) {
                     Remove-Item $starFile -Force
                 }
             } until ($starFile -ne $null -and $starFileTerresCheck -eq $false)
@@ -475,7 +479,7 @@ foreach ($m in 1..$maps) {
                     }
                 }
                 if ((Get-Random -Minimum 1 -Maximum 100) -in 1..66) {
-                    $milBaseCount = (Get-Random -Minimum 1 -Maximum 3) -1
+                    $milBaseCount = (Get-Random -Minimum 1 -Maximum 4) -1
                     if ($milBaseCount -ge 1) {
                         Write-Host "Generating $baseCount military bases"
                         $metaData += "Miltary Bases in Orbit of star in $newName`n"
@@ -488,6 +492,7 @@ foreach ($m in 1..$maps) {
         Add-Content "$systemPath\$metaFile" $metaData
         Remove-Item -Path "$htmlFiles\*" -Force
         Write-Host "########## $newName SYSTEM GENERATION COMPLETE ##########"
+        Clear-Variable terresPlanetChance,nonTerresPlanetChance,locationList
     }
     $graphics.Dispose()
     Write-Host "Saving Sector map $sectorDir"
