@@ -1,6 +1,7 @@
 ﻿Add-Type -AssemblyName System.Drawing
 
 $homePath = 'G:\Colonial_Alliance_Game'
+#$homePath = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
 $htmlFiles = "$homePath\starmap_creation\Software\StarGen\html"
 $stargenPath = "$homePath\starmap_creation\Software\StarGen\StarGen.exe"
 $planetgenPath = "$homePath\starmap_creation\Software\Planets\planet.exe"
@@ -9,9 +10,10 @@ $sectorX = 5000
 $sectorY = 5000
 $buffer = 5
 $labelWidth = 20
-$systems = 10 # star systems per map # Standard 8000
-$maps =  5# total number of maps to make # Standard 31
+$systems = 100 # star systems per map # Standard 5000
+$maps =  8 # total number of maps to make # Standard 31
 $asteroidFieldChance = 6
+$okBiomes = "210210210","250215165","105155120","220195175","225155100","155215170","170195200","185150160","130190025","110160170"# Tundra, Grasslands, Taiga, Desert, Savanna, Temperate Forest, Temperate Rainforest, Xeric Shrubland and Dry Forest, Tropical Dry Forest, Tropical Rainforest
 [System.Collections.ArrayList]$coreWorlds = "New Eden,Eugene Davis","Ka-May,Asheigh Kelvin","Xin De Shuguang,Xiwang","Nouvelle,Gabriel Bernard,","Gemutlichkeit,Gisela Ziegler","Nihongo,Tanegashima","Britannia,Trafalgar"
 
 Set-Location "$sectorsSave"
@@ -258,7 +260,7 @@ foreach ($m in 1..$maps) {
                 Start-Process $planetGenPath $planetArgsH -NoNewWindow -Wait
                 if ($coreWorldCheck -eq $true) {
                     Write-Host "Core world check: $coreWorldCheck"
-                    $cityAmount = 5,10#150,1000
+                    $cityAmount = 20,30#150,1000
                     $cityCount = Get-Random -Minimum ($cityAmount[0]) -Maximum ($cityAmount[1])
                     Write-Host "Generating $cityCount cities"                        
                     $metaData += "Cities found on habitable planet $p in $newName`n"
@@ -287,7 +289,7 @@ foreach ($m in 1..$maps) {
                     }
                 } elseif ($m -eq 1 -and ((Get-Random -Minimum 1 -Maximum 101) -in 1..66)) {
                     Write-Host "Core world check: $coreWorldCheck"
-                    $cityAmount = 5,10#25,200
+                    $cityAmount = 10,20#25,200
                     $cityCount = Get-Random -Minimum ($cityAmount[0]) -Maximum ($cityAmount[1])
                     Write-Host "Generating $cityCount cities"                        
                     $metaData += "Cities found on habitable planet $p in $newName`n"
@@ -346,6 +348,37 @@ foreach ($m in 1..$maps) {
                         }
                     }
                 }
+                <#foreach ($city in $cities.GetEnumerator()) {
+                    Write-Host "Processing $($city.Key)"
+                    $bioMapPath = (Get-ChildItem "$systemPath\$newName-$p-Bio.bmp").FullName
+                    $heightMapPath = (Get-ChildItem "$systemPath\$newName-$p-Height.bmp").FullName
+                    $bioBitmap = [System.Drawing.Bitmap]::FromFile($bioMapPath)
+                    $heightBitmap = [System.Drawing.Bitmap]::FromFile($heightMapPath)                    
+                    do {
+                        $bioXRnd = Get-Random -Minimum 20 -Maximum 1580
+                        $bioYRnd = Get-Random -Minimum 20 -Maximum 1000
+                        $bioPixelCheck = $bioBitmap.GetPixel($bioXRnd,$bioYRnd)
+                        $bioPixelCheck = "$($bioPixelCheck.R)"+"$($bioPixelCheck.G)"+"$($bioPixelCheck.B)"
+                    } until ($bioPixelCheck -in $okBiomes)
+                    $cities.($city.Key).Coordinates = $bioXRnd,$bioYRnd
+                    if ($city.Value.Population -ge 5000) {
+                        $bioMapBrush = [System.Drawing.Brushes]::DarkRed
+                        $bioMarkerColour = [System.Drawing.Color]::Red
+                        $bioMapFont = new-object System.Drawing.Font Consolas,5
+                        $bioMapGraphics = [System.Drawing.Graphics]::FromImage($bioBitmap)
+                        $HeightMapGraphics = [System.Drawing.Graphics]::FromImage($heightBitmap)
+                        $bioMapGraphics.DrawString($bioMapCityName,$bioMapFont,$bioMapBrush,$($bioXRnd+5),$($bioYRnd-8))
+                        $HeightMapGraphics.DrawString($bioMapCityName,$bioMapFont,$bioMapBrush,$($bioXRnd+5),$($bioYRnd-8))
+                        $bioBitmap.SetPixel($bioXRnd,$bioYRnd,$bioMarkerColour)
+                        $heightBitmap.SetPixel($bioXRnd,$bioYRnd,$bioMarkerColour)
+                    }
+                    #Remove-Item -Path $bioMapPath -Force
+                    #Remove-Item -Path $heightMapPath -Force
+                    #$bioBitmap.Save("$systemPath\$newName-Bio.bmp")
+                    #$heightBitmap.Save("$systemPath\$newName-Height.bmp")
+                    $bioBitmap.Dispose()
+                    $heightBitmap.Dispose()
+                }#>
             }
         }
 
@@ -853,3 +886,4 @@ This was fucking annoying to work out.
 Remove-Item "$htmlFiles\*" -Recurse -Force
 
 #>
+

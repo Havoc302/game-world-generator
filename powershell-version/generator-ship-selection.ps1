@@ -1,7 +1,7 @@
 
-$shipList = Get-ChildItem 'G:\Colonial Alliance Game\WIP\Deck Maps' | Select-Object -ExpandProperty FullName
+$shipList = Get-ChildItem 'G:\Colonial_Alliance_Game\WIP\Deck Maps\Ships' | Select-Object -ExpandProperty FullName
 
-foreach ($file in (Get-Random -InputObject $shipList -Count 4)) {
+foreach ($file in (Get-Random -InputObject $shipList -Count 1)) {
     Start-Process $file
 }
 

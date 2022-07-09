@@ -48,7 +48,7 @@ Function Get-CityName {
     }
 }
 
-$cities = @{}
+[System.Collections.Hashtable]$cities = @{}
 foreach ($n in 1..$count) {
     if ($scale -eq $null) {
         $scale = Get-Random -InputObject "Town","Town","Town","Town","Town","Town","Town","Town","Town","Town","Town","Town","Town","Town","Town","Town","Large Town","Large Town","Large Town","Large Town","Large Town","Large Town","Large Town","City","City","City","City","Large City","Large City","Capital"
@@ -72,12 +72,12 @@ foreach ($n in 1..$count) {
 
     $population = Get-Random -Minimum $($x[0]) -Maximum $($x[1])
     [System.Collections.Hashtable]$city = @{}
-    $xcoord = Get-Random -Minimum 1 -Maximum 1600
-    $ycoord = Get-Random -Minimum 1 -Maximum 1020
+    #$xcoord = Get-Random -Minimum 1 -Maximum 1600
+    #$ycoord = Get-Random -Minimum 1 -Maximum 1020
     $city.CityName = $cityName
     $city.Population = $population
     $city.PrimaryIndustry = $primaryIndustry
-    $city.Coordinates = "$xcoord,$ycoord"
+    #$city.Coordinates = "$xcoord,$ycoord"
     $cities.Add($city.CityName,$city)
 }
 
