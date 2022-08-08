@@ -8,23 +8,6 @@ $skillPoints = $args[3]
 
 $homePath = 'G:\Colonial_Alliance_Game'
 
-Function Generate-SkillLevel {
-    param(
-        [Parameter(Mandatory=$false,ParameterSetName="Person Type")][ValidateSet("Expert","Highly Skilled","Average","Low Skilled")]$personType
-    )
-
-    if (![string]$personType) {
-        $personType = Get-Random ("Expert","Highly Skilled","Highly Skilled","Highly Skilled","Average","Average","Average","Average","Average","Low Skilled")
-    }
-
-    switch ($personType) {
-        "Expert" {($skillMax = 17),($skillTotal = 100)}
-        "Highly Skilled" {($skillMax = 15),($skillTotal = 75)}
-        "Average" {($skillMax = 13),($skillTotal = 50)}
-        "Low Skilled" {($skillMax = 11),($skillTotal = 25)}
-    }
-}
-
 Function Generate-PhysicalMetrics {
     param (
         [Parameter(Mandatory=$false,ParameterSetName="Person Type")][ValidateSet('Infant','Toddler','Child','Teen','Adult','Middle Aged','Senior','Early Old Age','Late Old Age')]$ageRange
@@ -52,14 +35,18 @@ Function Generate-PhysicalMetrics {
 }
 
 Function Generate-StatBlock {
-    $skillData = Generate-SkillLevel
+    $personType = Get-Random ("Expert","Highly Skilled","Highly Skilled","Highly Skilled","Average","Average","Average","Average","Average","Low Skilled")
 
-    $skillMax = $skillData[0]+1
-    $skillPoints = $skillData[1]
+    switch ($personType) {
+        "Expert" {($skillMin = 11),($skillMax = 17)}
+        "Highly Skilled" {($skillMin = 10),($skillMax = 15)}
+        "Average" {($skillMin = 9),($skillMax = 13)}
+        "Low Skilled" {($skillMin = 8),($skillMax = 11)}
+    }
 
     $baseStatList= @{}
     $baseStatList.Add("Stat_Strength",(0,1))
-    $baseStatList.Add("Stat_Dexterity",(0,3))
+    $baseStatList.Add("Stat_Dexterity",(0,2))
     $baseStatList.Add("Stat_Constitution",(0,2))
     $baseStatList.Add("Stat_Body",(0,2))
     $baseStatList.Add("Stat_Intelligence",(0,1))
@@ -71,7 +58,7 @@ Function Generate-StatBlock {
     $baseStatListFinal = @{}
 
     foreach ($stat in $($baseStatList.keys)) {
-        $value = Get-Random -Minimum 8 -Maximum $skillMax
+        $value = Get-Random -Minimum $skillMin -Maximum $skillMax
         $rate = $baseStatList[$stat][1]
         $cost = ($value-10)*$rate
         $skillPoints = $skillPoints-$cost
@@ -134,7 +121,7 @@ Function Generate-StatBlock {
 
     foreach ($stat in $($skillList.keys)) {
         if ($skillSelection -contains $stat) {
-            $rndValue = Get-Random -Minimum 11 -Maximum $skillMax
+            $rndValue = Get-Random -Minimum 9 -Maximum $skillMax
             if ($rndValue -eq 11) {$value = $skillList.$stat[0]} elseif ($rndValue -ge 12) {$value = ($skillList.$stat[0]+($rndValue-11))}
             $skillListFinal.Add($stat,$value)
         }
@@ -155,7 +142,11 @@ Function Create-Character {
 
     do {
         $nameAPI = (Invoke-RestMethod -Uri https://randomuser.me/api/).results
-    } until ($nameAPI -notmatch "\?")
+        if ($nameAPI -match "\?" -or $nameAPI -eq $null) {
+            Start-Sleep -Seconds 2
+        }
+            
+    } until ($nameAPI -notmatch "\?" -and $nameAPI -ne $null)
 
     $surnameTranslated = (& "$homePath\game-world-generator\powershell-version\translate-string.ps1" ($nameAPI.name.last) -TargetLanguage English) -split " " | Select-Object -First 1
 
@@ -253,7 +244,7 @@ Function Create-Character {
     $person.Presence_Roll = [math]::Floor(($person.Presence/5)+9)
     $person.Comeliness_Roll = [math]::Floor(($person.Comeliness/5)+9)
     $person.CV = [math]::Floor([decimal](($person.Dexterity/13)+($person.Speed)))
-    if (($physicalMetrics[0]) -ge 10) {
+    if (($physicalMetrics[0]) -ge 15) {
         $skills = ($statBlock | where {$_.keys -match "skill_"})
         foreach ($skill in $($skills.Keys)) {
             $skillName = $skill -replace "Skill_"
@@ -268,7 +259,7 @@ Function Create-Character {
 
 $character
 
-$YesNo = Read-Host -Prompt "Save Character?"
+#$YesNo = Read-Host -Prompt "Save Character?"
 
 if ($YesNo -imatch "Yes" -or $YesNo -imatch "Y") {
     $userInput = Read-Host -Prompt "Enter context details"

@@ -11,6 +11,8 @@ $Global:cityNameListFile = "$homePath\starmap_creation\Sectors\cityNameList.txt"
 $cityNameList = Get-Content $cityNameListFile
 $cityNames = ""
 
+$storeTypes = "Small General Store, Icecream Shop, Average Clothing Store, Fancy Clothing Store, Kitchenware Store, Technology Store, HoloProgram Store"
+
 [System.Collections.Hashtable]$cities = @{}
 
 Function Get-CityName {
@@ -18,34 +20,32 @@ Function Get-CityName {
     if ($rndSource -eq 0) {
         $rndCityid = Get-Random -Minimum 1 -Maximum 23847
         $name = Invoke-RestMethod -uri "http://geodb-free-service.wirefreethought.com/v1/geo/cities?limit=1&offset=$rndCityid&hateoasMode=off"
-        $name = $name.data.city
-        $name = (Get-Culture).TextInfo.ToTitleCase($name)
+        $name = (Get-Culture).TextInfo.ToTitleCase($name.data.city)
         $cityName = ((Get-Random @("","","","","","","","","","","","","","","Sunny","Eden","Main","Great","New")) + " " + $name).ToString().Trim()
-        $cityName
+        Write-Host "1 $cityName"
     } elseif ($rndSource -eq 1) {
         do {
-            $name1 = (& "$homePath\game-world-generator\powershell-version\translate-string.ps1" (Invoke-RestMethod -Uri https://randomuser.me/api/).results.name.last) | Select-Object -First 1
-            $name1 = (Get-Culture).TextInfo.ToTitleCase($name1)
-        } until ($name1 -notmatch "\?" -and $name1 -ne "")
+            $name1 = (& "$homePath\game-world-generator\powershell-version\translate-string.ps1" (Invoke-RestMethod -Uri https://randomuser.me/api/).results.name.last) -split " " | Select-Object -First 1
+        } until ($name1 -notmatch "\?" -and $name1.length -ge 3)
         $name2 = Get-Random "Bay","Hill","Landing","Valley","Atoll","Beach","Ridge","Cove","Island","Badlands","Cave","Gorge","River","Lake","Flats","Mount","Mountain","Port","View","Field","Market","Fort","Island","Mound","Inlet","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""
         $cityName = "$name1 $name2"
-        $cityName
+        Write-Host "2 $cityName"
     } elseif ($rndSource -eq 2) {
         do {
-            $name = (& "$homePath\game-world-generator\powershell-version\translate-string.ps1" ((((Invoke-RestMethod -Uri api.namefake.com/random).Name) -split " ")[1]) | Select-Object -First 1).ToString()
-            $name = (Get-Culture).TextInfo.ToTitleCase($name)
-        } until ($name -notmatch "\?")
+            $APIReturn = (Invoke-RestMethod -Uri api.namefake.com/random).Name
+            $name = ((& "$homePath\game-world-generator\powershell-version\translate-string.ps1" ((($APIReturn) -split " ")[1]) | Select-Object -First 1).ToString()) -split " " | Select-Object -First 1
+        } until ($name -notmatch "\?" -and $name.length -ge 3)
         $cityName = $name
-        $cityName
+        Write-Host "3 $cityName"
     } elseif ($rndSource -eq 3) {
         do {
-            $name1 = (& "$homePath\game-world-generator\powershell-version\translate-string.ps1" (Invoke-RestMethod -Uri https://randomuser.me/api/).results.location.city) | Select-Object -First 1
-            $name1 = (Get-Culture).TextInfo.ToTitleCase($name1)
-        } until ($name1 -notmatch "\?" -and $name1 -ne "")
+            $name1 = (& "$homePath\game-world-generator\powershell-version\translate-string.ps1" (Invoke-RestMethod -Uri https://randomuser.me/api/).results.location.city) -split " " | Select-Object -First 1
+        } until ($name1 -notmatch "\?" -and $name1.length -ge 3)
         $name2 = Get-Random "Bay","Hill","Landing","Valley","Atoll","Beach","Ridge","Cove","Island","Badlands","Cave","Gorge","River","Lake","Flats","Mount","Mountain","Port","View","Field","Market","Fort","Island","Mound","Inlet","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""
         $cityName = "$name1 $name2"
-        $cityName
+        Write-Host "4 $cityName"
     }
+    return $cityName.Trim()
 }
 
 [System.Collections.Hashtable]$cities = @{}
@@ -79,6 +79,7 @@ foreach ($n in 1..$count) {
     $city.PrimaryIndustry = $primaryIndustry
     #$city.Coordinates = "$xcoord,$ycoord"
     $cities.Add($city.CityName,$city)
+    Clear-Variable cityName
 }
 
 Add-Content -Path $cityNameListFile -Value $cityNames

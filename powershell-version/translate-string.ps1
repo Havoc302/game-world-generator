@@ -87,7 +87,8 @@ function Translate-Name {
             $Translation.Add($Line)
         }
     }
-    return $Translation
+    
+    return (Get-Culture).TextInfo.ToTitleCase($Translation)
 }
 
-(Translate-Name -Text $args[0] -TargetLanguage English) -replace "[^a-zA-Z\s:]"
+((Translate-Name -Text $args[0] -TargetLanguage English) -replace "[^a-zA-Z\s:]").Trim()

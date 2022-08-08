@@ -10,9 +10,9 @@ $sectorX = 5000
 $sectorY = 5000
 $buffer = 5
 $labelWidth = 20
-$systems = 100 # star systems per map # Standard 5000
-$maps =  8 # total number of maps to make # Standard 31
-$asteroidFieldChance = 6
+$systems = 50 # star systems per map # Standard 5000
+$maps =  9 # total number of maps to make # Standard 31
+$asteroidFieldChance = 12
 $okBiomes = "210210210","250215165","105155120","220195175","225155100","155215170","170195200","185150160","130190025","110160170"# Tundra, Grasslands, Taiga, Desert, Savanna, Temperate Forest, Temperate Rainforest, Xeric Shrubland and Dry Forest, Tropical Dry Forest, Tropical Rainforest
 [System.Collections.ArrayList]$coreWorlds = "New Eden,Eugene Davis","Ka-May,Asheigh Kelvin","Xin De Shuguang,Xiwang","Nouvelle,Gabriel Bernard,","Gemutlichkeit,Gisela Ziegler","Nihongo,Tanegashima","Britannia,Trafalgar"
 
@@ -35,7 +35,7 @@ function Get-StarType {
 
 function Get-AsteroidField {
     param($SystemName,$PlanetOrbits)
-    $asteroidCount = Get-Random -Minimum 100 -Maximum 400
+    $asteroidCount = Get-Random -Minimum 51 -Maximum 315
     Write-Host "Generating $asteroidCount asteroids" -BackgroundColor Gray
     $asteroidFieldRaw = (& "$homePath\game-world-generator\powershell-version\generator-random-asteroids.ps1" "$systemName" "$asteroidCount")
     $asteroidField = $asteroidFieldRaw | ConvertTo-Json
@@ -222,8 +222,8 @@ foreach ($m in 1..$maps) {
                 }
             }
             $asteroidFieldCheck = ((Get-Random -Minimum 1 -Maximum 101) -in ((1..$asteroidFieldChance)+1))
-            Write-Host "Asteroid field in system: $asteroidFieldCheck"
-            $metaData += "Asteroid field in system: $asteroidFieldCheck"
+            Write-Host "Asteroid field in system: $asteroidFieldCheck`n"
+            $metaData += "Asteroid field in system: $asteroidFieldCheck`n"
             if ($asteroidFieldCheck -eq $true) {
                 $asteroidReturn = Get-AsteroidField -SystemName $newName -PlanetOrbits $planetOrbits
                 $locationList += $($asteroidFieldRaw.Keys)
@@ -348,7 +348,7 @@ foreach ($m in 1..$maps) {
                         }
                     }
                 }
-                <#foreach ($city in $cities.GetEnumerator()) {
+                foreach ($city in $($cities.GetEnumerator())) {
                     Write-Host "Processing $($city.Key)"
                     $bioMapPath = (Get-ChildItem "$systemPath\$newName-$p-Bio.bmp").FullName
                     $heightMapPath = (Get-ChildItem "$systemPath\$newName-$p-Height.bmp").FullName
@@ -372,13 +372,17 @@ foreach ($m in 1..$maps) {
                         $bioBitmap.SetPixel($bioXRnd,$bioYRnd,$bioMarkerColour)
                         $heightBitmap.SetPixel($bioXRnd,$bioYRnd,$bioMarkerColour)
                     }
-                    #Remove-Item -Path $bioMapPath -Force
-                    #Remove-Item -Path $heightMapPath -Force
-                    #$bioBitmap.Save("$systemPath\$newName-Bio.bmp")
-                    #$heightBitmap.Save("$systemPath\$newName-Height.bmp")
+                    $bioMapPathNew = (($bioMapPath -split "\\" | Select-Object -Last 1)+"Old")
+                    $heightMapPathNew = (($heightMapPath -split "\\" | Select-Object -Last 1)+"Old")
+                    Rename-Item -Path $bioMapPath -NewName $bioMapPathNew
+                    Rename-Item -Path $heightMapPath -NewName $heightMapPathNew
+                    Remove-Item -Path $bioMapPath -Force
+                    Remove-Item -Path $heightMapPath -Force
+                    $bioBitmap.Save("$systemPath\$newName-Bio.bmp")
+                    $heightBitmap.Save("$systemPath\$newName-Height.bmp")
                     $bioBitmap.Dispose()
                     $heightBitmap.Dispose()
-                }#>
+                }
             }
         }
 
