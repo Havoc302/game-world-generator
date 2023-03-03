@@ -2,12 +2,13 @@
 
 $homePath = 'G:\Colonial_Alliance_Game'
 #$homePath = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
-$htmlFiles = "$homePath\starmap_creation\Software\StarGen\html"
-$stargenPath = "$homePath\starmap_creation\Software\StarGen\StarGen.exe"
-$planetgenPath = "$homePath\starmap_creation\Software\Planets\planet.exe"
-$sectorsSave = "$homePath\starmap_creation\Sectors"
-$sectorX = 5000
-$sectorY = 5000
+$starmapCreation = "$homePath\StarmapCreation"
+$htmlFiles = "$starmapCreation\Software\StarGen\html"
+$stargenPath = "$starmapCreation\Software\StarGen\StarGen.exe"
+$planetgenPath = "$starmapCreation\Software\Planets\planet.exe"
+$sectorsSave = "$starmapCreation\Sectors"
+$sectorX = 1000
+$sectorY = 1000
 $buffer = 5
 $labelWidth = 20
 $systems = 50 # star systems per map # Standard 5000
@@ -270,7 +271,7 @@ foreach ($m in 1..$maps) {
                     $metaData += "`n"
                     $milBaseCount = Get-Random -Minimum 10 -Maximum 30 #100,300
                     Write-Host "Generating $milBaseCount military bases"
-                    $metaData += "Miltary Bases on or in Orbit of terrestrial planet $p in $newName`n"
+                    $metaData += "Military Bases on or in Orbit of terrestrial planet $p in $newName`n"
                     foreach ($mb in 1..$milBaseCount) {
                         $milBases = $(& "$homePath\game-world-generator\powershell-version\generator-bases-and-outposts.ps1" 1 $milBaseLoc)
                         $metaData += $milBases | ConvertTo-Json -Depth 3

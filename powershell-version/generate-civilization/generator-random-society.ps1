@@ -1,4 +1,4 @@
-﻿# Random organisation generator
+﻿# Random society generator
 
 $governmentTypeArray = "Government - Democratic Republic
 Government - Constituional Republic
@@ -28,8 +28,16 @@ Government - Civilian Dictatorship
 Government - Military Dictatorship
 Government - Banana Republic
 Government - Corporatocracy
-Government - Bureacracy"
+Government - Bureacracy" -split "`n"
 
-$governmentTypeArray = $governmentTypeArray -split "`n"
-
-Get-Random -InputObject $governmentTypeArray
+$beliefSystemArray = "Athiest
+Agnostic
+Baha'i
+Buddist
+Christian
+Humanist
+Hinduism
+Islamic
+Jainism
+Sikhism
+"

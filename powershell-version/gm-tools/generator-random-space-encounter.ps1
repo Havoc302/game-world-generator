@@ -155,7 +155,7 @@ Has 2 slaves aboard
 Has 3 slaves aboard
 Has 4 slaves aboard" -split "`n"
 
-$chanceOfTwist = 5
+$chanceOfTwist = 100
 
 $returnedEvent = Get-Random -InputObject $list
 
