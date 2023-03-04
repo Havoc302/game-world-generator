@@ -186,6 +186,10 @@ Function Create-Character {
         $Surname
     )
     
+    $rollDivider = 4
+
+    $rollBase = 9
+
     $namefakeAPI = Invoke-RestMethod -Uri api.namefake.com/random
 
     do {
@@ -215,14 +219,14 @@ Function Create-Character {
 
     $name = $firstNameTranslated+" "+$surnameTranslated
 
-    $hairStyleMasculine = ("Bowl Cut,Business Pofessional,Buzz Cut,Crew Cut,Business Pofessional,Buzz Cut,Crew Cut,Business Pofessional,Buzz Cut,Crew Cut,
+    $hairStyleMasculine = @("Bowl Cut,Business Pofessional,Buzz Cut,Crew Cut,Business Pofessional,Buzz Cut,Crew Cut,Business Pofessional,Buzz Cut,Crew Cut,
         Business Pofessional,Buzz Cut,Crew Cut,Business Pofessional,Buzz Cut,Crew Cut,
         Tonsure,Undercut,Flattop,Butch Cut,Caesar Cut,Hi-Top Fade,
         Ivy League,High and Tight,Mohawk,Pageboy,Fauxhawk,Chonmage,Conk,Curtained Hair,
         Ducktail,Mop-Top,Afro,Frosted Tips,Liberty Spikes,Mod Cut,Pompadour,PonyHawk,
         Ponytail,Psychobilly Wedge,Spiked,Surfer,Waves,Mullet" -split ",").Trim()
         
-    $hairStyleFeminine = ("Bob Cut,Crop,Feather Cut,Surfer,Frosted Tips,Spiked,Bowl Cut,Ponytail,Spiked,
+    $hairStyleFeminine = @("Bob Cut,Crop,Feather Cut,Surfer,Frosted Tips,Spiked,Bowl Cut,Ponytail,Spiked,
         Mohawk,Buzz Cut,Flattop,Bouffant,Bun,Pigtails,Chignon,Crown Braid,
         Braid,Short and Choppy,Double Buns,Fallera,Feathered Hair,Afro,Beehive,Bangs,
         Blowout,French Braid,French Twist,Half Updo,Lob,Straight Perm,Curl Perm,Pixie Cut,
@@ -230,7 +234,20 @@ Function Create-Character {
 
     $hairStyleAny = $hairStyleFeminine.Trim() + $hairStyleMasculine.Trim()
 
-    $facialHair = ""
+    $hairColour = @("Ash Blonde,Ash Brown,Auburn,Black,Blonde,Blue,Bright Red,Brown,Burgundy,Caramel Brown,Chestnut Brown,Cinnamon,Copper,Copper Red,Dark Blonde,Dark Blue,Dark Brown,Dark Purple,Dark Red,Dirty Blonde,Golden Blonde,Golden Brown,
+        Gray,Jet black,Lavender,Light blonde,Light Brown,Mahogany,Medium Blonde,Medium Brown,Pastel Pink,Pink,Platinum Blonde,Red,Rose Gold,Salt and Pepper,Sandy Blonde,Silver/grey,Strawberry Blonde,Teal,Violet" -split ",").Trim()
+        
+
+    $facialHair = @("Anchor Beard,Balbo Beard with a Soul Patch,Balbo,Bandholz,Boxed Beard,Chevron mustache,Chevron,Chin Curtain,Chin Strap,Circle Beard,Classic Old Dutch,Clean Shaven,Clean-Shaven,Dali Mustache,Dali,Designer Stubble,Ducktail,
+        English Mustache,Extended Goatee,Five O'Clock Shadow,French Fork,Friendly Mutton Chops,Fu Manchu,Full Beard,Garibaldi,Goatee,Handlebar Mustache,Horseshoe Mustache with Chin Beard,Horseshoe Mustache,Horseshoe,Hulihee Beard,Hungarian Mustache,
+        Imperial Mustache,Imperial,Mustache,Mutton Chops with a Mustache,Mutton Chops,Old Dutch,Paintbrush Mustache,Painter’s Brush Mustache,Pencil Mustache,Pencil,Petite Goatee,Pyramidal Mustache,Royale Beard,Scruff,Short Boxed Beard,Sideburns,
+        Soul Patch,Stubble,Tapered Beard,Terminal beard,The 3-Day Beard,The Amish Beard,The Anchor Beard with Mustache,The Bandholz Beard with Mustache,The Chevron Mustache,The Chinstrap Beard with Mustache,The Chinstrap Beard with Soul Patch,
+        The Circle Beard with Mustache,The Classic Beard with Soul Patch,The Classic Beard,The Classic Mustache,The Colonial Beard,The Corporate Beard,The Dali Beard,The Ducktail Beard with Soul Patch,The Dutch Beard with Mustache,The Dutch Beard,
+        The English Beard with Mustache,The English Beard with Soul Patch,The Extended Goatee with Chin Curtain,The Extended Goatee with Mustache,The French Beard,The French Fork Beard with Mustache,The Friendly Mutton Chops with Mustache,
+        The Goatee with Soul Patch,The Hollywood Beard,The Hollywoodian Beard with Mustache,The Hollywoodian Beard with Soul Patch,The Hollywoodian Beard,The Horseshoe Beard with Chin Strap,The Imperial Beard with Mustache,The Pencil Beard,
+        The Pencil Mustache with Chin Curtain,The Petite Goatee with Chin Strap,The Petite Soul Patch,The Pyramidal Beard,The Royale Beard with Mustache,The Short Boxed Beard with Chevron Mustache,The Short Boxed Beard with Mustache,
+        The Short Boxed Beard with Soul Patch,The Short Stubble with Chin Strap,The Short Stubble with Mustache,The Tailback,The Verdi Beard with Mustache,The Verdi Beard,The Wolverine,The Zappa Beard with Chevron Mustache,
+        The Zappa Beard with Chin Strap,The Zappa,Toothbrush Mustache,Toothbrush,Van Dyke,Verdi,Viking Beard,Walrus Mustache,Zorro Mustache" -split ",").Trim()
 
     $demeanour = ("Active,Ambitious,Cautious,Conscientious,Creative,Curious,Logical,Organized,Perfectionist,Precise,Anxious,Careless,Impatient,Lazy,Rigid,Scatterbrained,
                 Slapdash,Sober,Undisciplined,Volatile,Altruistic,Caring,Compassionate,Considerate,Faithful,Impartial,Kind,Pleasant,Polite,Sincere,Aggressive,Argumentative,
@@ -268,26 +285,30 @@ Function Create-Character {
     $person.Body_Type = if ($person.BMI -le 15) {Get-Random -InputObject ("Athletic","Athletic","Athletic","Slim","Slim","Slim")} elseif ($person.BMI -in 16..24) {Get-Random -InputObject ("Athletic","Athletic","Athletic","Athletic","Average","Average","Average","Average","Average","Average","Average","Average")} elseif ($person.BMI -in 25..30) {Get-Random -InputObject ("Muscular","Muscular","Muscular","Body Builder","Body Builder","Slightly Overweight","Slightly Overweight","Slightly Overweight","Slightly Overweight","Slightly Overweight","Overweight","Overweight","Obese")}elseif ($person.BMI -ge 30) {Get-Random -InputObject ("Power Lifter","Obese","Obese","Obese","Obese","Obese")}
     $person.Racial_Appearance = Get-Random -InputObject $racialAppearance
     $person.Demeanour = Get-Random -InputObject $demeanour
+    $person.Hair = "$(($namefakeAPI.hair -split ",")[0]), $(Get-Random -InputObject $hairColour)"
     if ($person.Gender -match "male") {
         if ((Get-Random -Minimum 1 -Maximum 7) -le 8) {
-            ($hairStyle = Get-Random -InputObject $hairStyleAny).trim()
+            ($person.Hair_Style = Get-Random -InputObject $hairStyleAny).trim()
         } else {
-            ($hairStyle = Get-Random -InputObject $hairStyleMasculine).trim()
+            ($person.Hair_Style = Get-Random -InputObject $hairStyleMasculine).trim()
+        }
+        if (($physicalMetrics[0]) -ge 18) {
+            if ((Get-Random -Minimum 1 -Maximum 55) -le 55) {
+               $person.Facial_Hair = Get-Random -InputObject $facialHair
+            }
         }
     } else {
         if ((Get-Random -Minimum 1 -Maximum 7) -le 8) {
-            ($hairStyle = Get-Random -InputObject $hairStyleAny).trim()
+            ($person.Hair_Style = Get-Random -InputObject $hairStyleAny).trim()
         } else {
-            ($hairStyle = Get-Random -InputObject $hairStyleFeminine).trim()
+            ($person.Hair_Style = Get-Random -InputObject $hairStyleFeminine).trim()
         }
     }
-    $person.Hair = $namefakeAPI.hair
-    $person.Hair_Style = $hairStyle
     $person.Eye_Colour = $namefakeAPI.eye
     $person.Blood_Type = $namefakeAPI.blood
     $person.CommunicationID = "$(Get-Random -Minimum 100000 -Maximum 999999)"+"-"+"$(Get-Random -Minimum 10000000 -Maximum 99999999)"
-    $person.Second_Language = Get-Random -InputObject $secondaryLanguages
     if (($physicalMetrics[0]) -ge 15) {
+        $person.Second_Language = Get-Random -InputObject $secondaryLanguages
         $person.Married = Get-Random -InputObject ([bool]$True,[bool]$False)
         if ($person.Married -eq $True) {
             $person.Maiden_Name = Get-Random -InputObject $surnameTranslated,$surnameTranslated,$surnameTranslated,$surnameTranslated,$maidenNameTranslated
@@ -305,6 +326,7 @@ Function Create-Character {
     $person.Body = $statBlock.Stat_Body
     $person.Presence = $statBlock.Stat_Presence
     $person.Comeliness = $statBlock.Stat_Comeliness
+    $person.Health_Points = [math]::Floor($person.Body+($person.Constitution/2))
     $person.PD = [math]::Floor($person.Strength/10)
     $person.ED = 1
     $person.ActionPoints = [math]::Floor(1+([decimal](($person.Dexterity/30)+($person.Intelligence/(30*2)))))
@@ -314,15 +336,15 @@ Function Create-Character {
     $person.Stun_Recovery = [math]::Floor(($person.Constitution/2)+($person.Body/2))
     $person.Running = [math]::Floor(($person.Strength/2)+($person.Constitution))
     $person.Swimming_Leaping = [math]::Floor(($person.Strength/10)+($person.Constitution/10))
-    $person.Strength_Roll = [math]::Floor(($person.Strength/5)+9)
-    $person.Constitution_Roll = [math]::Floor(($person.Constitution/5)+9)
-    $person.Perception_Roll = [math]::Floor(($person.Intelligence/5)+9)
-    $person.Ego_Roll = [math]::Floor(($person.Ego/5)+9)
-    $person.Intelligence_Roll = [math]::Floor(($person.Intelligence/5)+9)
-    $person.Tech_Roll = [math]::Floor(($person.Tech/5)+9)
-    $person.Dexterity_Roll = [math]::Floor(($person.Dexterity/5)+9)
-    $person.Presence_Roll = [math]::Floor(($person.Presence/5)+9)
-    $person.Comeliness_Roll = [math]::Floor(($person.Comeliness/5)+9)
+    $person.Strength_Roll = [math]::Floor(($person.Strength/$rollDivider)+$rollBase)
+    $person.Constitution_Roll = [math]::Floor(($person.Constitution/$rollDivider)+$rollBase)
+    $person.Perception_Roll = [math]::Floor(($person.Intelligence/$rollDivider)+$rollBase)
+    $person.Ego_Roll = [math]::Floor(($person.Ego/$rollDivider)+9)
+    $person.Intelligence_Roll = [math]::Floor(($person.Intelligence/$rollDivider)+$rollBase)
+    $person.Tech_Roll = [math]::Floor(($person.Tech/$rollDivider)+$rollBase)
+    $person.Dexterity_Roll = [math]::Floor(($person.Dexterity/$rollDivider)+$rollBase)
+    $person.Presence_Roll = [math]::Floor(($person.Presence/$rollDivider)+$rollBase)
+    $person.Comeliness_Roll = [math]::Floor(($person.Comeliness/$rollDivider)+$rollBase)
     $person.CV = 3+[math]::Floor([decimal]($person.ActionPoints))
     if (($physicalMetrics[0]) -ge 15) {
         $skills = ($statBlock | where {$_.keys -match "skill_" -or $_.keys -match "KS_"})
