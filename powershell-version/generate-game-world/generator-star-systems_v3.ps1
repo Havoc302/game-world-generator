@@ -235,7 +235,7 @@ $parameters = @{
     Engine = 'mysql'
     DBInstanceClass = 'db.t3.micro'
     MasterUsername = 'admin'
-    MasterUserPassword = 'AVWhwjmDb1cn3TJHatax' ## Do not to include a forward slash, @ symbol, double quotes or spaces
+    MasterUserPassword = $(Get-Content G:\dynamoDBAdminPW.txt) ## Do not to include a forward slash, @ symbol, double quotes or spaces
     AllocatedStorage = 20 ## Gigabytes
     PubliclyAccessible = $true ## to connect over the Internet
 }
