@@ -58,11 +58,11 @@ Function Generate-PhysicalMetrics {
     return $age,$height,$weight
 }
 
-Function Generate-StatBlock {
+Function New-StatBlock {
     param (
         [Parameter(Mandatory=$false,ParameterSetName="Skill Range")][ValidateSet("Boss","Expert","Highly Skilled","Average","Low Skilled")]$SkillRange
     )
-    if ($SkillRange -eq $null) {
+    if ($null -eq $SkillRange) {
         $SkillRange = Get-Random ("Boss","Expert","Expert","Highly Skilled","Highly Skilled","Highly Skilled","Average","Average","Average","Average","Average","Low Skilled")
     }
 
@@ -179,7 +179,7 @@ Function Generate-StatBlock {
     return $baseStatListFinal,$skillListFinal,$abilities
 }
 
-Function Create-Character {
+Function New-Character {
     param (
         [ValidateSet('Infant','Toddler','Child','Teen','Adult','Middle Aged','Senior','Early Old Age','Late Old Age')]$AgeRange,
         [ValidateSet("Boss","Expert","Highly Skilled","Average","Low Skilled")]$SkillRange,
@@ -194,13 +194,13 @@ Function Create-Character {
 
     do {
         $randomuserAPI = (Invoke-RestMethod -Uri https://randomuser.me/api/).results
-        if ($randomuserAPI -match "\?" -or $randomuserAPI -eq $null) {
+        if ($randomuserAPI -match "\?" -or $null -eq $randomuserAPI) {
             Start-Sleep -Seconds 2
         }
             
-    } until ($randomuserAPI -notmatch "\?" -and $randomuserAPI -ne $null)
+    } until ($randomuserAPI -notmatch "\?" -and $null -ne $randomuserAPI)
 
-    if ($Surname -ne $null) {
+    if ($null -ne $Surname) {
         $surnameTranslated = $surname
     } else {
         $surnameTranslated =  Translate-String -String ($randomuserAPI.name.last)
@@ -261,13 +261,13 @@ Function Create-Character {
 
     $racialAppearance = ("European","European","European","European","Middle Eastern","Middle Eastern","Middle Eastern","Asian","Asian","Asian","Asian","African","African","Latino","Latino","Indian Subcontinent","Indian Subcontinent","Indian Subcontinent","Pacifc Islander")
 
-    if ($SkillRange -ne $null) {
+    if ($null -ne $SkillRange) {
         $statBlock = Generate-StatBlock -SkillRange $SkillRange
     } else {
         $statBlock = Generate-StatBlock
     }
 
-    if ($AgeRange -ne $null) {
+    if ($null -ne $AgeRange) {
         $physicalMetrics = Generate-PhysicalMetrics -ageRange $AgeRange -Sex ($randomuserAPI.Gender)
     } else {
         $physicalMetrics = Generate-PhysicalMetrics -Sex ($randomuserAPI.Gender)
@@ -334,8 +334,8 @@ Function Create-Character {
     $person.Recovery = [math]::Floor(($person.Strength/5)+($person.Constitution/5))
     $person.Stun = ($person.Strength+$person.Constitution+$person.Body+$person.Intelligence)
     $person.Stun_Recovery = [math]::Floor(($person.Constitution/2)+($person.Body/2))
-    $person.Running = [math]::Floor(($person.Strength/2)+($person.Constitution))
-    $person.Swimming_Leaping = [math]::Floor(($person.Strength/10)+($person.Constitution/10))
+    $person.Running = [math]::Floor(($person.Strength/2)+($person.Constitution/2))
+    $person.Swimming_Leaping = [math]::Floor(($person.Running/5))
     $person.Strength_Roll = [math]::Floor(($person.Strength/$rollDivider)+$rollBase)
     $person.Constitution_Roll = [math]::Floor(($person.Constitution/$rollDivider)+$rollBase)
     $person.Perception_Roll = [math]::Floor(($person.Intelligence/$rollDivider)+$rollBase)
@@ -347,7 +347,7 @@ Function Create-Character {
     $person.Comeliness_Roll = [math]::Floor(($person.Comeliness/$rollDivider)+$rollBase)
     $person.CV = 3+[math]::Floor([decimal]($person.ActionPoints))
     if (($physicalMetrics[0]) -ge 15) {
-        $skills = ($statBlock | where {$_.keys -match "skill_" -or $_.keys -match "KS_"})
+        $skills = ($statBlock | Where-Object {$_.keys -match "skill_" -or $_.keys -match "KS_"})
         foreach ($skill in $($skills.Keys)) {
             $skillName = $skill -replace "Skill_" -replace "KS_"
             $person.$skillName=$skills.$skill
@@ -357,7 +357,7 @@ Function Create-Character {
     return $person
 }
 do {
-    [pscustomobject]$character = Create-Character
+    [pscustomobject]$character = New-Character
 
     $character
 

@@ -1,8 +1,13 @@
-﻿[string]$systemName = $args[0]
+﻿Function New-AsteroidID {
+    do {
+        $rnd = Get-Random -Minimum 1 -Maximum 9999999999
+    } until ($asteroidIDList -notcontains $rnd)
+    $rndFull = '{0:d10}' -f $rnd
+    return $rndFull
+    [System.Collections.ArrayList]$asteroidIDList += $rnd
+}
 
-[int]$asteroidId = $args[1]
-
-Function Create-Asteroid {
+Function New-Asteroid {
 
     param ($systemName,$asteroidId)
 
@@ -14,7 +19,7 @@ Function Create-Asteroid {
 
     $mineralList = "Aluminium,Antimony,Arsenic,Bismuth,Cadmium,Chromium,Cobalt,Indium,Iron,Manganese,Molybdenum,Nickel,Rhenium,Selenium,Tantalum,Tellurium,Tin,Titanium,Tungsten,Vanadium,Zinc,Gold,Copper,Lead,Aluminum,Mercury,Silver,Platinum,Iridium,Osmium,Palladium,Rhodium,Ruthenium,Brass,Bronze,Pewter,German Silver,Osmiridium,Electrum,White Gold,Silver-Mercury,Gold-Mercury Amalgam" -split ","
 
-    $mineralListCulture = (Get-Culture).TextInfo
+    #$mineralListCulture = (Get-Culture).TextInfo
 
     $chondriteTypeList = "E3,EH3,EL3,E4,EH4,EL4,E5,EH5,EL5,E6,EH6,EL6,E7,EH7,EL7,H3,H4,H5,H6,H7,L3,L4,L5,L6,L7,LL3,LL4,LL5,LL6,LL7,CI,CM1,CM2,CV2,CV3,CR,CO3,CK,CB,CL,K,R" -split ","
 
@@ -27,7 +32,7 @@ Function Create-Asteroid {
     $asteroid.Volume = "$volume"+" m3"
     [int64]$volumeInt = $volume
     $asteroid.Mass = "$([math]::ROUND(2*($volumeInt),2))"+" t"
-    $asteroid.Shape = Get-Random -InputObject $asteroid_shape
+    $asteroid.Shape = Get-Random -InputObject $asteroidShape
     $asteroid.Rotation_rate = "$(Get-Random -Minimum 0.01 -Maximum 5)"+" r/m"
     if ($type -match "M") {
         $asteroid.MineralType = $(Get-Random -InputObject $mineralList -Count $(Get-Random -Minimum 1 -Maximum 6))
@@ -42,13 +47,17 @@ Function Create-Asteroid {
     return $asteroid
 }
 
-Function Get-AsteroidID {
-    do {
-        $rnd = Get-Random -Minimum 1 -Maximum 9999999999
-    } until ($asteroidIDList -notcontains $rnd)
-    $rndFull = '{0:d10}' -f $rnd
-    return $rndFull
-    [System.Collections.ArrayList]$asteroidIDList += $rnd
-}
+function New-AsteroidsGroup {
+    param ($systemName,$asteroidCount)
 
-Create-Asteroid -systemName "TestSystem" -asteroidId 00000005
+    $counter = 0
+
+    $asteroidTable = @{}
+
+    do {
+        $counter++
+        $asteroidID = $(New-AsteroidID)
+        $asteroidTable.Add($asteroidID,$(New-Asteroid -systemName $systemName -asteroidId $asteroidID))
+    } until ($counter -ge $asteroidCount)
+    return $asteroidTable
+}
