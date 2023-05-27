@@ -21,7 +21,7 @@ $refFilesDir = "$SoftwarePath\StarGen\ref"
 $doGeneration = $true
 
 # Define the main starmap properties
-$systemCount = 70 # star systems per map (sector) # Standard 5000
+$systemCount = 90 # star systems per map (sector) # Standard 5000
 $systemCountVariation = 15 # how much to randomly vary the number or and down from system count
 $sectorNumber = "2" # What sector of space is this, purely for labelling the map
 $gridDividers = 12 # How many grid lines to have on the map
@@ -40,6 +40,8 @@ $awsProfileName = "rpg-stuff-profile"
 
 ################ END OF CUSTOMISABLE VARIABLES ################
 
+$kankaPANkey = Get-Content $kankaPANPath
+
 if (!(Test-Path $WorldScriptPath)) {Write-Host "generate-game-world folder not detected or defined correctly" -BackgroundColor Red -ErrorAction Stop}
 if (!(Test-Path $SoftwarePath)) {Write-Host "Software folder not detected or defined correctly" -BackgroundColor Red -ErrorAction Stop}
 if (!(Test-Path $htmlFiles)) {Write-Host "StarGen HTML folder not detected or defined correctly" -BackgroundColor Red -ErrorAction Stop}
@@ -54,7 +56,24 @@ if ($uploadToAWS -eq $true -and $bucketName -eq "") {Write-Host "S3 Bucket name 
 $okBiomes = "210210210","250215165","105155120","220195175","225155100","155215170","170195200","185150160","130190025","110160170"# Tundra, Grasslands, Taiga, Desert, Savanna, Temperate Forest, Temperate Rainforest, Xeric Shrubland and Dry Forest, Tropical Dry Forest, Tropical Rainforest
 
 # Names to use when naming star systems which are claimed
-[System.Collections.ArrayList]$systemNames = "Nexus,Neotopia,Aeloria,Aetheria,Albion,Alexandria,Amaterasu,Amsterdam,Andromeda,Angkor,Antares,Araucaria,Arcadia,Artemis,Asgard,Athens,Atlantis,Aurielle,Avalon,Azurite,Babylon,Bali,Bangkok,Barcelona,Beijing,Berlin,Bharat,Brittanica,Byzantium,Caelum,Cairo,Calypso,Camelot,Caprica,Carthage,Casablanca,Caspia,Ceres,Ceylon,Chandra,Chichen Itza,Chimera,Chiron,Colossus,Copenhagen,Cordoba,Cyberion,Dalarna,Dantooine,Delphi,Dravida,Dubai,Dublin,Echelon,Edenia,Edinburgh,El Dorado,Elysium,Eridanus,Esperia,Euphoria,Galaxia,Gilead,Gilead,Hades,Halcyon,Hanoi,Helios,Helsinki,Hiroshima,Hy Brasil,Hyperborea,Hyperion,Icaria,Inca,Isfahan,Isla Nublar,Istanbul,Jakarta,Jerusalem,Jovia,Kaida,Kemet,Kepler,Krynn,Krypton,Kuala Lumpur,Kyoto,Lemuria,London,Los Angeles,Lumina,Luminar,Luminelle,Machu Picchu,Magellan,Mahabharata,Manila,Melbourne,Meridian,Mjolnir,Moscow,Mumbai,Mumbai,Nagasaki,Narnia,Neo-Tokyo,Neuheim,New York,Nibiru,Nirvana,Novamira,Oberon,Odyssey,Olympus,Omicron,Orinoco,Orion,Osaka,Oslo,Oz,Pandemonium,Pandora,Pangea,Paris,Penglai,Persepolis,Perseus,Petra,Phnom Penh,Phoenix,Polaris,Pompeii,Prometheus,Pythia,Rapa Nui,Regalia,Rhapsody,Rigel,Rio de Janeiro,Rome,Sagittarius,Sakurano,Samarkand,Seoul,Serenity,Shambhala,Shanghai,Shangri-La,Singapore,Siren,Solitude,Solstice,Sputnik,Stardust,Stockholm,Stratos,Sydney,Tabriz,Taipei,Talaria,Tartarus,Tel Aviv,Terra Nova,Tesseract,Thalassa,Themyscira,Thule,Tikal,Titan,Tokyo,Transcendence,Utopia,Valhalla,Vega,Vesperia,Vienna,Vulcan,Wakanda,Xanadu,Xenon,Yggdrasil,Zhulong,Zion,Zora" -split ','
+[System.Collections.ArrayList]$systemNames = "Nexus,Neotopia,Aeloria,Aetheria,Albion,Alexandria,Amaterasu,Amsterdam,Andromeda,Angkor,Antares,Araucaria,Arcadia,Artemis,Asgard,Athens,Atlantis,Aurielle,Avalon,Azurite,
+                                                Babylon,Bali,Bangkok,Barcelona,Beijing,Berlin,Bharat,Brittanica,Byzantium,Caelum,Cairo,Calypso,Camelot,Caprica,Carthage,Casablanca,Caspia,Ceres,Ceylon,Chandra,Chichen Itza,
+                                                Chimera,Chiron,Colossus,Copenhagen,Cordoba,Cyberion,Dalarna,Dantooine,Delphi,Dravida,Dubai,Dublin,Echelon,Edenia,Edinburgh,El Dorado,Elysium,Eridanus,Esperia,Euphoria,
+                                                Galaxia,Gilead,Gilead,Hades,Halcyon,Hanoi,Helios,Helsinki,Hiroshima,Hy Brasil,Hyperborea,Hyperion,Icaria,Inca,Isfahan,Isla Nublar,Istanbul,Jakarta,Jerusalem,Jovia,Kaida,
+                                                Kemet,Kepler,Krynn,Krypton,Kuala Lumpur,Kyoto,Lemuria,London,Los Angeles,Lumina,Luminar,Luminelle,Machu Picchu,Magellan,Mahabharata,Manila,Melbourne,Meridian,Mjolnir,
+                                                Moscow,Mumbai,Mumbai,Nagasaki,Narnia,Neo-Tokyo,Neuheim,New York,Nibiru,Nirvana,Novamira,Oberon,Odyssey,Olympus,Omicron,Orinoco,Orion,Osaka,Oslo,Oz,Pandemonium,Pandora,
+                                                Pangea,Paris,Penglai,Persepolis,Perseus,Petra,Phnom Penh,Phoenix,Polaris,Pompeii,Prometheus,Pythia,Rapa Nui,Regalia,Rhapsody,Rigel,Rio de Janeiro,Rome,Sagittarius,Sakurano,
+                                                Samarkand,Seoul,Serenity,Shambhala,Shanghai,Shangri-La,Singapore,Siren,Solitude,Solstice,Sputnik,Stardust,Stockholm,Stratos,Sydney,Tabriz,Taipei,Talaria,Tartarus,Tel Aviv,
+                                                Terra Nova,Tesseract,Thalassa,Themyscira,Thule,Tikal,Titan,Tokyo,Transcendence,Utopia,Valhalla,Vega,Vesperia,Vienna,Vulcan,Wakanda,Xanadu,Xenon,Yggdrasil,Zhulong,Zion,Zora,
+                                                Nova Aurora,Terra Prime,Arcadia,Stardust Haven,Celestia,Horizon Reach,Nebula Outpost,Solaris Colony,Andromeda Station,Lunar Nexus,Nexus Prime,Elysium Settlement,Orion's Haven,
+                                                Cosmo Frontier,Serenity Point,Stellaris Enclave,Galactica Outpost,Nova Gaia,Solara Habitat,Saturnia Outpost,Hyperion Station,Zenith City,Pandora Colony,Phobos Outpost,
+                                                Apollo Landing,Astral Dominion,Terra Nova,Centauri Colony,Astoria Station,Vortex Encampment,Atlantis Outpost,Nebulus Outpost,Nova Prime,Stardust Outpost,Aetheria Habitat,
+                                                Lunaris Settlement,Equinox Encampment,Utopia Station,Cosmo Haven,Seraphim Enclave,Celestial Nexus,Genesis Colony,Nebula Nexus,Epsilon Outpost,Lunar Haven,Artemis Settlement,
+                                                Vega Enclave,Pegasus Station,Zenith Colony,Pandora Haven,Phoenix Outpost,Cosmos Encampment,Alpha Prime,Solaris Encampment,Astralis Outpost,Terra Haven,Astra Enclosure,
+                                                Orion's Reach,New Eden,Novus Terra,Horizon Colony,Lyra Outpost,Aurora Station,Lunaris Enclave,Hyperion Colony,Stardust Nexus,Apollo Outpost,Serenity Settlement,Nebula Haven,
+                                                Elysium Encampment,Titan Station,Celestis Outpost,Nova Encampment,Zenith Haven,Pandora Enclave,Artemis Outpost,Solaris Settlement,Nova Terra,Genesis Outpost,Astra Nexus,Astralis Haven,
+                                                Phoenix Enclave,Alpha Outpost,Lunaris Colony,Nova Haven,Orion's Nexus,Elysium Station,Solara Outpost,Nebula Enclosure,Lyra Colony,Horizon Encampment,Stardust Settlement,Terra Enclave,
+                                                Apollo Colony,Celestia Station,Pandora Encampment,Nova Nexus,Serenity Outpost,Zenith Enclave,Astra Outpost" -split ','
 [int]$masterMapSizeX = $gridDividers*$gridDividerPixels+2 # map file pixel width
 [int]$masterMapSizeY = $masterMapSizeX # map file pixel heigh
 $masterMapBmp = new-object System.Drawing.Bitmap $masterMapSizeX,$masterMapSizeY
@@ -87,6 +106,15 @@ if ($doGeneration) {
     Remove-Item -Path "$systemsPath\*" -Recurse -Force
     Remove-Item -Path "$htmlFiles\*" -Recurse -Force
     Copy-Item -Path $refFilesDir -Destination $systemsPath -Recurse
+    Get-S3Object -BucketName "$bucketName" -Credential $awsCreds | where {$_.Key -notmatch "ref"} | Remove-S3Object -Credential $awsCreds -Force
+    $kankaMapEntityID = ((Invoke-RestMethod -Uri "$kankaCampaignURL/entities" -Method GET -Headers $headers -UseBasicParsing -ContentType "application/json").data  | where {$_.name -match "$sectorName"}).id
+    Invoke-RestMethod -Uri "$kankaCampaignURL/entities/$kankaMapEntityID/image" -Method DELETE -Headers @{'Authorization'="Bearer $kankaPANkey"} -UseBasicParsing -ContentType "application/json"
+    $kankaMapID = ((Invoke-RestMethod -Uri "$kankaCampaignURL/maps" -Method GET -Headers $headers -UseBasicParsing -ContentType "application/json").data  | where {$_.name -match "$sectorName"}).id
+    Invoke-RestMethod -Uri "$kankaCampaignURL/maps/$kankaMapID" -Method DELETE -Headers @{'Authorization'="Bearer $kankaPANkey"} -UseBasicParsing -ContentType "application/json"
+    $kankaLocationIDs = (Invoke-RestMethod -Uri "$kankaCampaignURL/locations" -Method GET -Headers $headers -UseBasicParsing -ContentType "application/json").data.id
+    foreach ($locationID in $kankaLocationIDs) {
+        Invoke-RestMethod -Uri "$kankaCampaignURL/locations/$locationID" -Method DELETE -Headers $headers -UseBasicParsing -ContentType "application/json"
+    }
 }
 
 # Attempts to represent reasonably accurate real world chances of star type, they're in order of star colour, lower mass range, upper mass range, chance of planets, chance of habitable planets.
@@ -115,7 +143,7 @@ function Get-StarLocation {
     return $coords
 }
 
-function Get-PlanetaryUninhabitableSystem {
+function New-PlanetaryUninhabitableSystem {
 param($StarMass,$StarName)
 Set-Location ($stargenPath | Split-Path)
     do {
@@ -143,12 +171,13 @@ Set-Location ($stargenPath | Split-Path)
     New-Item -Path $systemsPath -ItemType Directory -Name $StarName
     Move-Item -Path "$htmlFiles\$StarName.html" -Destination $systemsPath\$StarName
     if ($uploadToAWS) {
+        Write-Host "Writing $systemsPath\$StarName\$StarName.html to S3"
         Write-S3Object -BucketName "$bucketName/$StarName" -Credential $awsCreds -File "$systemsPath\$StarName\$StarName.html" -PublicReadOnly
     }
-    $asteroidBool
+    return $asteroidBool
 }
 
-function Get-HabitableSystem {
+function New-HabitableSystem {
 param($StarMass,$StarName)
 Set-Location ($stargenPath | Split-Path)
     do {
@@ -178,9 +207,66 @@ Set-Location ($stargenPath | Split-Path)
     New-Item -Path $systemsPath -ItemType Directory -Name $StarName
     Move-Item -Path "$htmlFiles\$StarName.html" -Destination $systemsPath\$StarName
     if ($uploadToAWS) {
-        Write-S3Object -BucketName "bucketName/$StarName" -Credential $awsCreds -File "$systemsPath\$StarName\$StarName.html" -PublicReadOnly
+        Write-Host "Writing $systemsPath\$StarName\$StarName.html to S3"
+        Write-S3Object -BucketName "$bucketName/$StarName" -Credential $awsCreds -File "$systemsPath\$StarName\$StarName.html" -PublicReadOnly
     }
-    $asteroidBool,$terresCount,$hydrospheres
+    return $asteroidBool,$terresCount,$hydrospheres
+}
+
+Function New-NonPlanetarySystem {
+param($systemLabel,$systemDesignation,$xcoord,$ycoord,$starType,$starMass,$planetBool,$habitableBool)
+    $asteroidFieldBool = (Get-Random -Minimum 0 -Maximum 100) -in 0..12
+    $html = @"
+    <!DOCTYPE html>
+        <html>
+        <head>
+            <title>System Information</title>
+            <style>
+            table {
+                border-collapse: collapse;
+            }
+            th, td {
+                border: 1px solid black;
+                padding: 8px;
+            }
+            </style>
+        </head>
+        <body>
+            <h1>System Information</h1>
+            <table>
+            <tr>
+                <th>System Name</th>
+                <th>System Designation</th>
+                <th>X Coordinate</th>
+                <th>Y Coordinate</th>
+                <th>Star Colour</th>
+                <th>Star Mass</th>
+                <th>Has Planets</th>
+                <th>Habitable</th>
+                <th>AsteroidField</th>
+            </tr>
+            <tr>
+                <td>$systemLabel</td>
+                <td>$systemDesignation</td>
+                <td>$((($systemCoords) -split ",")[0])</td>
+                <td>$((($systemCoords) -split ",")[1])</td>
+                <td>$($starType[0])</td>
+                <td>$starMass</td>
+                <td>$planetBool</td>
+                <td>$habitableBool</td>
+                <td>$($asteroidFieldBool[0])</td>
+            </tr>
+            </table>
+        </body>
+        </html>
+"@
+    New-Item -ItemType Directory -Path $systemsPath -Name $systemLabel
+    $html | Out-File "$systemsPath\$systemLabel\$systemLabel.html"
+    if ($uploadToAWS) {
+        Write-Host "Writing $systemsPath\$systemLabel\$systemLabel.html to S3"
+        Write-S3Object -BucketName "$bucketName/$systemLabel" -Credential $awsCreds -File "$systemsPath\$systemLabel\$systemLabel.html" -PublicReadOnly
+    }
+    return $asteroidFieldBool
 }
 
 # Generate star system base values
@@ -199,33 +285,37 @@ if ($doGeneration) {
         } until ($systemsCoordArray -notcontains $systemCoords)
         $systemsCoordArray += "$systemCoords"
         [string]$systemNum = $($systemCoords) -replace ","
-        $systemDesignation = "System_$systemNum"
+        $systemDesignation = ($sectorNumber+"_"+('{0:d4}' -f $systemCount))
         $starMass = Get-Random -Minimum $starType[1] -Maximum $starType[2]
         $planetBool = ((Get-Random -Minimum 0 -Maximum 100) -in 0..($starType[3]))
         if ($planetBool) {$habitableBool = ((Get-Random -Minimum 0 -Maximum 100) -in 0..($starType[4]))} else {$habitableBool = $false}
         if ($habitableBool -eq $True) {
-            $systemLabel = ($sectorNumber+"_"+('{0:d4}' -f $systemCount))+"_"+(Get-Random -InputObject $systemNames)
+            $systemLabel = (Get-Random -InputObject $systemNames)
             $systemNames.Remove($systemLabel)
         } else {
             $systemLabel = $sectorNumber+"_"+('{0:d4}' -f $systemCount)
         }
         if (!$planetBool) {
             Write-Host "Generating non-planetary system $systemLabel with stellar mass of $starMass"
-            $asteroidFieldBool = (Get-Random -Minimum 0 -Maximum 100) -in 0..12
+            $nonPlanetaryReturn = New-NonPlanetarySystem -systemLabel $systemLabel -systemDesignation $systemDesignation -xcoord (($systemCoords) -split ",")[0] -ycoord (($systemCoords) -split ",")[1] -starType $($starType[0]) -starMass $starMass -planetBool $planetBool -habitableBool $habitableBool
         }
         if ($planetBool -eq $true -and $habitableBool -eq $true) {
             Write-Host "Generating inhabitable system $systemLabel with stellar mass of $starMass"
-            $inhabitablePlanetReturn = Get-HabitableSystem -StarMass $starMass -StarName $systemLabel
+            $inhabitablePlanetReturn = New-HabitableSystem -StarMass $starMass -StarName $systemLabel
             $asteroidFieldBool = $inhabitablePlanetReturn[0]
         }
         if ($planetBool -eq $true -and $habitableBool -eq $false) {
             Write-Host "Generating uninhabitable system $systemLabel with stellar mass of $starMass"
-            $asteroidFieldBool = Get-PlanetaryUninhabitableSystem -StarMass $starMass -StarName $systemLabel
+            $asteroidFieldBool = New-PlanetaryUninhabitableSystem -StarMass $starMass -StarName $systemLabel
         }
         $systemURL = "https://$bucketName.s3.amazonaws.com/$systemLabel/$systemLabel.html"
-            
+        
+        if ($systemName -match "") {
+            $systemName = $systemLabel
+        }
+
         $starSystemObj = [PSCustomObject]@{
-            "SystemName" = $systemLabel
+            "SystemName" = $systemName
             "SystemDesignation" = $systemDesignation
             "XCoord" = (($systemCoords) -split ",")[0]
             "YCoord" = (($systemCoords) -split ",")[1]
@@ -233,8 +323,12 @@ if ($doGeneration) {
             "StarMass" = $starMass
             "Planets" = $planetBool
             "Habitable" = $habitableBool
-            "AsteroidField" = $asteroidFieldBool
+            "AsteroidField" = $asteroidFieldBool[1]
             "SystemURL" = $systemUrl
+        }
+        if ($habitableBool) {
+            $starSystemObj | Add-Member -Type NoteProperty -Name HabitableCount -Value $($asteroidFieldBool[2])
+            $starSystemObj | Add-Member -Type NoteProperty -Name Hydrosphere -Value $($asteroidFieldBool[3])
         }
         $systemsArray.Add($starSystemObj)
     }
@@ -307,7 +401,6 @@ Start-Process "$systemsPath\$masterMapFileName"
 
 # Upload everything to Kanka
 if ($uploadToKanka) {
-    $kankaPANkey = Get-Content $kankaPANPath
 
     $headers = @{
         'Authorization'="Bearer $kankaPANkey"
@@ -320,23 +413,68 @@ if ($uploadToKanka) {
         'center_y'="$($masterMapSizeY/2)"
     } | ConvertTo-Json
 
-    $kankaCheckMap = (((Invoke-RestMethod -Uri "$kankaCampaignURL/entities" -Method GET -Headers $headers -UseBasicParsing -ContentType "application/json").data  | where {$_.name -match "$sectorName"}).id -ge 1)
+    $kankaMapEntityID = ((Invoke-RestMethod -Uri "$kankaCampaignURL/entities" -Method GET -Headers $headers -UseBasicParsing -ContentType "application/json").data  | where {$_.name -match "$sectorName"}).id
+
+    $kankaCheckMap = ($kankaMapEntityID -ge 1)
 
     if (!($kankaCheckMap)) {
         Invoke-RestMethod -Uri "$kankaCampaignURL/maps" -Method POST -Headers $headers -UseBasicParsing -ContentType "application/json" -Body $mapBody
     }
-
-    $kankaMapEntityID = ((Invoke-RestMethod -Uri "$kankaCampaignURL/entities" -Method GET -Headers $headers -UseBasicParsing -ContentType "application/json").data  | where {$_.name -match "$sectorName"}).id
-
-    $mapFilePath = "$systemsPath\$masterMapFileName"
     
-    # still broken
-    $entityBody = @{
-        'image'="$(Get-Item -Path $mapFilePath)"
-    } | ConvertTo-Json
+    $mapFilePath = "$systemsPath\$masterMapFileName"
+    $client = New-Object System.Net.Http.HttpClient
+    $client.DefaultRequestHeaders.Authorization = New-Object System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", $kankaPANkey)
+    $fileBytes = [System.IO.File]::ReadAllBytes($mapFilePath)
 
-    # still broken
-    Invoke-WebRequest -Uri "$kankaCampaignURL/entities/$kankaMapEntityID/image" -Method POST -Headers $headers -InFile $mapFilePath
+    if ($fileBytes) {
+        $stream = New-Object System.IO.MemoryStream
+        $stream.Write($fileBytes, 0, $fileBytes.Length)
+        $stream.Seek(0, 'Begin')
+
+        $fileContent = New-Object System.Net.Http.StreamContent -ArgumentList $stream
+        $fileContent.Headers.ContentType = [System.Net.Http.Headers.MediaTypeHeaderValue]::Parse("application/octet-stream")
+    
+        $formData = New-Object System.Net.Http.MultipartFormDataContent
+        $formData.Add($fileContent, "image", (Split-Path $mapFilePath -Leaf))
+    
+        $response = $client.PostAsync("$kankaCampaignURL/entities/$kankaMapEntityID/image", $formData).Result
+    } else {
+        Write-Host "Failed to read file: $mapFilePath"
+    }
+    
+    $kankaMapID = ((Invoke-RestMethod -Uri "$kankaCampaignURL/maps" -Method GET -Headers $headers -UseBasicParsing -ContentType "application/json").data  | where {$_.name -match "$sectorName"}).id
+
+    $sleepTime = 3
+
+    foreach ($system in $systemsArray) {
+        $location = @{
+                "name" = $($system.SystemName)
+                "type"= $($system.SystemURL)
+                "is_private" = $false
+        } | ConvertTo-Json
+        $locationEntityID = (Invoke-RestMethod -Uri "$kankaCampaignURL/locations" -Method POST -Headers $headers -UseBasicParsing -ContentType "application/json" -Body $location).data.id
+        $colour = [drawing.color]"$($system.StarColour)"
+        $colourARGB = "0x"+"{0:x}" -f $colour.ToArgb()
+        $hexColor = '#' + ($colourARGB -band 0xFFFFFF).ToString('X6')
+        $marker = @{
+                "name" = $($system.SystemName)
+                "map_id"= $kankaMapID
+                "latitude" = $($system.XCoord)
+                "longitude" = $($system.YCoord)
+                "shape_id" = 1
+                "icon" = 1
+                "visibility_id" = 1
+                "colour" = $hexColor
+                "font_colour" = $hexColor
+                "size_id" = 1
+                "circle_radius" = 1
+                "entity_id" = $locationEntityID
+                "entry" = $($system.SystemURL)
+        } | ConvertTo-Json
+        Invoke-RestMethod -Uri "$kankaCampaignURL/maps/$kankaMapID/map_markers" -Method POST -Headers $headers -UseBasicParsing -ContentType "application/json" -Body $marker
+        Start-Sleep -Seconds $sleepTime
+        Write-Host "Sleeping to prevent reaching API limits" -BackgroundColor Yellow -ForegroundColor Black
+    }
 }
 
 
@@ -409,5 +547,7 @@ $parameters = @{
 $instance = New-RDSDBInstance @parameters -ProfileName rpg-stuff-profile -Region us-east-1
 
 #>
+
+
 
 

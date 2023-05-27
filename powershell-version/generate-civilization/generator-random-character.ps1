@@ -15,43 +15,6 @@ Function Translate-String {
     (& "$homePath\game-world-generator\powershell-version\translate-string.ps1" $String -TargetLanguage English) -split " " | Select-Object -First 1
 }
 
-Function New-Name {
-    $nameAPIs = "api.namefake.com/random",
-                "https://randomuser.me/api",
-                
-
-    $nameAPI = Invoke-RestMethod -Uri api.namefake.com/random
-    (Invoke-RestMethod -Uri 'https://randomuser.me/api/').results
-    if ($nameAPI -match "") {
-        do {
-            $randomuserAPI = (Invoke-RestMethod -Uri https://randomuser.me/api/).results
-            if ($randomuserAPI -match "\?" -or $null -eq $randomuserAPI) {
-                Start-Sleep -Seconds 2
-            }
-            
-        } until ($randomuserAPI -notmatch "\?" -and $null -ne $randomuserAPI)
-    }
-
-    if ($null -ne $Surname) {
-        $surnameTranslated = $surname
-    } else {
-        $surnameTranslated =  Translate-String -String ($randomuserAPI.name.last)
-        $surnameTranslated = (Get-Culture).TextInfo.ToTitleCase($surnameTranslated)
-    }
-
-    $firstNameTranslated = Translate-String -String ($randomuserAPI.name.first)
-
-    $firstNameTranslated = (Get-Culture).TextInfo.ToTitleCase($firstNameTranslated)
-
-    $maidenNameTranslated = Translate-String -String ($namefakeAPI.maiden_name)
-
-    $maidenNameTranslated = (Get-Culture).TextInfo.ToTitleCase($maidenNameTranslated)
-
-    $name = $firstNameTranslated+" "+$surnameTranslated
-
-    $name
-}
-
 Function New-PhysicalMetrics {
     param (
         [Parameter(Mandatory=$false)][ValidateSet('Infant','Toddler','Child','Pre-Teen','Teen','Adult','Middle Aged','Senior','Early Old Age','Late Old Age')]$ageRange,
@@ -223,11 +186,38 @@ Function New-Character {
         $Surname
     )
     
-    $rollDivider = 5
+    $rollDivider = 4
 
     $rollBase = 9
 
+    $namefakeAPI = Invoke-RestMethod -Uri api.namefake.com/random
+
+    do {
+        $randomuserAPI = (Invoke-RestMethod -Uri https://randomuser.me/api/).results
+        if ($randomuserAPI -match "\?" -or $null -eq $randomuserAPI) {
+            Start-Sleep -Seconds 2
+        }
+            
+    } until ($randomuserAPI -notmatch "\?" -and $null -ne $randomuserAPI)
+
+    if ($null -ne $Surname) {
+        $surnameTranslated = $surname
+    } else {
+        $surnameTranslated =  Translate-String -String ($randomuserAPI.name.last)
+        $surnameTranslated = (Get-Culture).TextInfo.ToTitleCase($surnameTranslated)
+    }
+
     $hobbies = (& "$homePath\game-world-generator\powershell-version\generate-civilization\generator-random-hobbies.ps1")
+
+    $firstNameTranslated = Translate-String -String ($randomuserAPI.name.first)
+
+    $firstNameTranslated = (Get-Culture).TextInfo.ToTitleCase($firstNameTranslated)
+
+    $maidenNameTranslated = Translate-String -String ($namefakeAPI.maiden_name)
+
+    $maidenNameTranslated = (Get-Culture).TextInfo.ToTitleCase($maidenNameTranslated)
+
+    $name = $firstNameTranslated+" "+$surnameTranslated
 
     $hairStyleMasculine = @("Bowl Cut,Business Pofessional,Buzz Cut,Crew Cut,Business Pofessional,Buzz Cut,Crew Cut,Business Pofessional,Buzz Cut,Crew Cut,
         Business Pofessional,Buzz Cut,Crew Cut,Business Pofessional,Buzz Cut,Crew Cut,
