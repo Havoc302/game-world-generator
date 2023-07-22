@@ -38,6 +38,8 @@ $uploadToAWS = $true
 $bucketName = "rpg-objects"
 $awsProfileName = "rpg-stuff-profile"
 
+$sleepTime = 3
+
 ################ END OF CUSTOMISABLE VARIABLES ################
 
 $kankaPANkey = Get-Content $kankaPANPath
@@ -57,23 +59,20 @@ $okBiomes = "210210210","250215165","105155120","220195175","225155100","1552151
 
 # Names to use when naming star systems which are claimed
 [System.Collections.ArrayList]$systemNames = "Nexus,Neotopia,Aeloria,Aetheria,Albion,Alexandria,Amaterasu,Amsterdam,Andromeda,Angkor,Antares,Araucaria,Arcadia,Artemis,Asgard,Athens,Atlantis,Aurielle,Avalon,Azurite,
-                                                Babylon,Bali,Bangkok,Barcelona,Beijing,Berlin,Bharat,Brittanica,Byzantium,Caelum,Cairo,Calypso,Camelot,Caprica,Carthage,Casablanca,Caspia,Ceres,Ceylon,Chandra,Chichen Itza,
-                                                Chimera,Chiron,Colossus,Copenhagen,Cordoba,Cyberion,Dalarna,Dantooine,Delphi,Dravida,Dubai,Dublin,Echelon,Edenia,Edinburgh,El Dorado,Elysium,Eridanus,Esperia,Euphoria,
-                                                Galaxia,Gilead,Gilead,Hades,Halcyon,Hanoi,Helios,Helsinki,Hiroshima,Hy Brasil,Hyperborea,Hyperion,Icaria,Inca,Isfahan,Isla Nublar,Istanbul,Jakarta,Jerusalem,Jovia,Kaida,
-                                                Kemet,Kepler,Krynn,Krypton,Kuala Lumpur,Kyoto,Lemuria,London,Los Angeles,Lumina,Luminar,Luminelle,Machu Picchu,Magellan,Mahabharata,Manila,Melbourne,Meridian,Mjolnir,
-                                                Moscow,Mumbai,Mumbai,Nagasaki,Narnia,Neo-Tokyo,Neuheim,New York,Nibiru,Nirvana,Novamira,Oberon,Odyssey,Olympus,Omicron,Orinoco,Orion,Osaka,Oslo,Oz,Pandemonium,Pandora,
-                                                Pangea,Paris,Penglai,Persepolis,Perseus,Petra,Phnom Penh,Phoenix,Polaris,Pompeii,Prometheus,Pythia,Rapa Nui,Regalia,Rhapsody,Rigel,Rio de Janeiro,Rome,Sagittarius,Sakurano,
-                                                Samarkand,Seoul,Serenity,Shambhala,Shanghai,Shangri-La,Singapore,Siren,Solitude,Solstice,Sputnik,Stardust,Stockholm,Stratos,Sydney,Tabriz,Taipei,Talaria,Tartarus,Tel Aviv,
-                                                Terra Nova,Tesseract,Thalassa,Themyscira,Thule,Tikal,Titan,Tokyo,Transcendence,Utopia,Valhalla,Vega,Vesperia,Vienna,Vulcan,Wakanda,Xanadu,Xenon,Yggdrasil,Zhulong,Zion,Zora,
-                                                Nova Aurora,Terra Prime,Arcadia,Stardust Haven,Celestia,Horizon Reach,Nebula Outpost,Solaris Colony,Andromeda Station,Lunar Nexus,Nexus Prime,Elysium Settlement,Orion's Haven,
-                                                Cosmo Frontier,Serenity Point,Stellaris Enclave,Galactica Outpost,Nova Gaia,Solara Habitat,Saturnia Outpost,Hyperion Station,Zenith City,Pandora Colony,Phobos Outpost,
-                                                Apollo Landing,Astral Dominion,Terra Nova,Centauri Colony,Astoria Station,Vortex Encampment,Atlantis Outpost,Nebulus Outpost,Nova Prime,Stardust Outpost,Aetheria Habitat,
-                                                Lunaris Settlement,Equinox Encampment,Utopia Station,Cosmo Haven,Seraphim Enclave,Celestial Nexus,Genesis Colony,Nebula Nexus,Epsilon Outpost,Lunar Haven,Artemis Settlement,
-                                                Vega Enclave,Pegasus Station,Zenith Colony,Pandora Haven,Phoenix Outpost,Cosmos Encampment,Alpha Prime,Solaris Encampment,Astralis Outpost,Terra Haven,Astra Enclosure,
-                                                Orion's Reach,New Eden,Novus Terra,Horizon Colony,Lyra Outpost,Aurora Station,Lunaris Enclave,Hyperion Colony,Stardust Nexus,Apollo Outpost,Serenity Settlement,Nebula Haven,
-                                                Elysium Encampment,Titan Station,Celestis Outpost,Nova Encampment,Zenith Haven,Pandora Enclave,Artemis Outpost,Solaris Settlement,Nova Terra,Genesis Outpost,Astra Nexus,Astralis Haven,
-                                                Phoenix Enclave,Alpha Outpost,Lunaris Colony,Nova Haven,Orion's Nexus,Elysium Station,Solara Outpost,Nebula Enclosure,Lyra Colony,Horizon Encampment,Stardust Settlement,Terra Enclave,
-                                                Apollo Colony,Celestia Station,Pandora Encampment,Nova Nexus,Serenity Outpost,Zenith Enclave,Astra Outpost" -split ','
+Babylon,Bali,Bangkok,Barcelona,Beijing,Berlin,Bharat,Brittanica,Byzantium,Caelum,Cairo,Calypso,Camelot,Caprica,Carthage,Casablanca,Caspia,Ceres,Ceylon,Chandra,Chichen Itza,
+Chimera,Chiron,Colossus,Copenhagen,Cordoba,Cyberion,Dalarna,Dantooine,Delphi,Dravida,Dubai,Dublin,Echelon,Edenia,Edinburgh,El Dorado,Elysium,Eridanus,Esperia,Euphoria,
+Galaxia,Gilead,Gilead,Hades,Halcyon,Hanoi,Helios,Helsinki,Hiroshima,Hy Brasil,Hyperborea,Hyperion,Icaria,Inca,Isfahan,Isla Nublar,Istanbul,Jakarta,Jerusalem,Jovia,Kaida,
+Kemet,Kepler,Krynn,Krypton,Kuala Lumpur,Kyoto,Lemuria,London,Los Angeles,Lumina,Luminar,Luminelle,Machu Picchu,Magellan,Mahabharata,Manila,Melbourne,Meridian,Mjolnir,
+Moscow,Mumbai,Mumbai,Nagasaki,Narnia,Neo-Tokyo,Neuheim,New York,Nibiru,Nirvana,Novamira,Oberon,Odyssey,Olympus,Omicron,Orinoco,Orion,Osaka,Oslo,Oz,Pandemonium,Pandora,
+Pangea,Paris,Penglai,Persepolis,Perseus,Petra,Phnom Penh,Phoenix,Polaris,Pompeii,Prometheus,Pythia,Rapa Nui,Regalia,Rhapsody,Rigel,Rio de Janeiro,Rome,Sagittarius,Sakurano,
+Samarkand,Seoul,Serenity,Shambhala,Shanghai,Shangri-La,Singapore,Siren,Solitude,Solstice,Sputnik,Stardust,Stockholm,Stratos,Sydney,Tabriz,Taipei,Talaria,Tartarus,Tel Aviv,
+Terra,Tesseract,Thalassa,Themyscira,Thule,Tikal,Titan,Tokyo,Transcendence,Utopia,Valhalla,Vega,Vesperia,Vienna,Vulcan,Wakanda,Xanadu,Xenon,Yggdrasil,Zhulong,Zion,Zora,Nova,
+Terra,Arcadia,Stardust,Celestia,Horizon,Nebula,Solaris,Andromeda,Lunar,Nexus,Elysium,Orion,Cosmo,Serenity,Stellaris,Galactica,Nova,Solara,Saturnia,Hyperion,Zenith,Pandora,
+Phobos,Apollo,Astral,Terra,Centauri,Astoria,Vortex,Atlantis,Nebulus,Nova,Stardust,Aetheria,Lunaris,Equinox,Utopia,Cosmo,Seraphim,Celestial,Genesis,Nebula,Epsilon,Lunar,Artemis,
+Vega,Pegasus,Zenith,Pandora,Phoenix,Cosmos,Alpha,Solaris,Astralis,Terra,Astra,Orions,New,Novus,Horizon,Lyra,Aurora,Lunaris,Hyperion,Stardust,Apollo,Serenity,Nebula,Elysium,Titan,
+Celestis,Nova,Zenith,Pandora,Artemis,Solaris,Nova,Genesis,Astra,Astralis,Phoenix,Alpha,Lunaris,Nova,Orions,Elysium,Solara,Nebula,Lyra,Horizon,Stardust,Terra,Apollo,Celestia,
+Pandora,Nova,Serenity,Zenith,Astra" -split ','
+
 [int]$masterMapSizeX = $gridDividers*$gridDividerPixels+2 # map file pixel width
 [int]$masterMapSizeY = $masterMapSizeX # map file pixel heigh
 $masterMapBmp = new-object System.Drawing.Bitmap $masterMapSizeX,$masterMapSizeY
@@ -114,6 +113,7 @@ if ($doGeneration) {
     $kankaLocationIDs = (Invoke-RestMethod -Uri "$kankaCampaignURL/locations" -Method GET -Headers $headers -UseBasicParsing -ContentType "application/json").data.id
     foreach ($locationID in $kankaLocationIDs) {
         Invoke-RestMethod -Uri "$kankaCampaignURL/locations/$locationID" -Method DELETE -Headers $headers -UseBasicParsing -ContentType "application/json"
+        Start-Sleep -Seconds $sleepTime
     }
 }
 
@@ -443,8 +443,6 @@ if ($uploadToKanka) {
     }
     
     $kankaMapID = ((Invoke-RestMethod -Uri "$kankaCampaignURL/maps" -Method GET -Headers $headers -UseBasicParsing -ContentType "application/json").data  | where {$_.name -match "$sectorName"}).id
-
-    $sleepTime = 3
 
     foreach ($system in $systemsArray) {
         $location = @{
