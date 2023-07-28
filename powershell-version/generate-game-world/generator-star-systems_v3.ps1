@@ -102,15 +102,27 @@ if ($uploadToAWS) {
 
 # Clears all the world data created
 if ($doGeneration) {
+    $headers = @{
+        'Authorization'="Bearer $kankaPANkey"
+    }
+    # Remove local files
     Remove-Item -Path "$systemsPath\*" -Recurse -Force
     Remove-Item -Path "$htmlFiles\*" -Recurse -Force
+    # Copy the requires files for the new HTML pages created
     Copy-Item -Path $refFilesDir -Destination $systemsPath -Recurse
+    # Get the list of files in the S3 bucket which aren't the ref folder and delete them
     Get-S3Object -BucketName "$bucketName" -Credential $awsCreds | where {$_.Key -notmatch "ref"} | Remove-S3Object -Credential $awsCreds -Force
+    # Get the ID's of any map sectors added to Kanka
     $kankaMapEntityID = ((Invoke-RestMethod -Uri "$kankaCampaignURL/entities" -Method GET -Headers $headers -UseBasicParsing -ContentType "application/json").data  | where {$_.name -match "$sectorName"}).id
-    Invoke-RestMethod -Uri "$kankaCampaignURL/entities/$kankaMapEntityID/image" -Method DELETE -Headers @{'Authorization'="Bearer $kankaPANkey"} -UseBasicParsing -ContentType "application/json"
+    # Delete all the map files attached to those sectors in Kanka
+    Invoke-RestMethod -Uri "$kankaCampaignURL/entities/$kankaMapEntityID/image" -Method DELETE -Headers $headers -UseBasicParsing -ContentType "application/json"
+    # Get the ID of the map in Kanka
     $kankaMapID = ((Invoke-RestMethod -Uri "$kankaCampaignURL/maps" -Method GET -Headers $headers -UseBasicParsing -ContentType "application/json").data  | where {$_.name -match "$sectorName"}).id
-    Invoke-RestMethod -Uri "$kankaCampaignURL/maps/$kankaMapID" -Method DELETE -Headers @{'Authorization'="Bearer $kankaPANkey"} -UseBasicParsing -ContentType "application/json"
+    # Delete the map in Kanka
+    Invoke-RestMethod -Uri "$kankaCampaignURL/maps/$kankaMapID" -Method DELETE -Headers $headers -UseBasicParsing -ContentType "application/json"
+    # Get a list of locations added to Kanka
     $kankaLocationIDs = (Invoke-RestMethod -Uri "$kankaCampaignURL/locations" -Method GET -Headers $headers -UseBasicParsing -ContentType "application/json").data.id
+    # Delete all the locations added to Kanka
     foreach ($locationID in $kankaLocationIDs) {
         Invoke-RestMethod -Uri "$kankaCampaignURL/locations/$locationID" -Method DELETE -Headers $headers -UseBasicParsing -ContentType "application/json"
         Start-Sleep -Seconds $sleepTime
