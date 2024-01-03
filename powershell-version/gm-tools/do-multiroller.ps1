@@ -13,4 +13,4 @@
     }
 }
     
-Do-MultiRoller -Rolls 5 -Dice_Count 3 -Dice_Type 6 -Modifier 0
+Do-MultiRoller -Rolls 100 -Dice_Count 1 -Dice_Type 20 -Modifier 0
