@@ -17,11 +17,21 @@ $planetgenPath = "$SoftwarePath\Planets\planet.exe"
 $systemsPath = "$homePath\StarmapCreation\StarSystems"
 $refFilesDir = "$SoftwarePath\StarGen\ref"
 
+# Include all the functions
+. $WorldScriptPath\fnc_Get-DifferenceFromOptimal.ps1
+. $WorldScriptPath\fnc_Get-StarLocation.ps1
+. $WorldScriptPath\fnc_Get-StarName.ps1
+. $WorldScriptPath\fnc_Get-StarType.ps1
+. $WorldScriptPath\fnc_Get-WithinRange.ps1
+. $WorldScriptPath\fnc_New-HabitableSystem.ps1
+. $WorldScriptPath\fnc_New-NonPlanetarySystem.ps1
+. $WorldScriptPath\fnc_New-PlanetaryUninhabitableSystem.ps1
+
 # Reset the world generation. Deletes all systems created
 $redoGeneration = $true
 
 # Define the main starmap properties
-$systemCount = 100 # star systems per map (sector) # Standard 5000
+$systemCount = 10 # star systems per map (sector) # Standard 5000
 $systemCountVariation = 1 # how much to randomly vary the number or and down from system count
 $sectorNumber = "2" # What sector of space is this, purely for labelling the map
 $gridDividers = 48 # How many grid lines to have on the map
@@ -30,11 +40,11 @@ $buffer = 5 # Pixel buffer around the edges of the map image
 
 # Generation Customisation
 $minimumHabitable = 15 # 0 will allow the generation to run compeletely random
-[System.Collections.ArrayList]$firstNames = @() # Define a list of names here that you want to exist as habitable systems, it'll use these first
+[System.Collections.ArrayList]$firstNames = @("Test1","Test2","Test3") # Define a list of names here that you want to exist as habitable systems, it'll use these first
 
 # Add Empire territory markers
 $doEmpires = $true
-$empireStats = @(("The Small Fart Empire","1"),("The Napolean Empire","3"),("The Conquerers","7")) # Defined as "empireName",EmpirePower # string,int
+$empireStats = @(("The Small Fart Empire","6"),("The Napolean Empire","12"),("The Conquerers","18")) # Defined as "empireName",EmpirePower # string,int
 
 # Kanka details
 $uploadToKanka = $false
@@ -47,6 +57,40 @@ $bucketName = "rpg-objects"
 $awsProfileName = "rpg-stuff-profile"
 
 $sleepTime = 3
+
+# Names to use when naming star systems which are claimed
+[System.Collections.ArrayList]$systemNames = "Arietis,Athens,Caprica,Caspia,Celestis,Centauri,Dravida,Elysium,Hiroshima,Jakarta,Kuala Lumpur,Meridian,Moscow,Nexus,Pandora,Pangea,Phobos,
+Rigel,Samarkand,Terra,Vega,Achernar,Acrux,Adhara,Aeloria,Aetheria,Al Giedi,Al Heka,Albion,Aldebaran,Alexandria,Almach,Alnair,Alnitak,Alpha,
+Alpha Coronae Borealis,Alpha Cygni,Alpha Pavonis,Amaterasu,Amsterdam,Andromeda,Angkor,Antares,Apollo,Aquarii,Arae,Araucaria,Arcadia,Arcturus,Ariadne,Arietis,
+Artemis,Asgard,Astoria,Astra,Astral,Astralis,Atlantis,Aurielle,Aurora,Avalon,Avior,Azurite,Babylon,Baden,Bali,Bangkok,Barcelona,Beijing,Bellatrix,Berlin,
+Beta Canis Majoris,Beta Crucis,Beta Hydri,Beta Orionis,Beta Pavonis,Beteigeuze,Betelgeuse,Bharat,Brittanica,Byzantium,Caeli,Caelum,Cairo,Calypso,Camelot,
+Canopus,Canum,Caprica,Carthage,Casablanca,Caspia,Castor,Celestia,Celestial,Centauri,Ceres,Ceylon,Chandra,Chichen Itza,Chimera,Chiron,Colossus,Copenhagen,
+Cordoba,Cosmo,Cosmos,Crateris,Cursa,Cyberion,Dalarna,Delphi,Deneb,Dravida,Dubai,Dubhe,Dublin,Echelon,Edenia,Edinburgh,El Dorado,Elysium,Epsilon,
+Epsilon Eridani,Equinox,Eridanus,Esperia,Eta Carinae,Euphoria,Gacrux,Galactica,Galaxia,Gamma,Gamma Crucis,Genesis,Gilead,Hades,Halcyon,Hanoi,Helios,
+Helsinki,Hiroshima,Horizon,Hy Brasil,Hyperborea,Hyperion,Icaria,Inca,Iota Draconis,Isfahan,Isla Nublar,Istanbul,Jakarta,Jerusalem,Jovia,Kaida,Kapteyn's Star,
+Kaus Australis,Kemet,Kepler,Krynn,Krypton,Kuala Lumpur,Kyoto,Lemuria,London,Los Angeles,Lumina,Luminar,Luminelle,Lyra,Machu Picchu,Magellan,
+Mahabharata,Manila,Melbourne,Meridian,Mintaka,Mirfak,Mizar,Mjolnir,Moscow,Mu Cephei,Mumbai,Nagasaki,Narnia,Nebula,Nebulus,Neo-Tokyo,Neotopia,Neuheim,New,
+New York,Nexus,Nibiru,Nirvana,Nova,Novamira,Novus,Oberon,Odyssey,Olympus,Omicron,Orinoco,Orion,Osaka,Oslo,Oz,Pandemonium,Pandora,Paris,Pegasus,
+Penglai,Persepolis,Perseus,Petra,Phnom Penh,Phoenix,Pleione,Polaris,Pollux,Pompeii,Prometheus,Proxima Centauri,Pythia,Ran,Rapa Nui,Regalia,Rhapsody,Rigel,
+Rio de Janeiro,Rome,Sadr,Sagittarius,Sakurano,Sargas,Saturnia,Seoul,Seraphim,Serenity,Shambhala,Shanghai,Shangri-La,Shaula,Singapore,Siren,Sirius A,
+Solara,Solaris,Solitude,Solstice,Sputnik,Stardust,Stellaris,Stockholm,Stratos,Sydney,Tabriz,Taipei,Talaria,Tartarus,Taygeta,Tel Aviv,Terra,Tesseract,
+Thalassa,Themyscira,Thule,Tikal,Titan,Tokyo,Transcendence,Utopia,Valhalla,Vega,Vesperia,Vienna,Vortex,Vulcan,VY Canis Majoris,Wakanda,Xanadu,Xenon,
+Yggdrasil,Zenith,Zeta Reticuli,Zhulong,Zion,Zora,Abtenau,Albarracín,Alberobello,Anstruther,Arbois,Assos,Atrani,Bacharach,Baden-Baden,Bagnone,Bakewell,
+Bale,Balestrand,Bibury,Bled,Bosa,Brufa,Bubion,Burano,Cadaqués,Cervo,Cesky Krumlov,Chinchón,Civita di Bagnoregio,Cochem,Cockington,Collioure,Durbuy,Eze,
+Giethoorn,Gimmelwald,Giornico,Grimentz,Groznjan,Gruyeres,Gruyères,Guadalest,Gujo,Haarlem,Hahndorf,Hallstatt,Hallstatt,Harmony,Henningsvær,
+Jajce,Koprivshtitsa,Kotor,Kvívík,Lavenham,Mahone Bay,Marfa,Marsaxlokk,Masuleh,Melnik,Mendocino,Mittenwald,Monsaraz,Monschau,Montepulciano,Nieuwoudtville,
+Oakville,Oban,Óbidos,Oia,Ollantaytambo,Portofino,Pucisca,Reine,Ribe,Riomaggiore,Ronda,Rye,Saint-Cirq-Lapopie,Savoca,Shirakawa-go,Shuhe,
+Sidi Bou Said,Sighisoara,Sitges,Skaneateles,Solvang,St. Martins,Staithes,Stellenbosch,Swellendam,Szentendre,Tanah Rata,
+Taormina,Telc,Telluride,Trogir,Tübingen,Tyneham,Tyrnavos,Ubud,Veere,Visby,Vlkolínec,Wengen,Wiscasset,Xitang,Yackandandah,Yvoire,Zabljak,Zalipie,Zennor,Zermatt,
+Aarav,Aasha,Abdoulaye,Aiko,Akash,Aleksandra,Amal,Amir,Ana,Anika,Anton,Anusha,Arya,Asad,Ayana,Azim,Banya,Basma,Benjamin,Binta,Bjorn,Carmen,Cedric,Chen,Chioma,
+Cristina,Daiki,Daria,David,Deeba,Dejan,Dimitri,Eamon,Elif,Elijah,Elodie,Emma,Enrique,Evelyn,Farhad,Fatima,Felipe,Fiona,Gabriela,Gael,Gamze,Gianna,Giulia,Gonzalo,
+Hadil,Hadiya,Hana,Hassan,Helena,Henry,Hiroshi,Halima,Imani,Indira,Ingrid,Inés,Ivan,Jacob,Jade,Jamila,Jana,Javier,Jean-Luc,Jenna,Jessica,Jia,Joaquin,Julia,Jun,
+Kaia,Kamil,Kanika,Karim,Kasia,Katarina,Keira,Kevin,Khadija,Khalid,Kim,Kiana,Kieran,Ksenia,Laila,Layla,Leandro,Leena,Leonardo,Leticia,Liam,Liwei,Luna,Lydia,Madalyn,
+Mateo,Mathilde,Mats,Maya,Mehdi,Melanie,Miguel,Mika,Miriam,Mohammed,Naomi,Nariman,Natalia,Nathalie,Nasir,Nisha,Noah,Nur,Omar,Pablo,Paola,Parisa,Patrick,Penelope,
+Peter,Priya,Quentin,Rafael,Raj,Rani,Razan,Ricardo,Roberto,Rodrigo,Sadiq,Sarah,Sefan,Selma,Serena,Shaima,Shana,Sharon,Shreya,Simon,Sofia,Sophie,Soumia,Stefan,
+Stephanie,Subhash,Suleiman,Sultan,Sumaya,Tamara,Tamika,Tanisha,Tao,Tariq,Tatjana,Thomas,Tiffany,Tijana,Timur,Tina,Tomas,Vanessa,Veronika,Victor,Victoria,
+Valentina,Walid,Wei,Widad,William,Xia,Yara,Yasmin,Youssef,Yuri,Zane,Zara,Zahir,Zaria,Zeinab,Zhen,Zulema,Zyanya,Aarti,Abdel,Adriana,Ahmed,Aisha,Alistair,
+Alix,Amina,Amit,Anastasiya,Andre,Angela,Anthony,Aoi" -split "," -replace "`n",""
 
 ################ END OF CUSTOMISABLE VARIABLES ################
 
@@ -80,6 +124,10 @@ if ($uploadToAWS) {
         }
     }
 }
+
+# Sets the map size in pixels
+[int]$masterMapSizeX = $gridDividers*$gridDividerPixels+2 # map file pixel width
+[int]$masterMapSizeY = $masterMapSizeX # map file pixel height
 
 # Clears all the world data created
 if ($redoGeneration) {
@@ -118,277 +166,17 @@ if ($redoGeneration) {
     }
 }
 
-# Attempts to represent reasonably accurate real world chances of star type, they're in order of star colour, lower mass range, upper mass range, chance of planets, chance of habitable planets.
-function Get-StarType {
-param($habitable,$planets)
-    if ($habitable -eq $true) {
-        $starRandom = Get-Random -Minimum 0.1 -max 0.9
-    } elseif ($planets -eq $true) {
-        $starRandom = Get-Random -Minimum 7701 -max 1000000
-    } else {
-        $starRandom = Get-Random -Minimum 1 -Maximum 1000000
-    }
-    switch ($starRandom) {
-        {$_ -ge 0.1 -and $_ -lt 0.5} {"LightYellow",$(Get-Random -Minimum 0.9 -Maximum 1.2),100,100} # F type light yellow star - Forced 100% chance of habitable for minimum habitables count
-        {$_ -ge 0.5 -and $_ -le 0.9} {"Yellow",$(Get-Random -Minimum 0.9 -Maximum 1.2),100,100} # G type yellow star - Forced 100% chance of habitable for minimum habitables count
-        {$_ -ge 1 -and $_ -le 3} {"Blue",$(Get-Random -Minimum 3 -Maximum 150),0,0} # O Type blue star
-        {$_ -ge 4 -and $_ -le 1400} {"LightSkyBlue",$(Get-Random -Minimum 3 -Maximum 70),0,0} # B type light sky blue star
-        {$_ -ge 1401 -and $_ -le 7700} {"White",$(Get-Random -Minimum 0.15 -Maximum 1.2),0,0} # A type white star
-        {$_ -ge 7701 -and $_ -le 29000} {"LightYellow",$(Get-Random -Minimum 0.9 -Maximum 1.2),80,7} # F type light yellow star
-        {$_ -ge 29001 -and $_ -le 106000} {"Yellow",$(Get-Random -Minimum 0.9 -Maximum 1.2),95,50} # G type yellow star
-        {$_ -ge 106001 -and $_ -le 235500} {"Orange",$(Get-Random -Minimum 0.5 -Maximum 0.8),80,0} # K type orange star
-        {$_ -ge 235501 -and $_ -le 1000000} {"Red",$(Get-Random -Minimum 0.075 -Maximum 0.4),70,0} # M type red star
-    }
-}
-
-function Get-StarLocation {
-    $labelX = 0..145
-    $labelY = 0..55
-    do {
-        $1 = Get-Random -Minimum 5 -Maximum ($masterMapSizeX-5)
-        $2 = Get-Random -Minimum 5 -Maximum ($masterMapSizeY-5)
-        $coords = $1,$2
-    } until ($systemsCoordArray -notcontains $coords -and ($1 -notin $labelX -or $2 -notin $labelY))
-    $systemsCoordArray += $1,$2
-    return $coords
-}
-
-function New-PlanetaryUninhabitableSystem {
-param($StarMass,$StarName)
-Set-Location ($stargenPath | Split-Path)
-    $counter = 0
-    do {
-        Start-Process $stargenPath -ArgumentList "-m$StarMass -M -g" -Wait -NoNewWindow
-        Start-Sleep -Seconds 1
-        $starFile = (Get-ChildItem $htmlFiles -Filter "*.html").FullName | Sort-Object -Property LastWriteTime | Select-Object -Last 1
-        $starFileTerresCheck = (Get-Content $starFile -Raw) -match "Terrestrial"
-        Write-Host "System $starFileTerresCheck for planets"
-        $counter++
-        if ($counter -ge 5) {
-            Write-Host $counter
-            $StarMass = $starMass + 0.02
-            Write-Host $StarMass
-        }
-        if ($starFileTerresCheck -eq $true) {
-            Remove-Item "$htmlFiles\*" -Force
-        }
-    } until ($starFile -ne $null -and $starFileTerresCheck -eq $false)
-    $html = Get-Content $starFile -Raw
-    $htmlWeb = Invoke-WebRequest -Uri $starfile -UseBasicParsing
-    $asteroidBool = ($html | Select-String -Pattern "Asteroids.gif" -AllMatches).matches.count -ge 1
-    $currentSeed = (($html -split "`n" | Select-String -Pattern "System *") -split ">" -split "-" -split " " -split "<")[3]
-    $currentName = "System $currentSeed - StarGen.exe $currentSeed-$StarMass"
-    $currentFileLink = "StarGen.exe $currentSeed-$StarMass"
-    $currentFileName = "StarGen.exe-$currentSeed-$StarMass"
-    $html = $html -replace $currentName,$StarName
-    $html = $html -replace $currentFileName,$StarName
-    $html = $html -replace $currentFileLink,$StarName
-    $htmlObj = New-Object -Com "HTMLFile"
-    $htmlObj.IHTMLDocument2_write($htmlWeb.RawContent)
-    Set-Content "$htmlFiles\$StarName.html" $html
-    New-Item -Path $systemsPath -ItemType Directory -Name $StarName
-    Move-Item -Path "$htmlFiles\$StarName.html" -Destination $systemsPath\$StarName
-    if ($uploadToAWS) {
-        Write-Host "Writing $systemsPath\$StarName\$StarName.html to S3"
-        Write-S3Object -BucketName "$bucketName/$StarName" -Credential $awsCreds -File "$systemsPath\$StarName\$StarName.html" -PublicReadOnly
-    }
-    Remove-Item $starFile -Force
-    return $asteroidBool
-}
-
-function New-HabitableSystem {
-param($StarMass,$StarName)
-Set-Location ($stargenPath | Split-Path)
-    $counter = 0
-    do {
-        Start-Process $stargenPath -ArgumentList "-m$StarMass -M -g -H" -Wait #-NoNewWindow
-        Start-Sleep -Seconds 1
-        $starFile = (Get-ChildItem $htmlFiles -Filter "*.html").FullName | Sort-Object -Property LastWriteTime | Select-Object -Last 1
-        if ($starFile) {
-            $starFileTerresCheck = (Get-Content $starFile -Raw) -match "Terrestrial"
-            Write-Host "System $starFileTerresCheck for habitable planets"
-        } else {
-            $starFileTerresCheck = $false
-            Write-Host "System $starFileTerresCheck for habitable planets"
-        }
-        $counter++
-        if ($counter -ge 5) {
-            Write-Host $counter
-            if ($StarMass -le 1) {
-                $StarMass = $starMass + 0.02
-            } elseif ($StarMass -ge 1) {
-                $StarMass = $starMass - 0.02
-            }
-            Write-Host $StarMass
-        }
-        if ($starFileTerresCheck -ne $true) {
-            Remove-Item "$htmlFiles\*" -Force
-        }
-    } until ($null -ne $starFile -and $starFileTerresCheck -eq $true)
-    $html = Get-Content $starFile -Raw
-    #$htmlWeb = Invoke-WebRequest -Uri $starfile -UseBasicParsing
-    $hydrospheres = @(($html -split "`n" | Select-String -Pattern "Hydrosphere") -replace "<TR>","" -replace "<TH>","" -replace "</TR>","" -replace "</TH>","" -replace "<TD>","" -replace "</TD>","" -replace "Hydrosphere percentage","" | where {$_ -notmatch "0.0"}) -split "`n"
-    $terresCount = ($html -split "<" | Select-String -Pattern "TerrestrialPlanet.gif" | Group-Object).count
-    $asteroidBool = ($html | Select-String -Pattern "Asteroids.gif" -AllMatches).matches.count -ge 1
-    $currentSeed = (($html -split "`n" | Select-String -Pattern "System *") -split ">" -split "-" -split " " -split "<")[3]
-    $currentName = "StarGen.exe $currentSeed-$StarMass"
-    $currentTitle = "System $currentSeed - $currentName"
-    $currentFileName = "StarGen.exe-$currentSeed-$StarMass.html"
-    $html = $html -replace $currentName,$StarName
-    $html = $html -replace $currentFileName,$StarName
-    $html = $html -replace $currentFileLink,$StarName
-    #$htmlObj = New-Object -Com "HTMLFile"
-    #$htmlObj.IHTMLDocument2_write($htmlWeb.RawContent)
-    Set-Content "$htmlFiles\$StarName.html" $html
-    New-Item -Path $systemsPath -ItemType Directory -Name $StarName
-    Move-Item -Path "$htmlFiles\$StarName.html" -Destination $systemsPath\$StarName
-    if ($uploadToAWS) {
-        Write-Host "Writing $systemsPath\$StarName\$StarName.html to S3"
-        Write-S3Object -BucketName "$bucketName/$StarName" -Credential $awsCreds -File "$systemsPath\$StarName\$StarName.html" -PublicReadOnly
-    }
-    Remove-Item $starFile -Force
-    return $asteroidBool,$terresCount,$hydrospheres
-}
-
-Function New-NonPlanetarySystem {
-param($systemLabel,$systemDesignation,$xcoord,$ycoord,$starType,$starMass,$planetBool,$habitableBool)
-    $asteroidFieldBool = (Get-Random -Minimum 0 -Maximum 100) -in 0..12
-    $html = @"
-    <!DOCTYPE html>
-        <html>
-        <head>
-            <title>System Information</title>
-            <style>
-            table {
-                border-collapse: collapse;
-            }
-            th, td {
-                border: 1px solid black;
-                padding: 8px;
-            }
-            </style>
-        </head>
-        <body>
-            <h1>System Information</h1>
-            <table>
-            <tr>
-                <th>System Name</th>
-                <th>System Designation</th>
-                <th>X Coordinate</th>
-                <th>Y Coordinate</th>
-                <th>Star Colour</th>
-                <th>Star Mass</th>
-                <th>Has Planets</th>
-                <th>Habitable</th>
-                <th>AsteroidField</th>
-            </tr>
-            <tr>
-                <td>$systemLabel</td>
-                <td>$systemDesignation</td>
-                <td>$((($systemCoords) -split ",")[0])</td>
-                <td>$((($systemCoords) -split ",")[1])</td>
-                <td>$starType</td>
-                <td>$starMass</td>
-                <td>$planetBool</td>
-                <td>$habitableBool</td>
-                <td>$($asteroidFieldBool[0])</td>
-            </tr>
-            </table>
-        </body>
-        </html>
-"@
-    New-Item -ItemType Directory -Path $systemsPath -Name $systemLabel
-    $html | Out-File "$systemsPath\$systemLabel\$systemLabel.html"
-    if ($uploadToAWS) {
-        Write-Host "Writing $systemsPath\$systemLabel\$systemLabel.html to S3"
-        Write-S3Object -BucketName "$bucketName/$systemLabel" -Credential $awsCreds -File "$systemsPath\$systemLabel\$systemLabel.html" -PublicReadOnly
-    }
-    return $asteroidFieldBool
-}
-
-# Function to check if two points are within a certain distance of each other
-function Get-WithinRange {
-    param (
-        [int]$x1,
-        [int]$x2,
-        [int]$y1,
-        [int]$y2,
-        [int]$distanceThreshold
-    )
-  # Calculate squared distance for better performance
-  $squaredDistance = ($x2 - $x1) * ($x2 - $x1) + ($y2 - $y1) * ($y2 - $y1)
-  # Use squared distance comparison for accuracy
-  return $squaredDistance -le ($distanceThreshold * $distanceThreshold)
-}
-
-function Get-DifferenceFromOptimal {
-    param(
-        [double] $value
-    )
-
-    $optimal = 50
-    $difference = [Math]::Abs($value - $optimal)
-    return $difference
-}
-
-Function Get-StarName {
-    
-    if ($($firstNames).Count -ge 1) {
-        $systemName = Get-Random -InputObject $firstNames
-        $firstNames.Remove($systemName)
-    } else {
-        # Names to use when naming star systems which are claimed
-        [System.Collections.ArrayList]$systemNames = "Arietis,Athens,Caprica,Caspia,Celestis,Centauri,Dravida,Elysium,Hiroshima,Jakarta,Kuala Lumpur,Meridian,Moscow,Nexus,Pandora,Pangea,Phobos,
-        Rigel,Samarkand,Terra,Vega,Achernar,Acrux,Adhara,Aeloria,Aetheria,Al Giedi,Al Heka,Albion,Aldebaran,Alexandria,Almach,Alnair,Alnitak,Alpha,
-        Alpha Coronae Borealis,Alpha Cygni,Alpha Pavonis,Amaterasu,Amsterdam,Andromeda,Angkor,Antares,Apollo,Aquarii,Arae,Araucaria,Arcadia,Arcturus,Ariadne,Arietis,
-        Artemis,Asgard,Astoria,Astra,Astral,Astralis,Atlantis,Aurielle,Aurora,Avalon,Avior,Azurite,Babylon,Baden,Bali,Bangkok,Barcelona,Beijing,Bellatrix,Berlin,
-        Beta Canis Majoris,Beta Crucis,Beta Hydri,Beta Orionis,Beta Pavonis,Beteigeuze,Betelgeuse,Bharat,Brittanica,Byzantium,Caeli,Caelum,Cairo,Calypso,Camelot,
-        Canopus,Canum,Caprica,Carthage,Casablanca,Caspia,Castor,Celestia,Celestial,Centauri,Ceres,Ceylon,Chandra,Chichen Itza,Chimera,Chiron,Colossus,Copenhagen,
-        Cordoba,Cosmo,Cosmos,Crateris,Cursa,Cyberion,Dalarna,Delphi,Deneb,Dravida,Dubai,Dubhe,Dublin,Echelon,Edenia,Edinburgh,El Dorado,Elysium,Epsilon,
-        Epsilon Eridani,Equinox,Eridanus,Esperia,Eta Carinae,Euphoria,Gacrux,Galactica,Galaxia,Gamma,Gamma Crucis,Genesis,Gilead,Hades,Halcyon,Hanoi,Helios,
-        Helsinki,Hiroshima,Horizon,Hy Brasil,Hyperborea,Hyperion,Icaria,Inca,Iota Draconis,Isfahan,Isla Nublar,Istanbul,Jakarta,Jerusalem,Jovia,Kaida,Kapteyn's Star,
-        Kaus Australis,Kemet,Kepler,Krynn,Krypton,Kuala Lumpur,Kyoto,Lemuria,London,Los Angeles,Lumina,Luminar,Luminelle,Lyra,Machu Picchu,Magellan,
-        Mahabharata,Manila,Melbourne,Meridian,Mintaka,Mirfak,Mizar,Mjolnir,Moscow,Mu Cephei,Mumbai,Nagasaki,Narnia,Nebula,Nebulus,Neo-Tokyo,Neotopia,Neuheim,New,
-        New York,Nexus,Nibiru,Nirvana,Nova,Novamira,Novus,Oberon,Odyssey,Olympus,Omicron,Orinoco,Orion,Osaka,Oslo,Oz,Pandemonium,Pandora,Paris,Pegasus,
-        Penglai,Persepolis,Perseus,Petra,Phnom Penh,Phoenix,Pleione,Polaris,Pollux,Pompeii,Prometheus,Proxima Centauri,Pythia,Ran,Rapa Nui,Regalia,Rhapsody,Rigel,
-        Rio de Janeiro,Rome,Sadr,Sagittarius,Sakurano,Sargas,Saturnia,Seoul,Seraphim,Serenity,Shambhala,Shanghai,Shangri-La,Shaula,Singapore,Siren,Sirius A,
-        Solara,Solaris,Solitude,Solstice,Sputnik,Stardust,Stellaris,Stockholm,Stratos,Sydney,Tabriz,Taipei,Talaria,Tartarus,Taygeta,Tel Aviv,Terra,Tesseract,
-        Thalassa,Themyscira,Thule,Tikal,Titan,Tokyo,Transcendence,Utopia,Valhalla,Vega,Vesperia,Vienna,Vortex,Vulcan,VY Canis Majoris,Wakanda,Xanadu,Xenon,
-        Yggdrasil,Zenith,Zeta Reticuli,Zhulong,Zion,Zora,Abtenau,Albarracín,Alberobello,Anstruther,Arbois,Assos,Atrani,Bacharach,Baden-Baden,Bagnone,Bakewell,
-        Bale,Balestrand,Bibury,Bled,Bosa,Brufa,Bubion,Burano,Cadaqués,Cervo,Cesky Krumlov,Chinchón,Civita di Bagnoregio,Cochem,Cockington,Collioure,Durbuy,Eze,
-        Giethoorn,Gimmelwald,Giornico,Grimentz,Groznjan,Gruyeres,Gruyères,Guadalest,Gujo,Haarlem,Hahndorf,Hallstatt,Hallstatt,Harmony,Henningsvær,
-        Jajce,Koprivshtitsa,Kotor,Kvívík,Lavenham,Mahone Bay,Marfa,Marsaxlokk,Masuleh,Melnik,Mendocino,Mittenwald,Monsaraz,Monschau,Montepulciano,Nieuwoudtville,
-        Oakville,Oban,Óbidos,Oia,Ollantaytambo,Portofino,Pucisca,Reine,Ribe,Riomaggiore,Ronda,Rye,Saint-Cirq-Lapopie,Savoca,Shirakawa-go,Shuhe,
-        Sidi Bou Said,Sighisoara,Sitges,Skaneateles,Solvang,St. Martins,Staithes,Stellenbosch,Swellendam,Szentendre,Tanah Rata,
-        Taormina,Telc,Telluride,Trogir,Tübingen,Tyneham,Tyrnavos,Ubud,Veere,Visby,Vlkolínec,Wengen,Wiscasset,Xitang,Yackandandah,Yvoire,Zabljak,Zalipie,Zennor,Zermatt,
-        Aarav,Aasha,Abdoulaye,Aiko,Akash,Aleksandra,Amal,Amir,Ana,Anika,Anton,Anusha,Arya,Asad,Ayana,Azim,Banya,Basma,Benjamin,Binta,Bjorn,Carmen,Cedric,Chen,Chioma,
-        Cristina,Daiki,Daria,David,Deeba,Dejan,Dimitri,Eamon,Elif,Elijah,Elodie,Emma,Enrique,Evelyn,Farhad,Fatima,Felipe,Fiona,Gabriela,Gael,Gamze,Gianna,Giulia,Gonzalo,
-        Hadil,Hadiya,Hana,Hassan,Helena,Henry,Hiroshi,Halima,Imani,Indira,Ingrid,Inés,Ivan,Jacob,Jade,Jamila,Jana,Javier,Jean-Luc,Jenna,Jessica,Jia,Joaquin,Julia,Jun,
-        Kaia,Kamil,Kanika,Karim,Kasia,Katarina,Keira,Kevin,Khadija,Khalid,Kim,Kiana,Kieran,Ksenia,Laila,Layla,Leandro,Leena,Leonardo,Leticia,Liam,Liwei,Luna,Lydia,Madalyn,
-        Mateo,Mathilde,Mats,Maya,Mehdi,Melanie,Miguel,Mika,Miriam,Mohammed,Naomi,Nariman,Natalia,Nathalie,Nasir,Nisha,Noah,Nur,Omar,Pablo,Paola,Parisa,Patrick,Penelope,
-        Peter,Priya,Quentin,Rafael,Raj,Rani,Razan,Ricardo,Roberto,Rodrigo,Sadiq,Sarah,Sefan,Selma,Serena,Shaima,Shana,Sharon,Shreya,Simon,Sofia,Sophie,Soumia,Stefan,
-        Stephanie,Subhash,Suleiman,Sultan,Sumaya,Tamara,Tamika,Tanisha,Tao,Tariq,Tatjana,Thomas,Tiffany,Tijana,Timur,Tina,Tomas,Vanessa,Veronika,Victor,Victoria,
-        Valentina,Walid,Wei,Widad,William,Xia,Yara,Yasmin,Youssef,Yuri,Zane,Zara,Zahir,Zaria,Zeinab,Zhen,Zulema,Zyanya,Aarti,Abdel,Adriana,Ahmed,Aisha,Alistair,
-        Alix,Amina,Amit,Anastasiya,Andre,Angela,Anthony,Aoi" -split "," -replace "`n",""
-
-        $systemName = Get-Random -InputObject $systemNames
-        $systemName = $systemName.Trim()
-        $systemNames.Remove($systemName)
-    }
-
-    return $systemName
-}
 
 # Generate star system base values
 $systemsCoordArray = @()
 $systemsArray = New-Object System.Collections.Generic.List[psobject]
 
-if ($doGeneration) {
+if ($redoGeneration) {
     $systemCountFinal = Get-Random -Minimum ($systemCount-$systemCountVariation) -Maximum ($systemCount+$systemCountVariation)
     Write-Host "Commencing generation for $systemCountFinal systems"
     foreach ($systemCount in 1..$systemCountFinal) {
         Write-Host "Generating system $systemCount"
-        $systemCoords = Get-StarLocation
+        $systemCoords = Get-StarLocation -MapSizeX $masterMapSizeX -MapSizeY $masterMapSizeY
         $systemsCoordArray += "$systemCoords"
         [string]$systemNum = $($systemCoords) -replace ","
         $systemDesignation = ($sectorNumber+"_"+('{0:d4}' -f $systemCount))
@@ -426,7 +214,7 @@ if ($doGeneration) {
         if (!$planetBool) {
             Write-Host "Generating non-planetary system $systemLabel with stellar mass of $starMass"
             $nonPlanetaryReturn = New-NonPlanetarySystem -systemLabel $systemLabel -systemDesignation $systemDesignation -xcoord (($systemCoords) -split ",")[0] -ycoord (($systemCoords) -split ",")[1] -starType $($starType[0]) -starMass $starMass -planetBool $planetBool -habitableBool $habitableBool
-            $hydrosphere = "None"
+            $hydrosphere = 0
         }
         # Generate system with planets and a habitable
         if ($planetBool -eq $true -and $habitableBool -eq $true) {
@@ -439,6 +227,7 @@ if ($doGeneration) {
         if ($planetBool -eq $true -and $habitableBool -eq $false) {
             Write-Host "Generating planetary uninhabitable system $systemLabel with stellar mass of $starMass"
             $asteroidFieldBool = New-PlanetaryUninhabitableSystem -StarMass $starMass -StarName $systemLabel
+            $hydrosphere = 0
         }
         $systemURL = "https://$bucketName.s3.amazonaws.com/$systemLabel/$systemLabel.html"
         
@@ -455,7 +244,7 @@ if ($doGeneration) {
             "StarMass" = $starMass
             "Planets" = $planetBool
             "Habitable" = $habitableBool
-            "Hydrospere" = 
+            "Hydrospere" = $hydrosphere
             "AsteroidField" = $asteroidFieldBool[1]
             "SystemURL" = $systemUrl
         }
@@ -469,8 +258,6 @@ if ($doGeneration) {
 }
 
 # Initialise the map creation
-[int]$masterMapSizeX = $gridDividers*$gridDividerPixels+2 # map file pixel width
-[int]$masterMapSizeY = $masterMapSizeX # map file pixel heigh
 $masterMapBmp = new-object System.Drawing.Bitmap $masterMapSizeX,$masterMapSizeY
 $masterMapBrushBg = [System.Drawing.Brushes]::Black
 $fontMapNum = new-object System.Drawing.Font "Lucida Sans",8
