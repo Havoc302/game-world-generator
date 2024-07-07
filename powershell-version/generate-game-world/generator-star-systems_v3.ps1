@@ -8,14 +8,14 @@ Add-Type -AssemblyName System.Drawing
 $homePath = "I:\My Drive\TTRPG\Colonial Alliance RP Game\Colonial_Alliance_Game"
 
 # Set the locations of required software and filepaths for the script to operate
-$WorldScriptPath = "$homePath\game-world-generator\powershell-version\generate-game-world"
-$systemsPath = "$homePath\StarmapCreation\StarSystems"
-$SoftwarePath = "$homePath\StarmapCreation\Software"
-$stargenPath = "$SoftwarePath\StarGen"
-$stargenExePath = "$stargenPath\StarGen.exe"
+$WorldScriptPath = "$homePath\game-world-generator\powershell-version\generate-game-world" # Where all the scripts are located
+$systemsPath = "$homePath\StarmapCreation\StarSystems" # Where the finalised star system files will go on output
+$softwarePath = "$homePath\StarmapCreation\Software" # Where all the software that runs the generation is located
+$stargenPath = "$SoftwarePath\StarGen" # Root directory of the StarGen application required for all this to work. https://www.gryphel.com/c/sw/astro/stargen/
+$stargenExePath = "$stargenPath\StarGen.exe" # StarGen Executable
 $htmlFiles = "$stargenPath\html"
+$refFilesDir = "$stargenPath\ref"
 $planetgenPath = "$SoftwarePath\Planets\planet.exe"
-$refFilesDir = "$SoftwarePath\StarGen\ref"
 $cityNameslist = "$homePath\game-world-generator\data\city_names_master.txt"
 
 # Reset the world generation. Deletes all systems created
@@ -23,6 +23,9 @@ $redoGeneration = $true
 
 # Create an Index file?
 $createIndex = $true
+
+# Open all the created Star System files in your default browser at end of generation?
+$openSystemsOnEnd = $true
 
 # Define the main starmap properties
 $systemCount = 20 # star systems per map (sector) # Standard 5000
@@ -34,7 +37,7 @@ $buffer = 5 # Pixel buffer around the edges of the map image to place names
 
 # Generation Customisation
 $minimumHabitable = 5 # 0 will allow the generation to run compeletely random, must be equal to or more than the total list of first names
-[System.Collections.ArrayList]$firstNames = @("Test1","Test2","Test3") # Define a list of names here that you want to exist as habitable systems, it'll use these first
+[System.Collections.ArrayList]$firstNames = @() # Define a list of names here that you want to exist as habitable systems, it'll use these first
 $firstNamesOrderSequence = $true # Will use names in the order they appear in the list above. Change to $false if you'd like the script to randomly select the name from the list.
 
 # Add Empire territory markers
@@ -420,7 +423,13 @@ if ($uploadToKanka) {
     }
 }
 
+if ($createIndex) {
+    . $WorldScriptPath\fnc_Create-Index.ps1
+    Create-Index
+}
 
-foreach ($i in $(Get-ChildItem 'I:\My Drive\TTRPG\Colonial Alliance RP Game\Colonial_Alliance_Game\StarmapCreation\StarSystems' -Recurse | where {$_.Extension -match "html" -and $_.Name -notmatch "key"} | Select-Object -ExpandProperty FullName)) {
-    Start-Process $i
+if ($openSystemsOnEnd) {
+    foreach ($i in $(Get-ChildItem 'I:\My Drive\TTRPG\Colonial Alliance RP Game\Colonial_Alliance_Game\StarmapCreation\StarSystems' -Recurse | where {$_.Extension -match "html" -and $_.Name -notmatch "key"} | Select-Object -ExpandProperty FullName)) {
+        Start-Process $i
+    }
 }

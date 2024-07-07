@@ -2,9 +2,9 @@
     $index = Get-ChildItem -Path $systemsPath -Include "*.html" -Recurse | where {$_.DirectoryName -notmatch "ref"} | Select-Object -Property FullName,DirectoryName
     $indexHTML = ""
     foreach ($i in $index) {
-        $dir = $i.FullName
+        $dir = $i.FullName -replace " ", "%20"
         $dirName = $($i.DirectoryName -split "\\" | Select -Last 1)
-        $indexHTML += "<a href=$dir>$dirName</a>`n"
+        $indexHTML += "<a href=$dir>$dirName</a><br>`n"
     }
 
     $html = @"
@@ -12,7 +12,6 @@
         <html>
         <head>
             <title>Systems Index</title>
-            <style>
         </head>
         <body>
             <h1>Systems Index</h1>

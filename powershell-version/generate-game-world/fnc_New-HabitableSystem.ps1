@@ -1,9 +1,9 @@
 ﻿function New-HabitableSystem {
 param($StarName,$StarMass)
-Set-Location ($stargenPath | Split-Path)
+Set-Location $stargenPath
     $counter = 0
     do {
-        Start-Process $stargenPath -ArgumentList "-m$StarMass -M -g -H" -Wait #-NoNewWindow
+        Start-Process $stargenExePath -ArgumentList "-m$StarMass -M -g -H" -Wait #-NoNewWindow
         Start-Sleep -Seconds 1
         $starFile = (Get-ChildItem $htmlFiles -Filter "*.html").FullName | Sort-Object -Property LastWriteTime | Select-Object -Last 1
         if ($starFile) {
