@@ -1,7 +1,6 @@
 ﻿# Space RP Game World Generator v3
 # Starts by generating random systems with stellar map coordinates, if the system is habitable or not, if the system has a habitable planet with cities, a starbase, an asteroid base, or a base on an uninhabitable planet
 cls
-Import-Module AWSPowershell
 
 Add-Type -AssemblyName System.Drawing
 
@@ -10,37 +9,33 @@ $homePath = "I:\My Drive\TTRPG\Colonial Alliance RP Game\Colonial_Alliance_Game"
 
 # Set the locations of required software and filepaths for the script to operate
 $WorldScriptPath = "$homePath\game-world-generator\powershell-version\generate-game-world"
-$SoftwarePath = "$homePath\StarmapCreation\Software"
-$htmlFiles = "$SoftwarePath\StarGen\html"
-$stargenPath = "$SoftwarePath\StarGen\StarGen.exe"
-$planetgenPath = "$SoftwarePath\Planets\planet.exe"
 $systemsPath = "$homePath\StarmapCreation\StarSystems"
+$SoftwarePath = "$homePath\StarmapCreation\Software"
+$stargenPath = "$SoftwarePath\StarGen"
+$stargenExePath = "$stargenPath\StarGen.exe"
+$htmlFiles = "$stargenPath\html"
+$planetgenPath = "$SoftwarePath\Planets\planet.exe"
 $refFilesDir = "$SoftwarePath\StarGen\ref"
-
-# Include all the functions
-. $WorldScriptPath\fnc_Get-DifferenceFromOptimal.ps1
-. $WorldScriptPath\fnc_Get-StarLocation.ps1
-. $WorldScriptPath\fnc_Get-StarName.ps1
-. $WorldScriptPath\fnc_Get-StarType.ps1
-. $WorldScriptPath\fnc_Get-WithinRange.ps1
-. $WorldScriptPath\fnc_New-HabitableSystem.ps1
-. $WorldScriptPath\fnc_New-NonPlanetarySystem.ps1
-. $WorldScriptPath\fnc_New-PlanetaryUninhabitableSystem.ps1
+$cityNameslist = "$homePath\game-world-generator\data\city_names_master.txt"
 
 # Reset the world generation. Deletes all systems created
 $redoGeneration = $true
 
+# Create an Index file?
+$createIndex = $true
+
 # Define the main starmap properties
-$systemCount = 10 # star systems per map (sector) # Standard 5000
-$systemCountVariation = 1 # how much to randomly vary the number or and down from system count
+$systemCount = 20 # star systems per map (sector) # Standard 5000
+$systemCountVariation = 0 # how much to randomly vary the number or and down from system count *** Must be higher than 2 ***
 $sectorNumber = "2" # What sector of space is this, purely for labelling the map
 $gridDividers = 48 # How many grid lines to have on the map
 $gridDividerPixels = 100 # How many pixels between each grid line
-$buffer = 5 # Pixel buffer around the edges of the map image
+$buffer = 5 # Pixel buffer around the edges of the map image to place names
 
 # Generation Customisation
-$minimumHabitable = 15 # 0 will allow the generation to run compeletely random
+$minimumHabitable = 5 # 0 will allow the generation to run compeletely random, must be equal to or more than the total list of first names
 [System.Collections.ArrayList]$firstNames = @("Test1","Test2","Test3") # Define a list of names here that you want to exist as habitable systems, it'll use these first
+$firstNamesOrderSequence = $true # Will use names in the order they appear in the list above. Change to $false if you'd like the script to randomly select the name from the list.
 
 # Add Empire territory markers
 $doEmpires = $true
@@ -58,48 +53,31 @@ $awsProfileName = "rpg-stuff-profile"
 
 $sleepTime = 3
 
-# Names to use when naming star systems which are claimed
-[System.Collections.ArrayList]$systemNames = "Arietis,Athens,Caprica,Caspia,Celestis,Centauri,Dravida,Elysium,Hiroshima,Jakarta,Kuala Lumpur,Meridian,Moscow,Nexus,Pandora,Pangea,Phobos,
-Rigel,Samarkand,Terra,Vega,Achernar,Acrux,Adhara,Aeloria,Aetheria,Al Giedi,Al Heka,Albion,Aldebaran,Alexandria,Almach,Alnair,Alnitak,Alpha,
-Alpha Coronae Borealis,Alpha Cygni,Alpha Pavonis,Amaterasu,Amsterdam,Andromeda,Angkor,Antares,Apollo,Aquarii,Arae,Araucaria,Arcadia,Arcturus,Ariadne,Arietis,
-Artemis,Asgard,Astoria,Astra,Astral,Astralis,Atlantis,Aurielle,Aurora,Avalon,Avior,Azurite,Babylon,Baden,Bali,Bangkok,Barcelona,Beijing,Bellatrix,Berlin,
-Beta Canis Majoris,Beta Crucis,Beta Hydri,Beta Orionis,Beta Pavonis,Beteigeuze,Betelgeuse,Bharat,Brittanica,Byzantium,Caeli,Caelum,Cairo,Calypso,Camelot,
-Canopus,Canum,Caprica,Carthage,Casablanca,Caspia,Castor,Celestia,Celestial,Centauri,Ceres,Ceylon,Chandra,Chichen Itza,Chimera,Chiron,Colossus,Copenhagen,
-Cordoba,Cosmo,Cosmos,Crateris,Cursa,Cyberion,Dalarna,Delphi,Deneb,Dravida,Dubai,Dubhe,Dublin,Echelon,Edenia,Edinburgh,El Dorado,Elysium,Epsilon,
-Epsilon Eridani,Equinox,Eridanus,Esperia,Eta Carinae,Euphoria,Gacrux,Galactica,Galaxia,Gamma,Gamma Crucis,Genesis,Gilead,Hades,Halcyon,Hanoi,Helios,
-Helsinki,Hiroshima,Horizon,Hy Brasil,Hyperborea,Hyperion,Icaria,Inca,Iota Draconis,Isfahan,Isla Nublar,Istanbul,Jakarta,Jerusalem,Jovia,Kaida,Kapteyn's Star,
-Kaus Australis,Kemet,Kepler,Krynn,Krypton,Kuala Lumpur,Kyoto,Lemuria,London,Los Angeles,Lumina,Luminar,Luminelle,Lyra,Machu Picchu,Magellan,
-Mahabharata,Manila,Melbourne,Meridian,Mintaka,Mirfak,Mizar,Mjolnir,Moscow,Mu Cephei,Mumbai,Nagasaki,Narnia,Nebula,Nebulus,Neo-Tokyo,Neotopia,Neuheim,New,
-New York,Nexus,Nibiru,Nirvana,Nova,Novamira,Novus,Oberon,Odyssey,Olympus,Omicron,Orinoco,Orion,Osaka,Oslo,Oz,Pandemonium,Pandora,Paris,Pegasus,
-Penglai,Persepolis,Perseus,Petra,Phnom Penh,Phoenix,Pleione,Polaris,Pollux,Pompeii,Prometheus,Proxima Centauri,Pythia,Ran,Rapa Nui,Regalia,Rhapsody,Rigel,
-Rio de Janeiro,Rome,Sadr,Sagittarius,Sakurano,Sargas,Saturnia,Seoul,Seraphim,Serenity,Shambhala,Shanghai,Shangri-La,Shaula,Singapore,Siren,Sirius A,
-Solara,Solaris,Solitude,Solstice,Sputnik,Stardust,Stellaris,Stockholm,Stratos,Sydney,Tabriz,Taipei,Talaria,Tartarus,Taygeta,Tel Aviv,Terra,Tesseract,
-Thalassa,Themyscira,Thule,Tikal,Titan,Tokyo,Transcendence,Utopia,Valhalla,Vega,Vesperia,Vienna,Vortex,Vulcan,VY Canis Majoris,Wakanda,Xanadu,Xenon,
-Yggdrasil,Zenith,Zeta Reticuli,Zhulong,Zion,Zora,Abtenau,Albarracín,Alberobello,Anstruther,Arbois,Assos,Atrani,Bacharach,Baden-Baden,Bagnone,Bakewell,
-Bale,Balestrand,Bibury,Bled,Bosa,Brufa,Bubion,Burano,Cadaqués,Cervo,Cesky Krumlov,Chinchón,Civita di Bagnoregio,Cochem,Cockington,Collioure,Durbuy,Eze,
-Giethoorn,Gimmelwald,Giornico,Grimentz,Groznjan,Gruyeres,Gruyères,Guadalest,Gujo,Haarlem,Hahndorf,Hallstatt,Hallstatt,Harmony,Henningsvær,
-Jajce,Koprivshtitsa,Kotor,Kvívík,Lavenham,Mahone Bay,Marfa,Marsaxlokk,Masuleh,Melnik,Mendocino,Mittenwald,Monsaraz,Monschau,Montepulciano,Nieuwoudtville,
-Oakville,Oban,Óbidos,Oia,Ollantaytambo,Portofino,Pucisca,Reine,Ribe,Riomaggiore,Ronda,Rye,Saint-Cirq-Lapopie,Savoca,Shirakawa-go,Shuhe,
-Sidi Bou Said,Sighisoara,Sitges,Skaneateles,Solvang,St. Martins,Staithes,Stellenbosch,Swellendam,Szentendre,Tanah Rata,
-Taormina,Telc,Telluride,Trogir,Tübingen,Tyneham,Tyrnavos,Ubud,Veere,Visby,Vlkolínec,Wengen,Wiscasset,Xitang,Yackandandah,Yvoire,Zabljak,Zalipie,Zennor,Zermatt,
-Aarav,Aasha,Abdoulaye,Aiko,Akash,Aleksandra,Amal,Amir,Ana,Anika,Anton,Anusha,Arya,Asad,Ayana,Azim,Banya,Basma,Benjamin,Binta,Bjorn,Carmen,Cedric,Chen,Chioma,
-Cristina,Daiki,Daria,David,Deeba,Dejan,Dimitri,Eamon,Elif,Elijah,Elodie,Emma,Enrique,Evelyn,Farhad,Fatima,Felipe,Fiona,Gabriela,Gael,Gamze,Gianna,Giulia,Gonzalo,
-Hadil,Hadiya,Hana,Hassan,Helena,Henry,Hiroshi,Halima,Imani,Indira,Ingrid,Inés,Ivan,Jacob,Jade,Jamila,Jana,Javier,Jean-Luc,Jenna,Jessica,Jia,Joaquin,Julia,Jun,
-Kaia,Kamil,Kanika,Karim,Kasia,Katarina,Keira,Kevin,Khadija,Khalid,Kim,Kiana,Kieran,Ksenia,Laila,Layla,Leandro,Leena,Leonardo,Leticia,Liam,Liwei,Luna,Lydia,Madalyn,
-Mateo,Mathilde,Mats,Maya,Mehdi,Melanie,Miguel,Mika,Miriam,Mohammed,Naomi,Nariman,Natalia,Nathalie,Nasir,Nisha,Noah,Nur,Omar,Pablo,Paola,Parisa,Patrick,Penelope,
-Peter,Priya,Quentin,Rafael,Raj,Rani,Razan,Ricardo,Roberto,Rodrigo,Sadiq,Sarah,Sefan,Selma,Serena,Shaima,Shana,Sharon,Shreya,Simon,Sofia,Sophie,Soumia,Stefan,
-Stephanie,Subhash,Suleiman,Sultan,Sumaya,Tamara,Tamika,Tanisha,Tao,Tariq,Tatjana,Thomas,Tiffany,Tijana,Timur,Tina,Tomas,Vanessa,Veronika,Victor,Victoria,
-Valentina,Walid,Wei,Widad,William,Xia,Yara,Yasmin,Youssef,Yuri,Zane,Zara,Zahir,Zaria,Zeinab,Zhen,Zulema,Zyanya,Aarti,Abdel,Adriana,Ahmed,Aisha,Alistair,
-Alix,Amina,Amit,Anastasiya,Andre,Angela,Anthony,Aoi" -split "," -replace "`n",""
-
 ################ END OF CUSTOMISABLE VARIABLES ################
+
+# Include all the functions
+. $WorldScriptPath\fnc_Get-DifferenceFromOptimal.ps1
+. $WorldScriptPath\fnc_Get-StarLocation.ps1
+. $WorldScriptPath\fnc_Get-StarName.ps1
+. $WorldScriptPath\fnc_Get-StarType.ps1
+. $WorldScriptPath\fnc_Get-WithinRange.ps1
+. $WorldScriptPath\fnc_New-HabitableSystem.ps1
+. $WorldScriptPath\fnc_New-NonPlanetarySystem.ps1
+. $WorldScriptPath\fnc_New-PlanetaryUninhabitableSystem.ps1
+
+# Names to use when naming star systems which are claimed
+[System.Collections.ArrayList]$systemNames = Get-Content $cityNameslist
+
+if ($uploadToAWS) {
+    Import-Module AWSPowershell
+}
 
 $kankaPANkey = Get-Content $kankaPANPath
 
 if (!(Test-Path $WorldScriptPath)) {Write-Host "generate-game-world folder not detected or defined correctly" -BackgroundColor Red -ErrorAction Stop}
 if (!(Test-Path $SoftwarePath)) {Write-Host "Software folder not detected or defined correctly" -BackgroundColor Red -ErrorAction Stop}
 if (!(Test-Path $htmlFiles)) {Write-Host "StarGen HTML folder not detected or defined correctly" -BackgroundColor Red -ErrorAction Stop}
-if (!(Test-Path $stargenPath)) {Write-Host "StarGen executable not detected or defined correctly" -BackgroundColor Red -ErrorAction Stop}
+if (!(Test-Path $stargenExePath)) {Write-Host "StarGen executable not detected or defined correctly" -BackgroundColor Red -ErrorAction Stop}
 if (!(Test-Path $planetgenPath)) {Write-Host "Planet Generator executable not detected or defined correctly" -BackgroundColor Red -ErrorAction Stop}
 if (!(Test-Path $systemsPath)) {Write-Host "Location where to output created star systems files not detected or defined correctly" -BackgroundColor Red -ErrorAction Stop}
 if (!(Test-Path $refFilesDir)) {Write-Host "reference files StarGen uses in its HTML files not detected or defined correctly" -BackgroundColor Red -ErrorAction Stop}
@@ -140,6 +118,7 @@ if ($redoGeneration) {
     Remove-Item -Path "$systemsPath\*" -Recurse -Force
     Remove-Item -Path "$htmlFiles\*" -Recurse -Force
     # Copy the requires files for the new HTML pages created
+    Write-Host "Copying reference files into the Star system destination directory so html pictures work"
     Copy-Item -Path $refFilesDir -Destination $systemsPath -Recurse
     if ($uploadToAWS) {
         # Get the list of files in the S3 bucket which aren't the ref folder and delete them
@@ -166,13 +145,35 @@ if ($redoGeneration) {
     }
 }
 
-
 # Generate star system base values
 $systemsCoordArray = @()
 $systemsArray = New-Object System.Collections.Generic.List[psobject]
 
 if ($redoGeneration) {
-    $systemCountFinal = Get-Random -Minimum ($systemCount-$systemCountVariation) -Maximum ($systemCount+$systemCountVariation)
+    
+    # Make sure the requested systems count actually matches up
+    if ($minimumHabitable -lt $firstNames.count) {
+        Write-Host "Minimum number of habitable systems requested is lower than the count of habitable planet names." -BackgroundColor Red -ForegroundColor Yellow
+        $minHabCheck = Read-Host "Number of Habitable System names is higher than Minimum Habitable system count, do you wish to set Minimum Habitable system count to match count of names? Y/N"
+        if ($minHabCheck -match "Y") {
+            $minimumHabitable = $firstNames.count
+            Write-Host "Generating $minimumHabitable habitable systems"
+        }
+    }
+
+    if ($systemCount -lt $minimumHabitable) {
+        Write-Host "Minimum number of habitable systems is lower than the total System count requested." -BackgroundColor Red -ForegroundColor Yellow
+        $minSysCheck = Read-Host "Total number of Systems is lower than the minimum habitable system requested. Do you wish to set total System count to match Minimum Habitable? Y/N"
+        if ($minSysCheck -match "Y") {
+            $systemCount = $minimumHabitable
+        }
+    }
+
+    if ($systemCountVariation -ge 2) {
+        $systemCountFinal = Get-Random -Minimum ($systemCount-$systemCountVariation) -Maximum ($systemCount+$systemCountVariation)
+    } else {
+        $systemCountFinal = $systemCount
+    }
     Write-Host "Commencing generation for $systemCountFinal systems"
     foreach ($systemCount in 1..$systemCountFinal) {
         Write-Host "Generating system $systemCount"
@@ -185,14 +186,13 @@ if ($redoGeneration) {
         if ($minimumHabitable -ge 1) {
             # 100% sets up a system with planets that are habitable. Will keep generating these until mininumHabitables have been reached
             $starType = Get-StarType -habitable $true
-            $starMass = $starType[1]
+            $starMass = [math]::Round($starType[1],5)
             $planetBool = $true
             $habitableBool = $true
-            
         } else {
             # Leaves the chances of a planet to a completely random chance
             $starType = Get-StarType
-            $starMass = $starType[1]
+            $starMass = [math]::Round($starType[1],5)
             $planetBool = ((Get-Random -Minimum 0 -Maximum 100) -in 0..($starType[2]))
             if ($planetBool) {
                 # Leaves the chances of a planet to a completely random chance
@@ -204,16 +204,17 @@ if ($redoGeneration) {
             
         # If the RNG brings out a system that's got planets does some RNG to see if they're habitable
         
+        # Names the system
         if ($habitableBool -eq $True) {
-            $systemLabel = Get-StarName
-            $systemLabel = $systemLabel + "-" + $sectorNumber + "_" + ('{0:d4}' -f $systemCount)
+            $systemName = Get-StarName
+            $systemLabel = $systemName + "-" + $sectorNumber + "_" + ('{0:d4}' -f $systemCount)
         } else {
             $systemLabel = $sectorNumber + "_" + ('{0:d4}' -f $systemCount)
         }
         # Generating system with no planets
         if (!$planetBool) {
             Write-Host "Generating non-planetary system $systemLabel with stellar mass of $starMass"
-            $nonPlanetaryReturn = New-NonPlanetarySystem -systemLabel $systemLabel -systemDesignation $systemDesignation -xcoord (($systemCoords) -split ",")[0] -ycoord (($systemCoords) -split ",")[1] -starType $($starType[0]) -starMass $starMass -planetBool $planetBool -habitableBool $habitableBool
+            $nonPlanetaryReturn = New-NonPlanetarySystem -systemLabel $systemLabel -systemDesignation $systemDesignation -xcoord (($systemCoords) -split ",")[0] -ycoord (($systemCoords) -split ",")[1] -starType $($starType[0]) -starMass $starMass -planetBool $planetBool -habitableBool $habitableBool -uploadToAWS $uploadToAWS
             $hydrosphere = 0
         }
         # Generate system with planets and a habitable
@@ -222,6 +223,7 @@ if ($redoGeneration) {
             $habitablePlanetReturn = New-HabitableSystem -StarMass $starMass -StarName $systemLabel
             $hydrosphere = $habitablePlanetReturn[3]
             $asteroidFieldBool = $habitablePlanetReturn[0]
+            $minimumHabitable--
         }
         # Generate system with planets but no habitable
         if ($planetBool -eq $true -and $habitableBool -eq $false) {
@@ -253,11 +255,10 @@ if ($redoGeneration) {
             $starSystemObj | Add-Member -Type NoteProperty -Name Hydrosphere -Value $($asteroidFieldBool[3])
         }
         $systemsArray.Add($starSystemObj)
-        $minimumHabitable--
     }
 }
 
-# Initialise the map creation
+### Initialise map creation ###
 $masterMapBmp = new-object System.Drawing.Bitmap $masterMapSizeX,$masterMapSizeY
 $masterMapBrushBg = [System.Drawing.Brushes]::Black
 $fontMapNum = new-object System.Drawing.Font "Lucida Sans",8
@@ -267,7 +268,7 @@ $masterMapGraphics.FillRectangle($masterMapBrushBg,0,0,$masterMapBmp.Width,$mast
 $masterMapBrushTitle = [System.Drawing.Brushes]::White
 $masterMapFileName = "Sector_$sectorNumber`_Starmap.jpg"
 
-# Draw the master map gridlines first so they're overwritten easily
+# Draw the map gridlines first so they're overwritten easily
 $gridPen = New-Object System.Drawing.Pen DarkSlateGray
 $masterMapGraphics.DrawLine($gridPen,0,0,0,$masterMapSizeX)
 $masterMapGraphics.DrawLine($gridPen,0,0,$masterMapSizeY,0)
@@ -420,6 +421,6 @@ if ($uploadToKanka) {
 }
 
 
-foreach ($i in $(Get-ChildItem 'I:\My Drive\TTRPG\Colonial Alliance RP Game\Colonial_Alliance_Game\StarmapCreation\StarSystems' -Recurse | where {$_.Extension -match "html"} | Select-Object -ExpandProperty FullName)) {
+foreach ($i in $(Get-ChildItem 'I:\My Drive\TTRPG\Colonial Alliance RP Game\Colonial_Alliance_Game\StarmapCreation\StarSystems' -Recurse | where {$_.Extension -match "html" -and $_.Name -notmatch "key"} | Select-Object -ExpandProperty FullName)) {
     Start-Process $i
 }

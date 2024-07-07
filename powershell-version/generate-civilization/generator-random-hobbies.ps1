@@ -148,7 +148,6 @@ Cricket
 Crocheting
 Croquet
 Cross Country Skiing
-Cross-country skiing
 Cross-stitch
 Crossword puzzles
 Cryptography
@@ -160,10 +159,6 @@ Cycling Mountain Bike
 Cycling Road
 Cycling Track
 Cycling
-Cycling: BMX)
-Cycling: Mountain Bike)
-Cycling: Road
-Cycling: Track
 Dairy Farming
 Dance Sport
 Dance

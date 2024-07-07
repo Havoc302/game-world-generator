@@ -1,11 +1,11 @@
 ﻿Function New-NonPlanetarySystem {
-param($systemLabel,$systemDesignation,$xcoord,$ycoord,$starType,$starMass,$planetBool,$habitableBool)
+param($systemLabel,$systemDesignation,$xcoord,$ycoord,$starType,$starMass,$planetBool,$habitableBool,$uploadToAWS)
     $asteroidFieldBool = (Get-Random -Minimum 0 -Maximum 100) -in 0..12
     $html = @"
     <!DOCTYPE html>
         <html>
         <head>
-            <title>System Information</title>
+            <title>System Information - $systemLabel</title>
             <style>
             table {
                 border-collapse: collapse;
@@ -17,7 +17,7 @@ param($systemLabel,$systemDesignation,$xcoord,$ycoord,$starType,$starMass,$plane
             </style>
         </head>
         <body>
-            <h1>System Information</h1>
+            <h1>System Information - $systemLabel</h1>
             <table>
             <tr>
                 <th>System Name</th>
