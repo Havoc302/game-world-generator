@@ -1,4 +1,6 @@
-﻿Function Get-StarName {
+﻿Write-Host "Loading function Get-StarName" -BackgroundColor Gray -ForegroundColor Black
+
+Function Get-StarName {
     
     if ($firstNames.Count -ge 1) {
         if ($firstNamesOrderSequence -eq $true) {
@@ -16,3 +18,5 @@
 
     return $systemName
 }
+
+Write-Host "Function Get-StarName loaded." -BackgroundColor Green -ForegroundColor Black

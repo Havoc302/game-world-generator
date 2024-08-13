@@ -1,0 +1,114 @@
+{
+    "FactionName":  "New Jerusalem Republic",
+    "SymbolDescription":  "A golden dove with an olive branch in its beak, symbolizing peace and divine guidance.",
+    "GovernmentType":  "Theocratic Republic",
+    "LeadershipScore":  8,
+    "LeadershipDescription":  "Led by a High Priestess elected from the Council of Elders, who are themselves chosen by the clergy and prominent community leaders.",
+    "NameOfLeader":  "High Priestess Miriam Everhart",
+    "ElectionProcess":  "Elections for the High Priestess are conducted through a spiritual process of divine guidance, with candidates nominated by the clergy and confirmed by community consensus.",
+    "EconomyScore":  2,
+    "EconomyDescription":  "Economy revolves around agriculture, pilgrimage tourism, and artisanal crafts such as religious artifacts and manuscripts.",
+    "Currency":  "Heavenly Shekel (HS), a currency backed by religious institutions and used for both spiritual donations and economic transactions.",
+    "MilitaryScore":  5,
+    "MilitaryDescription":  "A modest defense force primarily focused on internal security and protection of pilgrimage routes. Emphasizes defensive strategies and support from allied factions.",
+    "DiplomaticRelationships":  "Allies: The Holy Stellar Empire. Enemies: Secular factions and criminal organizations.",
+    "ArchitecturalStyle":  "Architectural style is grand and ornate, reflecting religious devotion and historical significance. Buildings are adorned with intricate carvings and religious symbols, with cathedrals and temples serving as focal points of community life.",
+    "PopulationScore":  5,
+    "Population":  150000000,
+    "FreedomIndex":  4,
+    "Slavery":  "No slavery allowed, viewed as contrary to religious teachings.",
+    "Incarceration":  "Focused on rehabilitation and community service rather than punitive measures, with emphasis on repentance and spiritual guidance for offenders.",
+    "UnityScore":  8,
+    "TechnologyScore":  4,
+    "TechnologyDescription":  "Technology is conservative, focused on preserving religious teachings and supporting traditional ways of life. Limited use of advanced technology, primarily in medical care and communication.",
+    "Religion":  "Worship of the Divine Mother, a monotheistic religion centered around a female deity believed to embody compassion, wisdom, and divine guidance. The clergy holds significant influence in both religious and political matters.",
+    "History":  "Founded by religious refugees seeking to establish a sanctuary where they could freely practice their faith. The Republic has faced internal dissent and external threats but remains unified under its religious principles.",
+    "Language":  "Holy Tongue (HT), a sacred language used in religious ceremonies and scriptures, supplemented by common dialects derived from early settlers\u0027 native tongues.",
+    "ValuesAndEthics":  "Emphasizes compassion, forgiveness, and spiritual growth. Strong sense of community and shared responsibility towards upholding religious teachings.",
+    "SocialStructure":  "Highly hierarchical with the clergy at the top, followed by artisans, scholars, and farmers. Gender roles are strictly defined, with men primarily serving in agricultural and protective roles.",
+    "LegalSystem":  "Religious law based on sacred texts and interpretations by the clergy. Focuses on moral conduct, community harmony, and adherence to religious rituals.",
+    "EducationScore":  6,
+    "EducationDescription":  "Education is centered around religious teachings, literacy, and vocational skills such as artisanal crafts and agricultural techniques. Religious education is mandatory.",
+    "HealthCare":  "Health care is communal and centered around holistic healing practices, combining spiritual guidance with herbal remedies and basic medical treatments.",
+    "Infrastructure":  "Focused on maintaining pilgrimage routes, religious sanctuaries, and communal gathering places. Limited urban development, with emphasis on preserving natural landscapes.",
+    "NotableFigures":  [
+                           "Archbishop Gabriel Stern, a renowned theologian and spiritual advisor to the High Priestess.",
+                           "Elder Sarah Whitaker, a respected community leader known for her charitable works and advocacy for social justice."
+                       ],
+    "PopularSport":  "Celestial Games, an annual event featuring traditional contests of strength, agility, and knowledge, held in honor of the Divine Mother.",
+    "ConflictingInternalFactions":  [
+                                        {
+                                            "Name":  "Children of Enlightenment",
+                                            "Description":  "Advocates for modernization and liberal reforms within religious practices, challenging traditional gender roles and hierarchies."
+                                        },
+                                        {
+                                            "Name":  "Puritan Fist",
+                                            "Description":  "Opposes the leadership\u0027s perceived leniency towards secular influences and advocates for stricter adherence to religious laws."
+                                        }
+                                    ],
+    "ResourceDependency":  [
+
+                           ],
+    "FoodDependency":  [
+                           {
+                               "Resource":  "Heavenly Grain",
+                               "Description":  "Heavenly Grain is a staple crop grown in fertile valleys blessed by the Divine Mother\u0027s favor. It sustains the population and is used in sacred rituals."
+                           }
+                       ],
+    "ActiveWars":  [
+
+                   ],
+    "SpecificAgreements":  [
+                               {
+                                   "Type":  "Alliance",
+                                   "Description":  "An alliance with the Holy Stellar Empire, based on shared religious values and mutual defense."
+                               },
+                               {
+                                   "Type":  "Trade Agreement",
+                                   "Description":  "Limited trade agreements with neighboring factions for essential goods not produced within the Republic."
+                               }
+                           ],
+    "SpecialPublicHolidays":  [
+                                  {
+                                      "Name":  "Divine Ascension Day",
+                                      "Description":  "Celebrates the ascension of the Divine Mother to her celestial throne, marked by religious ceremonies, fasting, and communal prayers."
+                                  },
+                                  {
+                                      "Name":  "Pilgrimage Feast",
+                                      "Description":  "Honors pilgrims and their journey to sacred sites, featuring feasts, storytelling, and cultural performances."
+                                  },
+                                  {
+                                      "Name":  "Harvest Blessing",
+                                      "Description":  "An agricultural festival giving thanks for the bounty provided by the Divine Mother\u0027s grace, with feasts and community gatherings."
+                                  }
+                              ],
+    "FoodCulture":  "Food culture emphasizes simplicity and spiritual purity, with meals prepared from locally grown produce and blessed before consumption.",
+    "ClothingCulture":  "Clothing is modest and symbolic, reflecting religious devotion and communal identity. Traditional attire includes flowing robes and headdresses adorned with sacred symbols.",
+    "PrimaryIndustries":  [
+                              "Agriculture",
+                              "Artisan Crafts",
+                              "Pilgrimage Tourism"
+                          ],
+    "GDP":  270000000000,
+    "GDPPerCapita":  1800,
+    "Cloning":  "Cloning is strictly prohibited, considered a violation of the divine order and natural law.",
+    "Cybernetics":  "Cybernetics are viewed with suspicion, allowed only for medical necessity and strictly regulated to prevent misuse.",
+    "MajorCriminalOrganisations":  [
+                                       {
+                                           "Name":  "Puritan Fist",
+                                           "Description":  "A radical group opposed to the New Jerusalem Republic\u0027s religious leadership, engaging in acts of vandalism against religious symbols and institutions."
+                                       },
+                                       {
+                                           "Name":  "Sacred Relic Smugglers",
+                                           "Description":  "Criminals involved in the illegal trade of religious artifacts, smuggling valuable relics out of the Republic for profit."
+                                       },
+                                       {
+                                           "Name":  "Divine Mercy Extortionists",
+                                           "Description":  "A gang that preys on wealthy pilgrims, demanding exorbitant fees for \u0027protection\u0027 during religious pilgrimages and events."
+                                       }
+                                   ],
+    "Sector":  "Sector 2",
+    "Homeworld":  "Sindangsari-2_0332",
+    "XCoord":  "1645",
+    "YCoord":  "3003"
+}

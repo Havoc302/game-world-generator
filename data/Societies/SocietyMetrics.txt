@@ -1,0 +1,48 @@
+"FactionName": Make an interesting faction name. Maybe it's based off a person, the founder maybe, the first person who surveyed the area. Maybe named after an ideal, or another place that already exists in the world or just something cool.
+"SymbolDescription": The flag and / or symbology of this faction
+"GovernmentType": Describe the system of government, is a democratic republic? A monarchy? Perhaps a Corporate Oligarchy? Who knows.
+"LeadershipScore": An integer score out of 10 of how effective the leadership is at running the country comparative to all other factions
+"LeadershipDescription": Describe the type of leadership. Is it a Prime Minister with a cabinet of ministers? A President? A supreme chancellor? Is there several layers and branches to the leadership structure? The GovernmentType will also decide much of this.
+"NameOfLeader": Name of the person who is currently the leader of the faction
+"ElectionProcess": What kind of election process it used. GovernmentType will help decide this. But how corrupt is it? How many parties are there?
+"EconomyScore": An integer score out of 10 giving an indication of how strong the economy is overall comparative to all other factions
+"EconomyDescription": Describe what kind of economy it is, is it built off mining a single resource? Trade? Some other backbone?
+"Currency": Do they use the galactic standard OBit or have they chosen some other monetary system? Is it entirely digital or physical or mixed?
+"MilitaryScore": An integer score out of 10 giving an indication of how strong the military is. TechnologyScore should be considered along with this as technology will impact military. Comparative to all other factions
+"MilitaryDescription": Describe the military, is it a modern military, is the military a major part of the government? What percentage of the GDP goes to military infra? Is there general support for the military in the population, is it feared by it's population or respected? Do they have a certain doctorine like small fast ships, electronic warfare, large capital ships, lots of missiles or some other defining mode of operation
+"DiplomaticRelationships": Do they have any very good or very bad relationships with other 
+"ArchitecturalStyle": Describe the architecture generally used by the populace, this helps influence the feel of their cities.
+"PopulationScore": An integer score out of 10 giving population comparative to all other factions
+"Population": An integer of how many people the faction has.
+"FreedomIndex": A simple score out of 10 giving an indication how free this society is to express themselves openly.
+"Slavery": Is slavery allowed? If so what kind of slavery? Indentured servitude? Slavery of prisoners? Racial based slavery? Religion based slavery?
+"Incarceration": A indicator how common incarceration for crime is compared to other types of punishment like fines, house arrest or mandatory training courses. Do they forcibly use corrective or corporal punishments?
+"UnityScore": A integer that shows how unified the populace is towards the common culture.
+"TechnologyScore": A integer that shows the technology level relative to other factions
+"TechnologyDescription": A description of technology used, how, where, do they focus on a specific branch of technology? Are they more military? Do they focus on agricultural automation more?
+"Religion": Is religion allowed? If so what religions? Only one or several? Are some religions more persecuted than others? Is there a religion that's very specifically oppressed?
+"History": Significant events in history, founding of the faction, major wars, disease outbreaks, military actions, government issues or economic problems.
+"Language": What's the primary language spoken? Is there more than one? Is there dialects of those primary languages? What root language does it come from? Indo-European family, Sino-Tibetan family, Niger-Congo family, or Austronesian family
+"ValuesAndEthics": Does this populace have any major values or ethics that binds them? Are they highly xenophobic? Are they super welcoming and friendly? Do they maintain secrets about their society to outsiders? What's the cultures core morals?
+"SocialStructure": Are there class systems? Formalised or informal? Is the wealth divide massive and is it highly noticable? Is there a lot of charity?
+"LegalSystem": Description of the legal system. Is it rooted in any existing legal frameworks?
+"EducationScore": An integer out of 10 scoring the education system comparative to other family
+"EducationDescription": Describe the types of education, is it all highly focused run by the military or very open, multi-layered?
+"HealthCare": Privatised or social? Mixed? Very expensive or cheap?
+"Infrastructure": What major infrastructure does this faction run if any? Major space station? Huge farming colony? Massive starpship builing yards?
+"NotableFigures": Notable people within the society, perhaps popular thought leaders, government leaders, big businesspersons?
+"PopularSport": Does the society have one sport they're crazy about? Several sports? Do they have large competitios?
+"ConflictingInternalFactions": Are there any internal factions that work against the government. Either openly as political parties or hidden away as lobbyists or terrorists.
+"ResourceDependency": Is this faction reliant on any specific resource it does not have itself? Maybe material for building warp drives? Perhaps ultra dense hull plating, perhaps hydrogen for its nuclear plants.
+"FoodDependency": Is this faction reliant on any specific food it does not have itself?
+"ActiveWars": Is this faction actively at war with any other faction?
+"SpecificAgreements": Does this faction have any specific agreements with other factions? Mutual defence pacts? Trade agreements? Justice agreements?
+"SpecialPublicHolidays":Does this faction have any special public holidays? If yes how many and list them out.
+"FoodCulture": What type of food does this faction generally enjoy?
+"ClothingCulture": Describe the styles of clothing commonly found on people day to day and list any special dress details for specifically for popular events.
+"PrimaryIndustries": List off the factions primary industries and / or exports
+"GDP": What is the factions raw integer GDP
+"GDPPerCapita": Calculated from the population dividied by the return.
+"Cloning": What is this factions policy or feelings towards cloning, both of full people and of body parts for healing someone?
+"Cybernetics": What is this factions policy or feelings towards cybernetics, both augments of personal choice and those to correct an injury or help a disabilty?
+"MajorCriminalOrganisations": What major organised crime organisations operate in this factions territory, list randomly between 2 and 5 and list what kind of major crime they do.

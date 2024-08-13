@@ -1,0 +1,80 @@
+{
+    "FactionName":  "The Caliphate of Najm",
+    "SymbolDescription":  "A crescent moon and star intertwined with calligraphy of the word \u0027Najm\u0027 (meaning \u0027star\u0027 in Arabic), symbolizing guidance, faith, and enlightenment.",
+    "GovernmentType":  "Islamic Theocratic Republic",
+    "LeadershipScore":  8,
+    "LeadershipDescription":  "The Caliphate of Najm is governed by a Caliph, who serves as both the political and spiritual leader, supported by a council of scholars (Ulama) and elected representatives ensuring Sharia-compliant governance.",
+    "NameOfLeader":  "Caliph Omar ibn Rashid",
+    "ElectionProcess":  "The Caliph is elected by a council of senior scholars and representatives from various regions. The process is transparent and aims to select a leader who exemplifies Islamic virtues and has broad support among the populace.",
+    "EconomyScore":  7,
+    "EconomyDescription":  "The economy is diversified, with strong sectors in trade, agriculture, and handicrafts. There is a focus on ethical business practices, Zakat (charitable giving), and equitable wealth distribution in accordance with Islamic principles.",
+    "Currency":  "Dinar of Najm",
+    "MilitaryScore":  6,
+    "MilitaryDescription":  "The military is well-organized and disciplined, focusing on defense and protection of the faith. It operates under strict ethical guidelines, emphasizing justice, and the protection of the innocent. The military maintains advanced defensive technology.",
+    "DiplomaticRelationships":  "The Caliphate of Najm has strong diplomatic ties with factions that respect Islamic values and principles. They prioritize peaceful coexistence, mutual respect, and alliances with like-minded factions.",
+    "ArchitecturalStyle":  "Najm architecture features grand mosques, intricate geometric patterns, and beautiful calligraphy. Buildings are designed to reflect Islamic art and culture, with a focus on functionality and spiritual significance.",
+    "PopulationScore":  6,
+    "Population":  10000000,
+    "FreedomIndex":  7,
+    "Slavery":  "Not allowed, the society strongly opposes any form of slavery, emphasizing human dignity and freedom.",
+    "Incarceration":  "The legal system emphasizes rehabilitation and community service over incarceration. Fines, house arrest, and mandatory education are common forms of punishment.",
+    "UnityScore":  8,
+    "TechnologyScore":  6,
+    "TechnologyDescription":  "Technology is advanced in certain areas, particularly in medicine, agriculture, and energy. However, all technological advancements are carefully evaluated to ensure they align with Islamic ethics.",
+    "Religion":  "Islam is the state religion, with freedom for other Abrahamic faiths. Religious practices are deeply integrated into daily life, and religious education is mandatory.",
+    "History":  "The Caliphate of Najm was founded by a group of scholars and leaders seeking to establish a society based on Islamic principles. Over the centuries, it has grown through peaceful expansion and cultural influence.",
+    "Language":  "Arabic is the official language, with regional dialects spoken among different communities. Classical Arabic is used in religious and official contexts.",
+    "ValuesAndEthics":  "The society values faith, justice, charity, and community. Islamic ethics guide all aspects of life, promoting compassion, honesty, and social responsibility.",
+    "SocialStructure":  "The society is egalitarian, with an emphasis on social justice and support for the needy. Wealth distribution is managed through Zakat and Waqf (endowment) systems.",
+    "LegalSystem":  "The legal system is based on Sharia law, which governs all aspects of life. It is implemented with a focus on justice, mercy, and community welfare.",
+    "EducationScore":  7,
+    "EducationDescription":  "Education is highly valued, with a strong emphasis on religious studies, sciences, and humanities. Schools and universities are widespread, providing free access to quality education.",
+    "HealthCare":  "Healthcare is universal and free, focusing on preventive care and holistic wellness. Hospitals and clinics are well-equipped, with a strong emphasis on ethical medical practices.",
+    "Infrastructure":  "The Caliphate invests heavily in sustainable infrastructure, including renewable energy sources, efficient transportation networks, and green urban planning.",
+    "NotableFigures":  "Dr. Aisha Al-Farsi, renowned scholar of Islamic jurisprudence and advocate for women\u0027s education and rights.",
+    "PopularSport":  "Camel racing is a popular traditional sport, alongside modern sports such as football and cricket.",
+    "ConflictingInternalFactions":  "There are minor internal factions with differing interpretations of Islamic law, but these are generally managed through dialogue and scholarly debate.",
+    "ResourceDependency":  "The Caliphate relies on importing certain high-tech materials for advanced manufacturing and space exploration.",
+    "FoodDependency":  "While largely self-sufficient, the Caliphate imports exotic spices and fruits to complement its diverse culinary traditions.",
+    "ActiveWars":  "The Caliphate is not actively at war but maintains a strong defensive posture to protect its interests and allies.",
+    "SpecificAgreements":  "Mutual defense pacts with neighboring Islamic factions, trade agreements promoting ethical commerce, and cultural exchange programs with allied societies.",
+    "SpecialPublicHolidays":  [
+                                  {
+                                      "Name":  "Eid al-Fitr",
+                                      "Description":  "Celebrates the end of Ramadan, marked by communal prayers, feasting, and charity."
+                                  },
+                                  {
+                                      "Name":  "Eid al-Adha",
+                                      "Description":  "Commemorates the willingness of Ibrahim (Abraham) to sacrifice his son, celebrated with prayers, feasting, and the distribution of meat to the needy."
+                                  },
+                                  {
+                                      "Name":  "Islamic New Year",
+                                      "Description":  "Marks the beginning of the Islamic lunar calendar year, observed with prayers and reflections on the Hijra (migration of the Prophet Muhammad)."
+                                  },
+                                  {
+                                      "Name":  "Laylat al-Qadr",
+                                      "Description":  "The Night of Decree, commemorating the first revelation of the Quran to the Prophet Muhammad, observed with prayers and recitation of the Quran."
+                                  }
+                              ],
+    "FoodCulture":  "The cuisine is rich and diverse, with an emphasis on halal ingredients. Popular dishes include kebabs, biryani, and dates, with a strong tradition of hospitality and communal dining.",
+    "ClothingCulture":  "Traditional Islamic attire is common, with modest clothing for both men and women. Special occasions see elaborate dresses and robes, often adorned with intricate embroidery and calligraphy.",
+    "PrimaryIndustries":  "Agriculture, trade, handicrafts, and renewable energy are the primary industries, with a focus on ethical and sustainable practices.",
+    "GDP":  18000000,
+    "GDPPerCapita":  1800,
+    "Cloning":  "Cloning is allowed for medical purposes, such as organ regeneration, but full human cloning is prohibited.",
+    "Cybernetics":  "Cybernetics are permitted for medical reasons, such as prosthetics and implants, but cosmetic and enhancement uses are restricted.",
+    "MajorCriminalOrganisations":  [
+                                       {
+                                           "Name":  "The Black Crescent",
+                                           "Description":  "An underground network involved in smuggling and illegal trade, operating in the shadows of the Caliphate."
+                                       },
+                                       {
+                                           "Name":  "The Night Caravan",
+                                           "Description":  "A group specializing in black market trade of rare artifacts and ancient texts, often operating outside the Caliphate\u0027s borders."
+                                       }
+                                   ],
+    "Sector":  "Sector 2",
+    "Homeworld":  "Jatiwangi-2_0001",
+    "XCoord":  "4574",
+    "YCoord":  "3863"
+}

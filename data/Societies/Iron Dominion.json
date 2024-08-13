@@ -1,0 +1,148 @@
+{
+    "FactionName":  "Iron Dominion",
+    "SymbolDescription":  "A silver sword crossed with a shield on a black background, representing strength and defense.",
+    "LeadershipScore":  7,
+    "LeadershipDescription":  "Military Junta, led by a High Commander who is advised by a council of senior officers.",
+    "NameOfLeader":  "High Commander Dragan Volkov",
+    "ElectionProcess":  "Military leaders nominate candidates for the High Commander position, with the final selection made through a combination of merit-based assessments and council deliberations.",
+    "EconomyScore":  6,
+    "EconomyDescription":  "Primarily driven by defense manufacturing, weapons development, and mining of strategic resources such as metals and rare earth elements.",
+    "Currency":  "Iron Mark (IM), a mixed currency system with both digital and physical forms, primarily used within corporate transactions and trade.",
+    "MilitaryScore":  9,
+    "MilitaryDescription":  "The Iron Legion, an advanced and highly disciplined military force equipped with state-of-the-art weaponry and armor. They have a substantial space fleet, including warships and fighters. A significant portion of the GDP goes to military infrastructure, and there is strong public support for the military.",
+    "DiplomaticRelationships":  "Allies: None. Enemies: The Colonial Allied Planets",
+    "ArchitecturalStyle":  "The Iron Dominion\u0027s architecture is characterized by its imposing and utilitarian design, emphasizing functionality and durability. Buildings are constructed from reinforced steel and concrete, often with sharp angles and minimalistic designs. Military bases and civilian structures alike are fortified, with extensive use of defensive features such as turrets, barricades, and blast doors. Skyscrapers in urban centers are designed to be both impressive and intimidating, with dark, metallic facades that reflect the society\u0027s emphasis on strength and resilience.",
+    "PopulationScore":  3,
+    "Population":  250000000,
+    "FreedomIndex":  4,
+    "Slavery":  "Allowed, forced labor in penal colonies and indentured servitude",
+    "Incarceration":  "Incarceration is common for criminal offenses, with a preference for using prisoners in labor-intensive work. Corporal punishment is also used for minor infractions.",
+    "UnityScore":  2,
+    "TechnologyScore":  7,
+    "TechnologyDescription":  "Highly advanced in military technology, including robotics, advanced armor, and space weaponry. Civilian technology is also advanced but secondary to military applications.",
+    "Religion":  "The Cult of the Warrior, a religion that venerates historical military leaders and deifies the concept of the warrior ethos.",
+    "History":  "Founded centuries ago by a coalition of military leaders who overthrew a corrupt government. The Iron Dominion has expanded its influence through conquest and strategic alliances.",
+    "Language":  "Dominion Standard (DS), derived from Slavic, military communications, and industrial protocols, prioritizing clarity, efficiency, and compliance with state directives.",
+    "ValuesAndEthics":  "Honor, Duty, Discipline, Loyalty. The Iron Dominion values strength and resilience, with strict codes of conduct for both military and civilian life.",
+    "SocialStructure":  "Society is stratified based on merit, military rank, and loyalty to the state, with opportunities tied to military service, industrial production, and political allegiance.",
+    "LegalSystem":  "Military tribunal system, with laws heavily focused on maintaining order and discipline. Severe penalties for crimes, especially those considered acts of betrayal or cowardice.",
+    "EducationScore":  7,
+    "EducationDescription":  "Education is heavily focused on military training and strategic thinking from a young age. Advanced education includes engineering, strategy, and weapons development.",
+    "HealthCare":  "Robust health care system with a focus on treating injuries and maintaining the health of soldiers. Advanced medical technology is available, particularly for battlefield medicine.",
+    "Infrastructure":  "Highly developed with fortified cities, extensive transportation networks for troop movement, and well-maintained supply chains. Significant investment in communication and surveillance technologies.",
+    "NotableFigures":  [
+                           "General Viktor Kozlov, military strategist and chief architect of Iron Dominion\u0027s expansion campaigns.",
+                           "General Marcus Ironclad, a celebrated war hero with numerous victories in space battles."
+                       ],
+    "PopularSport":  "Dominion Martial Games, a national spectacle showcasing military prowess, physical strength, and strategic thinking in competitive combat simulations.",
+    "ConflictingInternalFactions":  [
+                                        {
+                                            "Name":  "Revolutionary Vanguard",
+                                            "Description":  "Opposes the military junta and advocates for democratic reforms and civilian governance."
+                                        },
+                                        {
+                                            "Name":  "Cybernetic Liberation Front",
+                                            "Description":  "Challenges the dominance of the Iron Legion and demands equal rights for cybernetically enhanced individuals."
+                                        },
+                                        {
+                                            "Name":  "Resource Conservation League",
+                                            "Description":  "Critiques the Dominion\u0027s aggressive resource exploitation policies and advocates for sustainable development and environmental protection."
+                                        }
+                                    ],
+    "ResourceDependency":  [
+                               {
+                                   "Resource":  "Exonium-7",
+                                   "Description":  "Exonium-7 is a rare energy source harvested from neutron stars and used to power advanced weaponry, energy shields, and hyperdrives."
+                               },
+                               {
+                                   "Resource":  "Voxite Crystals",
+                                   "Description":  "Voxite crystals are exotic minerals found on remote planets and used in cybernetic implants, AI processors, and quantum computing systems."
+                               }
+                           ],
+    "FoodDependency":  [
+                           {
+                               "Resource":  "Lunar Grain",
+                               "Description":  "Lunar Grain is a genetically modified crop grown in controlled environments on moons and space stations. It serves as a staple food source for the Iron Dominion population, providing essential nutrients and sustenance."
+                           }
+                       ],
+    "ActiveWars":  [
+
+                   ],
+    "SpecificAgreements":  [
+                               {
+                                   "Type":  "Trade Agreement",
+                                   "Description":  "An extensive trade agreement with the Galactic Trade Federation, ensuring a steady supply of raw materials and access to markets."
+                               },
+                               {
+                                   "Type":  "Non-Aggression Pact",
+                                   "Description":  "A non-aggression pact with the Stellar Republic, aimed at preventing conflicts and fostering technological exchange."
+                               }
+                           ],
+    "SpecialPublicHolidays":  [
+                                  {
+                                      "Name":  "Iron Victory Day",
+                                      "Description":  "Commemorates a major military victory in the Iron Dominion\u0027s history, with parades, military displays, and public speeches by military leaders."
+                                  },
+                                  {
+                                      "Name":  "Founding of the High Command",
+                                      "Description":  "Celebrates the establishment of the current military junta leadership, with ceremonies honoring past and present High Command members."
+                                  },
+                                  {
+                                      "Name":  "Warrior\u0027s Remembrance Day",
+                                      "Description":  "Honors fallen soldiers and military heroes with solemn ceremonies, wreath laying, and a nationwide moment of silence."
+                                  },
+                                  {
+                                      "Name":  "Iron Industry Day",
+                                      "Description":  "Recognizes the contributions of the defense manufacturing sector to the Iron Dominion\u0027s military strength and economic stability."
+                                  },
+                                  {
+                                      "Name":  "Unity through Strength Day",
+                                      "Description":  "Promotes national unity and resilience through community events, cultural performances, and military-themed festivities."
+                                  },
+                                  {
+                                      "Name":  "Victory in the Frontier War Day",
+                                      "Description":  "Celebrates a significant victory in a frontier war against rival factions, showcasing the Iron Dominion\u0027s military prowess and strategic superiority."
+                                  },
+                                  {
+                                      "Name":  "National Resilience Day",
+                                      "Description":  "Reflects on the nation\u0027s resilience in the face of adversity, with community resilience exercises, disaster preparedness drills, and public resilience pledges."
+                                  }
+                              ],
+    "FoodCulture":  "The food culture is practical and efficient, with a focus on nutrient-dense meals that support the demanding industrial lifestyle. Processed foods and energy supplements are common.",
+    "ClothingCulture":  "Everyday clothing is functional and durable, designed for industrial work. For special events, attire reflects corporate affiliations and status, often incorporating metallic elements and insignias.",
+    "PrimaryIndustries":  [
+                              "Mining",
+                              "Manufacturing",
+                              "Technology Development"
+                          ],
+    "GDP":  1500000000000,
+    "GDPPerCapita":  6000,
+    "Cloning":  "Cloning of body parts for medical purposes is widely accepted and practiced, while full human cloning is regulated and primarily used for scientific research and elite preservation.",
+    "Cybernetics":  "Cybernetics are embraced for both enhancement and medical purposes, with a significant portion of the population using augments for personal and professional reasons.",
+    "MajorCriminalOrganisations":  [
+                                       {
+                                           "Name":  "Blood Iron Syndicate",
+                                           "Description":  "A ruthless crime syndicate involved in the illegal mining and smuggling of precious metals, as well as extortion and blackmail operations within the industrial sectors."
+                                       },
+                                       {
+                                           "Name":  "Steel Vipers",
+                                           "Description":  "An infamous gang known for its violent enforcement methods, engaging in protection rackets, armed robbery, and trafficking of illegal weapons."
+                                       },
+                                       {
+                                           "Name":  "Crimson Network",
+                                           "Description":  "A covert organization specializing in cybercrime, including hacking corporate systems, stealing sensitive data, and conducting cyber espionage against rival factions."
+                                       },
+                                       {
+                                           "Name":  "Obsidian Hand",
+                                           "Description":  "A shadowy group that deals in human trafficking, forced labor, and exploitation of vulnerable populations, often targeting the impoverished regions of the Dominion."
+                                       },
+                                       {
+                                           "Name":  "Iron Wolves",
+                                           "Description":  "A mercenary organization that operates on the fringes of legality, offering their services for hire in covert operations, sabotage, and assassination missions."
+                                       }
+                                   ],
+    "Sector":  "Sector 2",
+    "Homeworld":  "Manavgat-2_0098",
+    "XCoord":  "1057",
+    "YCoord":  "2784"
+}

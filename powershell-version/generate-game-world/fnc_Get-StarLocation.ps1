@@ -1,4 +1,6 @@
-﻿function Get-StarLocation {
+﻿Write-Host "Loading function Get-StarLocation" -BackgroundColor Gray -ForegroundColor Black
+
+function Get-StarLocation {
     param($MapSizeX,$MapSizeY)
     $labelX = 0..145
     $labelY = 0..55
@@ -10,3 +12,5 @@
     $systemsCoordArray += $1,$2
     return $coords
 }
+
+Write-Host "Function Get-StarLocation loaded." -BackgroundColor Green -ForegroundColor Black

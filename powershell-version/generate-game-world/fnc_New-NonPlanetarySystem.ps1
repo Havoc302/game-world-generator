@@ -1,4 +1,6 @@
-﻿Function New-NonPlanetarySystem {
+﻿Write-Host "Loading function New-NonPlanetarySystem" -BackgroundColor Gray -ForegroundColor Black
+
+Function New-NonPlanetarySystem {
 param($systemLabel,$systemDesignation,$xcoord,$ycoord,$starType,$starMass,$planetBool,$habitableBool,$uploadToAWS)
     $asteroidFieldBool = (Get-Random -Minimum 0 -Maximum 100) -in 0..12
     $html = @"
@@ -53,3 +55,5 @@ param($systemLabel,$systemDesignation,$xcoord,$ycoord,$starType,$starMass,$plane
     }
     return $asteroidFieldBool
 }
+
+Write-Host "Function New-NonPlanetarySystem loaded." -BackgroundColor Green -ForegroundColor Black

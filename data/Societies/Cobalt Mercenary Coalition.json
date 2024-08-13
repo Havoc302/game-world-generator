@@ -1,0 +1,81 @@
+{
+    "FactionName":  "Cobalt Mercenary Coalition",
+    "SymbolDescription":  "A cobalt blue shield with crossed swords, symbolizing strength and martial prowess.",
+    "GovernmentType":  "Corporate Military Oligarchy",
+    "LeadershipScore":  8,
+    "LeadershipDescription":  "The Cobalt Mercenary Coalition is led by a council of the top-ranking mercenary commanders and corporate executives, ensuring that military efficiency and profitability are prioritized.",
+    "NameOfLeader":  "Commander Varek Thorne",
+    "ElectionProcess":  "Leadership positions are determined by a combination of combat achievements and corporate buy-in, with a heavy emphasis on meritocracy and tactical prowess.",
+    "EconomyScore":  5,
+    "EconomyDescription":  "The economy is driven by contracts for military services, including security, private warfare, and tactical support. They excel in offering specialized mercenary services across the galaxy.",
+    "Currency":  "Credits and War Bonds",
+    "MilitaryScore":  9,
+    "MilitaryDescription":  "The Coalition boasts a highly trained and versatile military force, with a reputation for efficiency and ruthlessness. Their arsenal includes advanced weaponry, stealth technology, and cyber warfare capabilities.",
+    "DiplomaticRelationships":  "The Cobalt Mercenary Coalition maintains professional relationships with multiple factions, often hired for their tactical expertise. They remain neutral in most conflicts, preferring to serve the highest bidder.",
+    "ArchitecturalStyle":  "Military-grade infrastructure with utilitarian designs, fortified bases, and advanced defense systems.",
+    "PopulationScore":  3,
+    "Population":  1000000,
+    "FreedomIndex":  5,
+    "Slavery":  "Not allowed, but strict contracts and harsh penalties ensure discipline and loyalty.",
+    "Incarceration":  "High use of incarceration for breaches of contract and disciplinary issues, with a focus on maintaining order and efficiency.",
+    "UnityScore":  6,
+    "TechnologyScore":  8,
+    "TechnologyDescription":  "High-tech equipment is a staple, with a focus on military technology, cybernetic enhancements, and battlefield robotics.",
+    "Religion":  "Religion is generally considered a personal matter, with no official stance. However, loyalty to the Coalition\u0027s code of conduct is paramount.",
+    "History":  "Founded by a coalition of war veterans and corporate backers, the Cobalt Mercenary Coalition quickly established itself as a formidable force in the galaxy, offering unparalleled military services.",
+    "Language":  "Galactic Trade Common, optimized for clear and precise communication in the field.",
+    "ValuesAndEthics":  "Efficiency, Loyalty, Profitability",
+    "SocialStructure":  "A meritocratic society where rank and success in the field determine one\u0027s status. There is a clear divide between high-ranking officers and regular mercenaries.",
+    "LegalSystem":  "Strict military code of justice with severe penalties for breaches of contract, insubordination, and other offenses.",
+    "EducationScore":  6,
+    "EducationDescription":  "Focuses on military training, tactical education, and technical skills. Advanced training programs are available for those who show promise.",
+    "HealthCare":  "Privatized healthcare with a focus on keeping soldiers combat-ready. Includes advanced medical technology and cybernetic repairs.",
+    "Infrastructure":  "Fortified bases, state-of-the-art training facilities, and secure communications networks.",
+    "NotableFigures":  "Commander Varek Thorne, renowned for his strategic mind and ruthless efficiency.",
+    "PopularSport":  "War Games, intense tactical simulations and combat sports designed to hone skills and provide entertainment.",
+    "ConflictingInternalFactions":  "Occasional power struggles within the ranks, particularly among ambitious officers seeking to climb the hierarchy.",
+    "ResourceDependency":  [
+                               {
+                                   "Resource":  "Advanced Alloys",
+                                   "Description":  "Used in the creation of high-tech weaponry and defense systems."
+                               },
+                               {
+                                   "Resource":  "Cybernetic Components",
+                                   "Description":  "Essential for maintaining the Coalition\u0027s edge in cybernetic enhancements."
+                               }
+                           ],
+    "FoodDependency":  "The Coalition relies on external suppliers for food, ensuring that their focus remains on military efficiency.",
+    "ActiveWars":  "Not actively at war, but engaged in multiple contracted conflicts across the galaxy.",
+    "SpecificAgreements":  "Mutual defense pacts with certain factions, trade agreements for advanced technology and resources.",
+    "SpecialPublicHolidays":  [
+                                  {
+                                      "Name":  "Founders\u0027 Day",
+                                      "Description":  "Celebrates the founding of the Coalition and honors fallen mercenaries."
+                                  },
+                                  {
+                                      "Name":  "Victory Day",
+                                      "Description":  "Commemorates major victories and successful contracts."
+                                  }
+                              ],
+    "FoodCulture":  "Utilitarian and high-protein rations designed for efficiency and performance in the field.",
+    "ClothingCulture":  "Functional and tactical gear, with a focus on utility and protection. Dress uniforms are reserved for formal occasions.",
+    "PrimaryIndustries":  "Mercenary Services, Advanced Weaponry, Tactical Training",
+    "GDP":  5000000000,
+    "GDPPerCapita":  5000,
+    "Cloning":  "Allowed for medical purposes and to maintain combat readiness.",
+    "Cybernetics":  "Widely accepted and encouraged, particularly for enhancing combat abilities.",
+    "MajorCriminalOrganisations":  [
+                                       {
+                                           "Name":  "The Black Talons",
+                                           "Description":  "Engaged in smuggling advanced weaponry and illegal cybernetics."
+                                       },
+                                       {
+                                           "Name":  "The Silent Shadows",
+                                           "Description":  "Specializes in espionage and assassination for hire."
+                                       }
+                                   ],
+    "Sector":  "Sector 2",
+    "Homeworld":  "Stary Malgobek-2_0005",
+    "XCoord":  "2354",
+    "YCoord":  "566"
+}

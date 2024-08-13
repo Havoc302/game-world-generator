@@ -1,5 +1,6 @@
-﻿# Space RP Game World Generator v3
-# Starts by generating random systems with stellar map coordinates, if the system is habitable or not, if the system has a habitable planet with cities, a starbase, an asteroid base, or a base on an uninhabitable planet
+﻿# Space RP Game World Generator v4.
+# Goal of v4 is to completely rework generation so that it generates all the data first and puts it in an array / JSON to be read and ammended. Once the user is happy with the data they can then push it to create the HTML files and maps.
+# Starts by generating random systems with stellar map coordinates, if the system is habitable or not, if the system has a habitable planet with cities, a starbase, an asteroid base, or a base on an uninhabitable planet.
 cls
 
 Add-Type -AssemblyName System.Drawing

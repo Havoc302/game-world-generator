@@ -1,4 +1,6 @@
-﻿function New-HabitableSystem {
+﻿Write-Host "Loading function New-HabitableSystem" -BackgroundColor Gray -ForegroundColor Black
+
+function New-HabitableSystem {
 param($StarName,$StarMass)
 Set-Location $stargenPath
     $counter = 0
@@ -17,11 +19,11 @@ Set-Location $stargenPath
             }
         } else {
             $starFileTerresCheck = $false
-            Write-Host "No system HTML file found"
+            Write-Host "No system HTML file found $counter"
         }
         $counter++
         if ($counter -ge 5) {
-            Write-Host $counter
+            Write-Host "No system file generated $counter times. Adjusting stellar mass."
             if ($StarMass -le 1) {
                 $StarMass = $starMass + (Get-Random -Minimum 0.0001 -Maximum 0.02)
             } elseif ($StarMass -ge 1) {
@@ -39,7 +41,7 @@ Set-Location $stargenPath
     $currentSeed = (($htmlRaw -split "`n" | Select-String -Pattern "System *") -split ">" -split "-" -split " " -split "<")[3]
 
     # Replace the HTML title name (the one that appears on the browser tab)
-    $currentHTMLTitle = (($htmlRaw -split "`n" | Select-String -Pattern "System $currentSeed - StarGen.exe $currentSeed-[\d-\.]") -replace "<TITLE>","" -replace "</TITLE>","").trim()
+    [string]$currentHTMLTitle = (($htmlRaw -split "`n" | Select-String -Pattern "System $currentSeed - StarGen.exe $currentSeed-[\d-\.]") -replace "<TITLE>","" -replace "</TITLE>","").trim()
     $htmlraw = $htmlRaw -replace $currentHTMLTitle,$systemLabel
 
     # Replace the name at the top of the page
@@ -63,11 +65,4 @@ Set-Location $stargenPath
     return $asteroidBool,$terresCount,$hydrospheres
 }
 
-
-$line = "<FONT SIZE='+2' COLOR='#000000'><A HREF='../html/StarGen.exe-18630-1.01921.html'>StarGen.exe 18630-1.01921</A></FONT></TH></TR>"
-
-# Use a regular expression to match the desired part
-if ($line -match 'StarGen\.exe \d+-\d+\.\d+') {
-    $matchedText = $matches[0]
-    Write-Output $matchedText
-}
+Write-Host "Function New-HabitableSystem loaded." -BackgroundColor Green -ForegroundColor Black

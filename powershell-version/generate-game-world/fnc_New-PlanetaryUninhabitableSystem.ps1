@@ -1,4 +1,6 @@
-﻿function New-PlanetaryUninhabitableSystem {
+﻿Write-Host "Loading function New-PlanetaryUninhabitableSystem" -BackgroundColor Gray -ForegroundColor Black
+
+function New-PlanetaryUninhabitableSystem {
 param($StarMass,$StarName)
 Set-Location $stargenPath
     $counter = 0
@@ -48,3 +50,5 @@ Set-Location $stargenPath
     Remove-Item $starFile -Force
     return $asteroidBool
 }
+
+Write-Host "Function New-PlanetaryUninhabitableSystem loaded." -BackgroundColor Green -ForegroundColor Black
