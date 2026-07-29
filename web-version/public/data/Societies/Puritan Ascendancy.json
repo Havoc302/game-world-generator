@@ -1,0 +1,99 @@
+{
+    "FactionName":  "Puritan Ascendancy",
+    "SymbolDescription":  "A golden sunburst with rays extending outward, symbolizing divine purity and supremacy.",
+    "LeadershipScore":  6,
+    "LeadershipDescription":  "Theocratic Oligarchy, ruled by a council of high priests and military commanders.",
+    "NameOfLeader":  "High Priestess Valeria Sanctus",
+    "ElectionProcess":  "Leadership positions are appointed based on religious merit and loyalty to the faith. Elections are ceremonial, with candidates chosen by senior clergy.",
+    "EconomyScore":  2,
+    "EconomyDescription":  "Economy is primarily agricultural, with focus on self-sufficiency and traditional craftsmanship. Limited trade with outsiders.",
+    "Currency":  "Divine Mark (DM), a symbolic currency used exclusively within the Puritan Ascendancy for religious offerings and internal transactions.",
+    "MilitaryScore":  7,
+    "MilitaryDescription":  "The Puritan Guard, a fanatical military force devoted to defending religious purity and enforcing orthodoxy. They use traditional weapons and advanced spiritual rituals in combat.",
+    "DiplomaticRelationships":  "Isolationist stance, hostile towards non-believers and alien cultures. Limited diplomatic engagement except to spread the faith.",
+    "ArchitecturalStyle":  "Grand temples and fortified citadels dominate the landscape, adorned with religious iconography and defensive structures. Cities are designed to be self-contained and defensible.",
+    "PopulationScore":  4,
+    "Population":  30000000,
+    "FreedomIndex":  2,
+    "Slavery":  "Allowed for non-believers and captured enemies, considered inferior and subjected to forced labor or servitude.",
+    "Incarceration":  "Harsh penalties for religious infractions and dissent against the faith, including public punishments and forced re-education.",
+    "UnityScore":  8,
+    "TechnologyScore":  4,
+    "TechnologyDescription":  "Relies on traditional craftsmanship and mystical knowledge. Limited use of advanced technology, viewed with suspicion unless it serves religious purposes.",
+    "Religion":  "The Church of Divine Purity, a monotheistic religion that reveres purity, order, and superiority of their own race. They view other races as impure and inferior.",
+    "History":  "Founded by religious zealots seeking purity and divine guidance. The Puritan Ascendancy rose to power through religious conquest and ideological purification.",
+    "Language":  "Sacred Tongue (ST), a language derived from ancient religious texts and rituals, used exclusively for religious ceremonies and official decrees.",
+    "ValuesAndEthics":  "Purity, obedience, superiority. The Puritan Ascendancy upholds strict moral codes, condemns diversity, and promotes racial purity.",
+    "SocialStructure":  "Stratified society based on religious hierarchy and racial purity. Believers enjoy privileges, while non-believers and dissenters face discrimination and persecution.",
+    "LegalSystem":  "Theocratic legal system based on divine law and religious scriptures. Harsh penalties for blasphemy, heresy, and defiance of religious authority.",
+    "EducationScore":  3,
+    "EducationDescription":  "Education is heavily influenced by religious teachings, emphasizing obedience, loyalty to the faith, and training in traditional crafts and spiritual rituals.",
+    "HealthCare":  "Limited healthcare access, prioritizing believers and those deemed worthy by religious authorities. Traditional healing methods and divine intervention are preferred over modern medicine.",
+    "Infrastructure":  "Basic infrastructure focused on supporting agricultural production and religious ceremonies. Temples and monasteries serve as centers of community life and spiritual devotion.",
+    "NotableFigures":  [
+                           "High Inquisitor Malachus Vindictus, chief enforcer of religious purity and defender of orthodoxy.",
+                           "Grand Master Artorius Sol Invictus, supreme commander of the Puritan Guard and protector of the faith."
+                       ],
+    "PopularSport":  "Purification Trials, brutal competitions and physical challenges designed to test endurance, loyalty, and devotion to the faith.",
+    "ConflictingInternalFactions":  [
+                                        {
+                                            "Name":  "Reformist Brotherhood",
+                                            "Description":  "Advocates for moderate reforms within the church, seeking to soften harsh doctrines and promote tolerance towards non-believers."
+                                        },
+                                        {
+                                            "Name":  "Xenophobic Vanguard",
+                                            "Description":  "Ultra-nationalists who believe in the absolute superiority of the Puritan race and advocate for total isolation and racial purity."
+                                        }
+                                    ],
+    "ResourceDependency":  [
+                               {
+                                   "Resource":  "Holy Water",
+                                   "Description":  "Holy Water, a sacred substance used in religious ceremonies and believed to purify the soul and bless agricultural lands."
+                               },
+                               {
+                                   "Resource":  "Sacred Herbs",
+                                   "Description":  "Sacred Herbs, rare botanicals cultivated for medicinal and spiritual purposes, integral to religious rituals and herbal remedies."
+                               }
+                           ],
+    "FoodDependency":  [
+                           {
+                               "Resource":  "Divine Harvest",
+                               "Description":  "Divine Harvest, crops grown on sacred lands blessed by religious rites, believed to provide spiritual nourishment and divine favor."
+                           }
+                       ],
+    "ActiveWars":  [
+
+                   ],
+    "SpecificAgreements":  [
+
+                           ],
+    "SpecialPublicHolidays":  [
+                                  {
+                                      "Name":  "Purification Day",
+                                      "Description":  "Commences with purification rituals and fasting, followed by solemn processions and religious ceremonies to cleanse the community of impurities."
+                                  },
+                                  {
+                                      "Name":  "Ascension Festival",
+                                      "Description":  "Celebrates the rise of the Puritan Ascendancy to power, with grand feasts, theatrical performances, and public demonstrations of religious devotion."
+                                  },
+                                  {
+                                      "Name":  "Day of Divine Judgment",
+                                      "Description":  "Reflects on divine justice and the punishment of sinners, with public trials, penance rituals, and fervent prayers for spiritual absolution."
+                                  }
+                              ],
+    "FoodCulture":  "Strict dietary rules based on religious doctrines, emphasizing purity and abstention from impure foods. Meals are communal and infused with religious symbolism.",
+    "ClothingCulture":  "Robes and garments made from natural fibers, dyed in symbolic colors representing purity and devotion. Ritual attire includes ornate headdresses and ceremonial accessories.",
+    "PrimaryIndustries":  [
+                              "Agriculture",
+                              "Religious Artifacts",
+                              "Traditional Crafts"
+                          ],
+    "GDP":  54000000000,
+    "GDPPerCapita":  1800,
+    "Cloning":  "Strictly forbidden as an affront to divine creation and natural order.",
+    "Cybernetics":  "Viewed as sacrilegious and an aberration of the natural form, strictly prohibited by religious doctrine.",
+    "Sector":  "Sector 2",
+    "Homeworld":  "Monasterace Marina-2_0004",
+    "XCoord":  "2220",
+    "YCoord":  "1759"
+}

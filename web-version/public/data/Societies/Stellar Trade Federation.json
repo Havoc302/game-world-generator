@@ -1,0 +1,77 @@
+{
+    "FactionName":  "Stellar Trade Federation",
+    "SymbolDescription":  "A stylized starship with intertwined trade routes, symbolizing interstellar commerce and connectivity.",
+    "GovernmentType":  "Corporate Trade Council",
+    "LeadershipScore":  7,
+    "LeadershipDescription":  "The Stellar Trade Federation is governed by a council of leading trade magnates and shipping tycoons, ensuring that commercial interests and efficient trade operations are prioritized.",
+    "NameOfLeader":  "Chairwoman Zara Velasquez",
+    "ElectionProcess":  "Council members are elected based on their influence in the trade industry and their commercial achievements, with a transparent voting system among key stakeholders.",
+    "EconomyScore":  10,
+    "EconomyDescription":  "The economy is entirely based on interstellar trade, shipping, and logistics. The Federation controls vast trade routes and operates major spaceports and trading hubs.",
+    "Currency":  "Galactic Standard OBit, with digital transactions dominating trade operations.",
+    "MilitaryScore":  5,
+    "MilitaryDescription":  "The Federation maintains a modest defense force to protect trade routes and shipping lanes from piracy. They employ private security firms and rely on alliances with other factions for military support.",
+    "DiplomaticRelationships":  "The Stellar Trade Federation has extensive trade agreements and diplomatic relations with numerous factions, prioritizing economic partnerships and market access.",
+    "ArchitecturalStyle":  "Modern and functional, with sprawling spaceports, bustling trade hubs, and vast warehouses. Architecture focuses on efficiency and practicality.",
+    "PopulationScore":  5,
+    "Population":  50000000,
+    "FreedomIndex":  7,
+    "Slavery":  "Not allowed, with strict regulations ensuring fair labor practices and worker rights.",
+    "Incarceration":  "Moderate use of incarceration for crimes such as smuggling, piracy, and contract violations, with a focus on rehabilitation and fines.",
+    "UnityScore":  7,
+    "TechnologyScore":  8,
+    "TechnologyDescription":  "Advanced logistics and shipping technologies, including automated cargo handling, AI-driven route optimization, and cutting-edge spaceport infrastructure.",
+    "Religion":  "Religion is considered a private matter, with a diverse array of beliefs tolerated as long as they do not interfere with trade operations.",
+    "History":  "Founded by a coalition of trade magnates, the Stellar Trade Federation quickly established itself as a key player in interstellar commerce, dominating major trade routes and fostering economic growth.",
+    "Language":  "Trade Common, a standardized language optimized for commercial transactions and trade negotiations.",
+    "ValuesAndEthics":  "Commerce, Efficiency, Fair Trade",
+    "SocialStructure":  "A meritocratic society where status is determined by commercial success and contributions to the trade industry. Wealth disparity exists but is moderated by a focus on fair trade practices.",
+    "LegalSystem":  "A robust legal framework focused on commercial law, contract enforcement, and trade regulations, ensuring smooth and fair trade operations.",
+    "EducationScore":  7,
+    "EducationDescription":  "Education emphasizes trade, logistics, and business management, with advanced programs for aspiring trade professionals and logistics experts.",
+    "HealthCare":  "Mixed healthcare system with both private and public options, ensuring accessible healthcare for all citizens.",
+    "Infrastructure":  "Extensive spaceport networks, advanced logistics hubs, and efficient transportation systems. Major investments in trade infrastructure to support economic activity.",
+    "NotableFigures":  "Chairwoman Zara Velasquez, a visionary leader known for her efforts to expand the Federation\u0027s trade network and foster economic cooperation.",
+    "PopularSport":  "Starship Races, thrilling competitions featuring advanced trade vessels showcasing speed and maneuverability.",
+    "ConflictingInternalFactions":  "Occasional disputes between major trade houses vying for dominance in key trade routes and markets.",
+    "ResourceDependency":  [
+                               {
+                                   "Resource":  "Hyperfuel",
+                                   "Description":  "Essential for powering their vast fleet of trade ships."
+                               }
+                           ],
+    "FoodDependency":  "Relies on imports for exotic foods and specialty goods to cater to diverse tastes within the Federation.",
+    "ActiveWars":  "Not actively at war, but engaged in efforts to protect trade routes from piracy and external threats.",
+    "SpecificAgreements":  "Numerous trade agreements with other factions, including tariff reductions, mutual defense pacts for trade routes, and shared technological advancements in logistics.",
+    "SpecialPublicHolidays":  [
+                                  {
+                                      "Name":  "Founders\u0027 Day",
+                                      "Description":  "Celebrates the founding of the Federation and honors its pioneering trade magnates."
+                                  },
+                                  {
+                                      "Name":  "Commerce Day",
+                                      "Description":  "A major holiday celebrating trade achievements, featuring markets, fairs, and trade shows."
+                                  }
+                              ],
+    "FoodCulture":  "A diverse and cosmopolitan food culture, with cuisine from across the galaxy available in bustling trade hubs and spaceports.",
+    "ClothingCulture":  "Professional and practical attire dominates, with traders and workers wearing uniforms designed for comfort and efficiency. Special formal wear for trade negotiations and business events.",
+    "PrimaryIndustries":  "Interstellar Trade, Shipping, Logistics",
+    "GDP":  500000000000,
+    "GDPPerCapita":  10000,
+    "Cloning":  "Allowed for medical purposes, particularly for the health and welfare of workers.",
+    "Cybernetics":  "Accepted and often used to enhance efficiency in logistics and trade operations.",
+    "MajorCriminalOrganisations":  [
+                                       {
+                                           "Name":  "The Crimson Corsairs",
+                                           "Description":  "Engaged in piracy and smuggling, targeting high-value trade shipments."
+                                       },
+                                       {
+                                           "Name":  "The Silent Network",
+                                           "Description":  "Specializes in corporate espionage and black-market trade deals."
+                                       }
+                                   ],
+    "Sector":  "Sector 2",
+    "Homeworld":  "Salamiyah-2_0028",
+    "XCoord":  "1150",
+    "YCoord":  "1102"
+}
